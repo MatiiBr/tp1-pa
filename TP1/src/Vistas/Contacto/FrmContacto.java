@@ -49,6 +49,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setClosable(true);
         setTitle("Contacto");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
