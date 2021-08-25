@@ -6,7 +6,7 @@
 package tp1;
 
 import Hibernate.HibernateUtil;
-
+import Vistas.MenuPrincipal.GestorMenuPrincipal;
 /**
  *
  * @author Usuario
@@ -18,6 +18,8 @@ public class TP1 {
      */
     public static void main(String[] args) {
          HibernateUtil.inicializar();
+         GestorMenuPrincipal gestorMenu = new GestorMenuPrincipal();
+          gestorMenu.iniciarMenu();
         // TODO code application logic here
     }
     

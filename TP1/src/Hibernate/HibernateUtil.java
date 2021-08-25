@@ -34,7 +34,7 @@ public class HibernateUtil {
             conf.addAnnotatedClass(Modelos.GestionProyecto.Proyecto.class);
             conf.addAnnotatedClass(Modelos.GestionProyecto.TipoProyecto.class);
             conf.addAnnotatedClass(Modelos.GestionProyecto.ItemProyecto.class);
-            JOptionPane.showMessageDialog(null, "conectado broder");
+            
             try {
                     sessionFactory = conf.buildSessionFactory();
                     session=sessionFactory.openSession();
