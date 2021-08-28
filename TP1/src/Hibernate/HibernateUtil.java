@@ -30,10 +30,8 @@ public class HibernateUtil {
             conf.setProperty("hibernate.connection.pool_size","10");                          
 //            conf.setProperty("hibernate.hbm2ddl.auto","update");
 
-            conf.addPackage("Modelos.GestionProyecto");
-            conf.addAnnotatedClass(Modelos.GestionProyecto.Proyecto.class);
-            conf.addAnnotatedClass(Modelos.GestionProyecto.TipoProyecto.class);
-            conf.addAnnotatedClass(Modelos.GestionProyecto.ItemProyecto.class);
+            conf.addPackage("Modelos.Contacto");
+            conf.addAnnotatedClass(Modelos.Contacto.Contacto.class);
             
             try {
                     sessionFactory = conf.buildSessionFactory();
