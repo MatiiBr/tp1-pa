@@ -5,6 +5,7 @@
  */
 package Modelos.Contacto;
 
+import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
@@ -13,18 +14,31 @@ import javax.persistence.*;
  *
  * @author Usuario
  */
-public class Contacto implements Comparable {
-    @Id @GeneratedValue(strategy=javax.persistence.GenerationType.AUTO)
-    private long id;
-    private String nombre;
-    private String apellido;
-    private int estado;
+public class Contacto implements Comparable, Serializable {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     
+    @Column(columnDefinition = "TEXT")
+    private String nombre; 
+    
+    @Column(columnDefinition = "TEXT")
+    private String apellido;
+    
+    @Column(columnDefinition = "TEXT")
+    private String edad; 
+
+    public String getEdad() {
+        return edad;
+    }
+
+    public void setEdad(String edad) {
+        this.edad = edad;
+    }
      public long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -44,19 +58,13 @@ public class Contacto implements Comparable {
         this.apellido = apellido;
     }
 
-    public int getEstado() {
-        return estado;
-    }
-
-    public void setEstado(int estado) {
-        this.estado = estado;
-    }
     public Contacto() {
     }
 
-    public Contacto(String nombre, String apellido) {
+    public Contacto(String nombre, String apellido, String edad) {
         this.setNombre(nombre);
         this.setApellido(apellido);
+        this.setEdad(edad);
     }
     
     @Override

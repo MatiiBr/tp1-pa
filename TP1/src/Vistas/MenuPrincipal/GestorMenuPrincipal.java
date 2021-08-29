@@ -5,7 +5,7 @@
  */
 package Vistas.MenuPrincipal;
 
-import Vistas.Contacto.GestorContacto;
+import Vistas.Contacto.GestorVistaContacto;
 import javax.swing.JDesktopPane;
 
 /**
@@ -20,7 +20,7 @@ public class GestorMenuPrincipal {
     }
      
      public void abrirContacto(JDesktopPane escritorio){
-        GestorContacto gestorContacto= new GestorContacto();
-        gestorContacto.openFormulario(escritorio);
+        GestorVistaContacto gestorVistaContacto= new GestorVistaContacto();
+        gestorVistaContacto.openFormulario(escritorio, gestorVistaContacto);
      }
 }

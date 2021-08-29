@@ -5,40 +5,67 @@
  */
 package Vistas.Contacto;
 
+import javax.swing.JTextField;
+
 /**
  *
  * @author Usuario
  */
 public class FrmContacto extends javax.swing.JInternalFrame {
-     private GestorContacto gestorContacto;
+     private GestorVistaContacto gestorContacto;
     /**
      * Creates new form FrmContacto
      */
-     public FrmContacto(GestorContacto gestorContacto) {
+     public FrmContacto(GestorVistaContacto gestorContacto) {
         try{
            initComponents();
            }
            catch(Exception e){
             
         }  
-        this.setGestorVista(gestorContacto);
+        this.setGestorVistaContacto(gestorContacto);
         //this.onViewOpened();
+    }
+
+    public JTextField getTxtApellido() {
+        return txtApellido;
+    }
+
+    public void setTxtApellido(JTextField txtApellido) {
+        this.txtApellido = txtApellido;
+    }
+
+    public JTextField getTxtEdad() {
+        return txtEdad;
+    }
+
+    public void setTxtEdad(JTextField txtEdad) {
+        this.txtEdad = txtEdad;
+    }
+
+    public JTextField getTxtNombre() {
+        return txtNombre;
+    }
+
+    public void setTxtNombre(JTextField txtNombre) {
+        this.txtNombre = txtNombre;
     }
      
     public FrmContacto() {
         initComponents();
     }
 
-    public GestorContacto getGestorVista() {
+    public GestorVistaContacto getGestorVistaContacto() {
         return gestorContacto;
     }
 
-    public void setGestorVista(GestorContacto gestorContacto) {
+    public void setGestorVistaContacto(GestorVistaContacto gestorContacto) {
         this.gestorContacto = gestorContacto;
     }
     
     public void nuevoContacto(){
         this.limpiarPantalla();
+        this.getGestorVistaContacto().newModel();
         this.botonesNuevo();
     }
     
@@ -66,6 +93,9 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         btnEliminar.setEnabled(false);
         btnCancelar.setEnabled(true);
         btnSalir.setEnabled(false);
+    }
+     public void guardarContacto(){
+        this.getGestorVistaContacto().guardarContacto();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -312,7 +342,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
+        this.guardarContacto();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
