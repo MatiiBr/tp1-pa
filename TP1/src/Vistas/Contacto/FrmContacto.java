@@ -5,6 +5,7 @@
  */
 package Vistas.Contacto;
 
+import Modelos.Contacto.Contacto;
 import javax.swing.JTextField;
 
 /**
@@ -62,15 +63,38 @@ public class FrmContacto extends javax.swing.JInternalFrame {
     public void setGestorVistaContacto(GestorVistaContacto gestorContacto) {
         this.gestorContacto = gestorContacto;
     }
-    
+    public void editarContacto(){
+        this.vistaNuevoContacto();
+        this.botonesNuevo();
+        this.getGestorVistaContacto().newModel();
+        btnGuardar.setText("Actualizar");
+    }
     public void nuevoContacto(){
         this.limpiarPantalla();
+        this.vistaNuevoContacto();
         this.getGestorVistaContacto().newModel();
         this.botonesNuevo();
     }
-    
+    public void cargarContacto(Contacto contacto){
+        this.limpiarPantalla();
+        this.vistaInicio();
+         txtNombre.setText(contacto.getNombre());
+        txtApellido.setText(contacto.getApellido());
+        txtEdad.setText(contacto.getEdad());
+    }
+    public void vistaInicio(){
+        this.txtNombre.setEnabled(true);
+        this.txtApellido.setEnabled(false);
+        this.txtEdad.setEnabled(false);
+    }
+    public void vistaNuevoContacto(){
+        this.txtNombre.setEnabled(true);
+        this.txtApellido.setEnabled(true);
+        this.txtEdad.setEnabled(true);
+    }
     public void cancelar(){
         this.limpiarPantalla();
+        this.vistaInicio();
         this.botonesInicio();
     }
     public void limpiarPantalla(){
@@ -80,11 +104,12 @@ public class FrmContacto extends javax.swing.JInternalFrame {
     }
     public void botonesInicio(){
         btnNuevo.setEnabled(true);
-        btnEditar.setEnabled(true);
+        btnEditar.setEnabled(false);
         btnGuardar.setEnabled(true);
         btnEliminar.setEnabled(true);
         btnCancelar.setEnabled(false);
         btnSalir.setEnabled(true);
+        btnBuscar.setEnabled(true);
     }
     public void botonesNuevo(){
         btnNuevo.setEnabled(false);
@@ -93,10 +118,22 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         btnEliminar.setEnabled(false);
         btnCancelar.setEnabled(true);
         btnSalir.setEnabled(false);
+        btnBuscar.setEnabled(false);
     }
      public void guardarContacto(){
-        this.getGestorVistaContacto().guardarContacto();
+         if(btnGuardar.getText()=="Guardar"){
+              this.getGestorVistaContacto().guardarContacto();
+         }else{
+            this.getGestorVistaContacto().actualizarContacto();
+         }
+        this.limpiarPantalla();
+        this.vistaInicio();
+        this.botonesInicio();
     }
+     public void buscarContacto(){
+         this.getGestorVistaContacto().buscarContacto(txtNombre.getText());
+         btnEditar.setEnabled(true);
+     }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -113,6 +150,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         txtApellido = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
         txtEdad = new javax.swing.JTextField();
+        btnBuscar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
@@ -139,6 +177,8 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         lblApellido.setText("Apellido:");
 
         txtApellido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtApellido.setToolTipText("Apellido");
+        txtApellido.setEnabled(false);
         txtApellido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtApellidoActionPerformed(evt);
@@ -154,6 +194,21 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         });
 
         txtEdad.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtEdad.setToolTipText("Edad");
+        txtEdad.setEnabled(false);
+        txtEdad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEdadActionPerformed(evt);
+            }
+        });
+
+        btnBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -174,16 +229,19 @@ public class FrmContacto extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtApellido, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtEdad, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addComponent(btnBuscar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNombre)
-                    .addComponent(txtNombre))
-                .addGap(17, 17, 17)
+                    .addComponent(txtNombre)
+                    .addComponent(btnBuscar))
+                .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblApellido)
                     .addComponent(txtApellido))
@@ -204,6 +262,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
 
         btnEditar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEditar.setText("Editar");
+        btnEditar.setEnabled(false);
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarActionPerformed(evt);
@@ -338,7 +397,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        // TODO add your handling code here:
+       this.editarContacto();
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -357,8 +416,17 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    private void txtEdadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEdadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEdadActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        this.buscarContacto();
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;

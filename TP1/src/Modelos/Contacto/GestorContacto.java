@@ -49,5 +49,19 @@ public class GestorContacto extends GestorHibernate {
     public String getEdad(){
        return this.model.getEdad();
     }
-    
+     public Contacto buscarContacto(String nombre) {
+        Contacto  auxModel=null;
+       try {
+          auxModel= (Contacto) this.listarClaseCodigo(Contacto.class, nombre).get(0);
+          return auxModel;
+       }
+       catch(Exception e){
+          return auxModel;
+       }
+    }
+       public void actualizarContacto() {
+        this.actualizarObjeto(this.getModel());
+    }
 }
+     
+    
