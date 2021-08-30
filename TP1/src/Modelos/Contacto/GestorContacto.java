@@ -18,7 +18,7 @@ public class GestorContacto extends GestorHibernate {
         return model;
     }
 
-    public void setModel(Contacto  contacto) {
+    public void setModel(Contacto contacto) {
         this.model = contacto;
     }
     
@@ -50,18 +50,23 @@ public class GestorContacto extends GestorHibernate {
        return this.model.getEdad();
     }
      public Contacto buscarContacto(String nombre) {
-        Contacto  auxModel=null;
+        Contacto  contacto=null;
        try {
-          auxModel= (Contacto) this.listarClaseCodigo(Contacto.class, nombre).get(0);
-          return auxModel;
+          contacto= (Contacto) this.buscarContacto(Contacto.class, nombre).get(0);
+           System.out.println(contacto);
+          return contacto;
        }
        catch(Exception e){
-          return auxModel;
+          return contacto;
        }
     }
        public void actualizarContacto() {
         this.actualizarObjeto(this.getModel());
     }
+       
+       public void eliminarContacto(){
+        this.eliminarObjeto(this.getModel());
+       }
 }
      
     

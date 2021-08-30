@@ -24,9 +24,18 @@ public class GestorVistaContacto {
         return this.getGestor().getModel();
     }
 
-    private void setModel(Contacto model) {
+     
+     public void setModel(){
+          this.getGestor().setNombre(this.getForm().getTxtNombre().getText());
+          this.getGestor().setApellido(this.getForm().getTxtApellido().getText());
+          this.getGestor().setEdad(this.getForm().getTxtEdad().getText());
+    }
+     
+    public void setModel(Contacto model) {
         this.getGestor().setModel(model);
     }
+    
+     
     public void openFormulario(JDesktopPane pantalla, GestorVistaContacto gestor) {
         this.setEscritorio(pantalla);
         this.setForm(new FrmContacto(gestor));
@@ -54,26 +63,21 @@ public class GestorVistaContacto {
     public void setForm(FrmContacto form) {
         this.form = form;
     }
-    public void setModel(){
-          this.getGestor().setNombre(this.getForm().getTxtNombre().getText());
-          this.getGestor().setApellido(this.getForm().getTxtApellido().getText());
-          this.getGestor().setEdad(this.getForm().getTxtEdad().getText());
-    }
-    
+   
     public void guardarContacto(){
         this.setModel();
         this.getGestor().guardarObjeto();
     }
    public void actualizarContacto(){
        this.setModel();
-       System.out.println(this.getGestor());
        this.getGestor().actualizarContacto();
    }
     
      public void buscarContacto(String nombre) {
-        Contacto auxModel;
-        auxModel=this.getGestor().buscarContacto(nombre);
-        this.cargarContacto(auxModel);
+        Contacto contacto;
+        contacto=this.getGestor().buscarContacto(nombre);
+        this.setModel(contacto);
+        this.cargarContacto(contacto);
     }
     
      public void cargarContacto(Contacto contacto){
@@ -86,5 +90,9 @@ public class GestorVistaContacto {
            }
         }
         return gestor;
+    }
+    
+    public void eliminarContacto(){
+        this.getGestor().eliminarContacto();
     }
 }

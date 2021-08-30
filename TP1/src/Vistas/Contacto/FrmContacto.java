@@ -6,6 +6,7 @@
 package Vistas.Contacto;
 
 import Modelos.Contacto.Contacto;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**
@@ -14,6 +15,7 @@ import javax.swing.JTextField;
  */
 public class FrmContacto extends javax.swing.JInternalFrame {
      private GestorVistaContacto gestorContacto;
+     private int YES_NO_OPTION;
     /**
      * Creates new form FrmContacto
      */
@@ -66,7 +68,6 @@ public class FrmContacto extends javax.swing.JInternalFrame {
     public void editarContacto(){
         this.vistaNuevoContacto();
         this.botonesNuevo();
-        this.getGestorVistaContacto().newModel();
         btnGuardar.setText("Actualizar");
     }
     public void nuevoContacto(){
@@ -74,6 +75,11 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         this.vistaNuevoContacto();
         this.getGestorVistaContacto().newModel();
         this.botonesNuevo();
+    }
+    public void cancelar(){
+        this.limpiarPantalla();
+        this.vistaInicio();
+        this.botonesInicio();
     }
     public void cargarContacto(Contacto contacto){
         this.limpiarPantalla();
@@ -92,11 +98,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         this.txtApellido.setEnabled(true);
         this.txtEdad.setEnabled(true);
     }
-    public void cancelar(){
-        this.limpiarPantalla();
-        this.vistaInicio();
-        this.botonesInicio();
-    }
+    
     public void limpiarPantalla(){
         txtNombre.setText("");
         txtApellido.setText("");
@@ -105,8 +107,8 @@ public class FrmContacto extends javax.swing.JInternalFrame {
     public void botonesInicio(){
         btnNuevo.setEnabled(true);
         btnEditar.setEnabled(false);
-        btnGuardar.setEnabled(true);
-        btnEliminar.setEnabled(true);
+        btnGuardar.setEnabled(false);
+        btnEliminar.setEnabled(false);
         btnCancelar.setEnabled(false);
         btnSalir.setEnabled(true);
         btnBuscar.setEnabled(true);
@@ -120,19 +122,38 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         btnSalir.setEnabled(false);
         btnBuscar.setEnabled(false);
     }
+    
+     public void botonesListado(){
+        btnNuevo.setEnabled(true);
+        btnEditar.setEnabled(true);
+        btnGuardar.setEnabled(true);
+        btnEliminar.setEnabled(true);
+        btnCancelar.setEnabled(true);
+        btnSalir.setEnabled(true);
+        btnBuscar.setEnabled(true);
+     }
      public void guardarContacto(){
          if(btnGuardar.getText()=="Guardar"){
               this.getGestorVistaContacto().guardarContacto();
          }else{
+             System.out.println("ACTUALIZANDO");
             this.getGestorVistaContacto().actualizarContacto();
          }
         this.limpiarPantalla();
         this.vistaInicio();
         this.botonesInicio();
+        JOptionPane.showMessageDialog(null, "Contacto actualizado exitosamente");
     }
      public void buscarContacto(){
          this.getGestorVistaContacto().buscarContacto(txtNombre.getText());
-         btnEditar.setEnabled(true);
+         this.botonesListado();
+     }
+     public void eliminarContacto(){
+         this.getGestorVistaContacto().eliminarContacto();
+         this.vistaInicio();
+         this.limpiarPantalla();
+         this.botonesInicio();
+         JOptionPane.showMessageDialog(null, "Contacto eliminado exitosamente");
      }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -271,6 +292,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
 
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnGuardar.setText("Guardar");
+        btnGuardar.setEnabled(false);
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
@@ -279,6 +301,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
 
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEliminar.setText("Eliminar");
+        btnEliminar.setEnabled(false);
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarActionPerformed(evt);
@@ -401,11 +424,13 @@ public class FrmContacto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        if (JOptionPane.showConfirmDialog(null, (btnGuardar.getText()=="Guardar") ? "¿Desea guardar el contacto seleccionado?":"¿Desea actualizar el contacto seleccionado?","Atencion", YES_NO_OPTION) == 0 )
         this.guardarContacto();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
+        if (JOptionPane.showConfirmDialog(null, "¿Desea eliminar el contacto seleccionado?","Atencion", YES_NO_OPTION) == 0 )
+           this.eliminarContacto();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed

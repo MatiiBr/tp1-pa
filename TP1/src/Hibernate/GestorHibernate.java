@@ -21,17 +21,15 @@ public class GestorHibernate extends HibernateUtil {
     private Transaction tx;
     
      public void guardarObjeto(Object objeto){
-        try{
         Session s = HibernateUtil.getSession();
         Transaction tx = s.beginTransaction();
-        s.save(objeto);        
-        tx.commit();
-         //System.out.println(" guardaractualizarObjeto() " +objeto.getClass()+": "+objeto.toString());  
+         try{
+            s.save(objeto);        
+            tx.commit();
         } catch(Exception ex){
             System.out.println("error "+ex);
-            //System.out.println("Repositorio.guardarObjeto(Object objeto)"+objeto.getClass()+": "+objeto.toString()+ex);
             ex.printStackTrace();
-            getTx().rollback();
+            tx.rollback();
         }
     }
      public boolean actualizarObjeto(Object objeto){
@@ -40,29 +38,30 @@ public class GestorHibernate extends HibernateUtil {
         try{
             s.update(objeto);
             tx.commit();
-            System.out.println(" actualizarObjeto() " +objeto.getClass()+": "+objeto.toString());
             return true;
         }catch(HibernateException e){
-            JOptionPane.showMessageDialog(null, e);
+             System.out.println("error "+e);
+            e.printStackTrace();
             tx.rollback();
-            JOptionPane.showMessageDialog(null, "No se pueden guardar los datos. \nLos mismos han sido modificados por otra persona.");
-//            this.clearCache(); //puso juan
-
             return false;
         }
     }
-     public List listarUltimo(Class clase) {
-         CriteriaBuilder crit = getSession().getCriteriaBuilder();
-         CriteriaQuery<Item> cr = crit.createQuery(Item.class);
-         Root<Item> root = cr.from(Item.class);
-         cr.select(root);
-         
-        Query<Item> query = session.createQuery(cr);
-        List<Item> results = query.getResultList();
-        return results; 
-    }
      
-       public List listarClaseCodigo(Class clase, String valor){        
+     public boolean eliminarObjeto(Object objeto){
+         Session s = HibernateUtil.getSession();
+        Transaction tx = s.beginTransaction();
+        try{
+            s.delete(objeto);
+            tx.commit();
+            return true;
+        }catch(HibernateException e){
+             System.out.println("error "+e);
+            e.printStackTrace();
+            tx.rollback();
+            return false;
+        }
+     }
+       public List buscarContacto(Class clase, String valor){        
         Criteria crit = getSession().createCriteria(clase)
             .add( Restrictions.eq("nombre", valor));
         return crit.list();
