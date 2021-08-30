@@ -126,7 +126,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
      public void botonesListado(){
         btnNuevo.setEnabled(true);
         btnEditar.setEnabled(true);
-        btnGuardar.setEnabled(true);
+        btnGuardar.setEnabled(false);
         btnEliminar.setEnabled(true);
         btnCancelar.setEnabled(true);
         btnSalir.setEnabled(true);
@@ -397,11 +397,11 @@ public class FrmContacto extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         jPanel1.getAccessibleContext().setAccessibleName("Descripcion");
