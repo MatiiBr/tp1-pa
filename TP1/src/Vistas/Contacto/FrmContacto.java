@@ -133,11 +133,13 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         btnBuscar.setEnabled(true);
      }
      public void guardarContacto(){
+        String dialog;
          if(btnGuardar.getText()=="Guardar"){
               this.getGestorVistaContacto().guardarContacto();
+              dialog = "Contacto guardado exitosamente";
          }else{
-             System.out.println("ACTUALIZANDO");
             this.getGestorVistaContacto().actualizarContacto();
+            dialog = "Contacto actualizado exitosamente";
          }
         this.limpiarPantalla();
         this.vistaInicio();
@@ -438,7 +440,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        // TODO add your handling code here:
+        this.setVisible(false);
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void txtEdadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEdadActionPerformed
