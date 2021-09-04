@@ -5,8 +5,8 @@
  */
 package Vistas.Contacto;
 
-import Modelos.Contacto.Contacto;
-import Modelos.Contacto.GestorContacto;
+import Modelos.Gestion.Contacto;
+import Modelos.Gestion.GestorContacto;
 import javax.swing.JDesktopPane;
 
 /**
@@ -20,21 +20,23 @@ public class GestorVistaContacto {
     
     public GestorVistaContacto() {
     }
+        public void newModel() {
+            this.getGestor().newModel();
+    }
+        
      public Contacto getModel() {
         return this.getGestor().getModel();
     }
-
      
      public void setModel(){
-          this.getGestor().setNombre(this.getForm().getTxtNombre().getText());
-          this.getGestor().setApellido(this.getForm().getTxtApellido().getText());
-          this.getGestor().setEdad(this.getForm().getTxtEdad().getText());
+          this.getModel().setNombre(this.getForm().getTxtNombre().getText());
+          this.getModel().setApellido(this.getForm().getTxtApellido().getText());
+          this.getModel().setFechaNacimiento(this.getForm().getInpFechaNacimiento().getDate());
     }
-     
+    
     public void setModel(Contacto model) {
         this.getGestor().setModel(model);
     }
-    
      
     public void openFormulario(JDesktopPane pantalla, GestorVistaContacto gestor) {
         this.setEscritorio(pantalla);
@@ -46,43 +48,18 @@ public class GestorVistaContacto {
     public JDesktopPane getEscritorio() {
         return escritorio;
     }
-    public void newModel() {
-            this.getGestor().newModel();
-    }
+
     public void setEscritorio(JDesktopPane escritorio) {
         this.escritorio = escritorio;
     }
-    
+
      public FrmContacto getForm() {
         return form;
     }
-
-    public void setGestor(GestorContacto gestor) {
-        this.gestor = gestor;
-    }
-    public void setForm(FrmContacto form) {
+      public void setForm(FrmContacto form) {
         this.form = form;
     }
-   
-    public void guardarContacto(){
-        this.setModel();
-        this.getGestor().guardarObjeto();
-    }
-   public void actualizarContacto(){
-       this.setModel();
-       this.getGestor().actualizarContacto();
-   }
     
-     public void buscarContacto(String nombre) {
-        Contacto contacto;
-        contacto=this.getGestor().buscarContacto(nombre);
-        this.setModel(contacto);
-        this.cargarContacto(contacto);
-    }
-    
-     public void cargarContacto(Contacto contacto){
-         this.getForm().cargarContacto(contacto);
-     }
     public GestorContacto getGestor() {
         if (gestor == null) {
            synchronized (GestorContacto.class) {
@@ -91,6 +68,30 @@ public class GestorVistaContacto {
         }
         return gestor;
     }
+    public void setGestor(GestorContacto gestor) {
+        this.gestor = gestor;
+    }
+    public void guardarContacto(){
+        this.setModel();
+        this.getGestor().guardarObjeto();
+    }
+    
+   public void actualizarContacto(){
+       this.setModel();
+       this.getGestor().actualizarContacto();
+   }
+    
+     public void buscarContacto(String nombre) {
+        Contacto contacto;
+        contacto=this.getGestor().buscarContacto(nombre);
+        // TO DO: Validacion de contacto
+        this.setModel(contacto);
+        this.cargarContacto(contacto);
+    }
+    
+     public void cargarContacto(Contacto contacto){
+         this.getForm().cargarContacto(contacto);
+     }
     
     public void eliminarContacto(){
         this.getGestor().eliminarContacto();

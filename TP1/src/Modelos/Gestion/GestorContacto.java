@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Modelos.Contacto;
+package Modelos.Gestion;
 
 import Hibernate.GestorHibernate;
+import java.util.Date;
 
 /**
  *
@@ -21,7 +22,6 @@ public class GestorContacto extends GestorHibernate {
     public void setModel(Contacto contacto) {
         this.model = contacto;
     }
-    
      public void newModel() {
          this.setModel(new Contacto());
     }
@@ -36,8 +36,8 @@ public class GestorContacto extends GestorHibernate {
     public void setApellido(String apellido){
         this.model.setApellido(apellido);
     }
-    public void setEdad(String edad){
-        this.model.setEdad(edad);
+    public void setFechaNacimiento(Date fechaNacimiento){
+        this.model.setFechaNacimiento(fechaNacimiento);
     }
     
     public String getNombre(){
@@ -46,14 +46,13 @@ public class GestorContacto extends GestorHibernate {
     public String getApellido(){
        return this.model.getApellido();
     }
-    public String getEdad(){
-       return this.model.getEdad();
+    public Date getFechaNacimiento(){
+       return this.model.getFechaNacimiento();
     }
      public Contacto buscarContacto(String nombre) {
         Contacto  contacto=null;
        try {
-          contacto= (Contacto) this.buscarContacto(Contacto.class, nombre).get(0);
-           System.out.println(contacto);
+          contacto = (Contacto) this.buscarContacto(Contacto.class, nombre);
           return contacto;
        }
        catch(Exception e){

@@ -11,6 +11,7 @@ import javax.persistence.criteria.Root;
 import javax.swing.JOptionPane;
 import org.hibernate.*;
 import org.hibernate.cfg.*;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -61,11 +62,17 @@ public class GestorHibernate extends HibernateUtil {
             return false;
         }
      }
-       public List buscarContacto(Class clase, String valor){        
+       public Object buscarContacto(Class clase, String valor){        
         Criteria crit = getSession().createCriteria(clase)
             .add( Restrictions.eq("nombre", valor));
-        return crit.list();
+        return crit.uniqueResult();
 }  
+       
+       /*public int listarUltimo(Class clase){
+       Criteria crit = getSession().createCriteria(clase);
+        crit.setProjection(Projections.max("codigo"));
+        return crit.uniqueResult()
+       }*/
      
      public Transaction getTx() {
         return tx;
