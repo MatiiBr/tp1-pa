@@ -51,15 +51,15 @@ public class GestorContacto extends GestorHibernate {
     public Date getFechaNacimiento(){
        return this.model.getFechaNacimiento();
     }
-     public List buscarContacto(String nombre) {
-        List<Contacto> contactos = new ArrayList();
+     public Contacto buscarContacto(String nombre) {
+        Contacto contacto = null;
        try {
-          contactos = this.buscarContacto(Contacto.class, nombre);
+          contacto = this.buscarContacto(Contacto.class, nombre);
        }
        catch(Exception e){
           e.printStackTrace();
        }
-       return contactos;
+       return contacto;
     }
        public void actualizarContacto() {
         this.actualizarObjeto(this.getModel());

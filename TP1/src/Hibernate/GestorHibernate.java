@@ -1,4 +1,5 @@
 package Hibernate;
+import Modelos.Gestion.Contacto;
 import java.util.*;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
@@ -51,13 +52,18 @@ public class GestorHibernate extends HibernateUtil {
             return false;
         }
      }
-       public List buscarContacto(Class clase, String valor){        
+     public Contacto buscarContacto(Class clase, String valor){        
+        Criteria crit = getSession().createCriteria(clase)
+            .add( Restrictions.eq("nombre", valor));
+        return (Contacto) crit.list().get(0);
+     }
+       /*public List buscarContacto(Class clase, String valor){        
         Criteria crit = getSession().createCriteria(clase)
             .add( Restrictions.like("nombre",  "%"+valor+"%"));
         return crit.list();
 }  
        
-       /*public int listarUltimo(Class clase){
+       public int listarUltimo(Class clase){
        Criteria crit = getSession().createCriteria(clase);
         crit.setProjection(Projections.max("codigo"));
         return crit.uniqueResult()

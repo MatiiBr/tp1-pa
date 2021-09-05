@@ -7,7 +7,6 @@ package Vistas.Contacto;
 
 import Modelos.Gestion.Contacto;
 import Modelos.Gestion.GestorContacto;
-import java.util.List;
 import javax.swing.JDesktopPane;
 
 /**
@@ -30,8 +29,8 @@ public class GestorVistaContacto {
     }
      
      public void setModel(){
-          this.getModel().setNombre(this.getForm().getTxtNombre().getText().toUpperCase());
-          this.getModel().setApellido(this.getForm().getTxtApellido().getText().toUpperCase());
+          this.getModel().setNombre(this.getForm().getTxtNombre().getText());
+          this.getModel().setApellido(this.getForm().getTxtApellido().getText());
           this.getModel().setFechaNacimiento(this.getForm().getInpFechaNacimiento().getDate());
     }
     
@@ -82,12 +81,16 @@ public class GestorVistaContacto {
        this.getGestor().actualizarContacto();
    }
     
-     public List buscarContacto(String nombre) {
-        List<Contacto> contactos = this.getGestor().buscarContacto(nombre);
-        return contactos;
-        /*// TO DO: Validacion de contacto
-        this.setModel(contacto);
-        this.cargarContacto(contacto);*/
+     public boolean buscarContacto(String nombre) {
+        Contacto contacto;
+        contacto=this.getGestor().buscarContacto(nombre);
+         if(contacto!=null){
+              this.setModel(contacto);
+              this.cargarContacto(contacto);
+         }else{
+             return false;
+         }
+         return true;
     }
     
      public void cargarContacto(Contacto contacto){

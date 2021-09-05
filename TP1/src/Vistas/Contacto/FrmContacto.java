@@ -7,9 +7,16 @@ package Vistas.Contacto;
 
 import Modelos.Gestion.Contacto;
 import com.toedter.calendar.JDateChooser;
+import java.awt.BorderLayout;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -56,7 +63,13 @@ public class FrmContacto extends javax.swing.JInternalFrame {
     public void setTxtNombre(JTextField txtNombre) {
         this.txtNombre = txtNombre;
     }
-     
+      public JTable getTblContacto() {
+        return tblContacto;
+    }
+
+    public void setTblContacto(JTable tblContacto) {
+        this.tblContacto = tblContacto;
+    }
     public FrmContacto() {
         initComponents();
     }
@@ -143,10 +156,10 @@ public class FrmContacto extends javax.swing.JInternalFrame {
          String dialog;
          if(btnGuardar.getText()=="Guardar"){
               this.getGestorVistaContacto().guardarContacto();
-              dialog = "Contacto guardado exitosamente";
+              dialog = "Contacto guardado exitosamente.";
          }else{
             this.getGestorVistaContacto().actualizarContacto();
-            dialog = "Contacto actualizado exitosamente";
+            dialog = "Contacto actualizado exitosamente.";
          }
         this.limpiarPantalla();
         this.vistaInicio();
@@ -155,26 +168,54 @@ public class FrmContacto extends javax.swing.JInternalFrame {
     }
      public void revisarFormulario(){
          if(this.txtNombre.getText().isEmpty()){
-             this.lblNombreRequerido.setText("Requerido");
+             this.lblNombreRequerido.setText("Requerido.");
              this.formValido = false;
          }
          if(this.txtApellido.getText().isEmpty()){
-             this.lblApellidoRequerido.setText("Requerido");
+             this.lblApellidoRequerido.setText("Requerido.");
              this.formValido = false;
          }
          if(this.inpFechaNacimiento.getDate()==null){
-             this.lblFechaNacimientoRequerido.setText("Requerido");
+             this.lblFechaNacimientoRequerido.setText("Requerido.");
+             this.formValido = false;
+         }else if(!verificarEdad()){
+             this.lblFechaNacimientoRequerido.setText("La edad debe ser mayor o igual a 18 años.");
              this.formValido = false;
          }
      }
+     public boolean verificarEdad(){
+         var date = new Date();
+         int edad = 0;
+         if (this.inpFechaNacimiento.getDate().getYear() < date.getYear()) {
+           edad = (date.getYear()) - (this.inpFechaNacimiento.getDate().getYear());
+           if(this.inpFechaNacimiento.getDate().getMonth() > date.getMonth() ) {
+               edad--;
+           } else if(this.inpFechaNacimiento.getDate().getMonth() == date.getMonth()) {
+               if(this.inpFechaNacimiento.getDate().getDate() > date.getDate() ) {
+                   edad--;
+               }
+           }
+         }
+         return edad>=18;
+     }
+     
      public void buscarContacto(){
          if(this.txtNombre.getText().isBlank()){
              JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de contacto antes de buscar.");
              this.limpiarPantalla();
          }else{
-             List<Contacto> contactos = this.getGestorVistaContacto().buscarContacto(txtNombre.getText().toUpperCase());
-             System.out.println(contactos);
-             this.botonesListado();
+            if(!this.getGestorVistaContacto().buscarContacto(txtNombre.getText().toUpperCase())){
+                JOptionPane.showMessageDialog(null, "No se encontro un contacto con el nombre ingresado.");
+                this.limpiarPantalla();
+            }else{
+                this.botonesListado();
+            };
+             /*DefaultTableModel contactoModel = new DefaultTableModel();
+             contactoModel.addColumn("Nombre");
+             contactoModel.addColumn("Apellido");
+             contactoModel.addColumn("Fecha de Nacimiento");
+             this.tblContacto.setModel(contactoModel); */
+             
          }
      }
      
@@ -205,7 +246,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         lblNombreRequerido = new javax.swing.JLabel();
         lblApellidoRequerido = new javax.swing.JLabel();
         lblFechaNacimientoRequerido = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        scrContacto = new javax.swing.JScrollPane();
         tblContacto = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
@@ -272,6 +313,11 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         inpFechaNacimiento.setToolTipText("Fecha de Nacimiento");
         inpFechaNacimiento.setEnabled(false);
         inpFechaNacimiento.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        inpFechaNacimiento.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                inpFechaNacimientoPropertyChange(evt);
+            }
+        });
 
         lblNombreRequerido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblNombreRequerido.setForeground(new java.awt.Color(204, 0, 51));
@@ -288,29 +334,14 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         tblContacto.setAutoCreateColumnsFromModel(false);
         tblContacto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null}
+
             },
             new String [] {
-                "Nombre", "Apellido", "Fecha Nacimiento", "Edad"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Integer.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tblContacto.setEnabled(false);
-        jScrollPane1.setViewportView(tblContacto);
+        ));
+        tblContacto.setFillsViewportHeight(true);
+        scrContacto.setViewportView(tblContacto);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -343,7 +374,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
                             .addComponent(inpFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblFechaNacimientoRequerido))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scrContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
         );
         jPanel1Layout.setVerticalGroup(
@@ -371,7 +402,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
                 .addGap(47, 47, 47))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scrContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -526,6 +557,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
             this.guardarContacto();
        }else{
            JOptionPane.showMessageDialog(null, "Error al enviar el formulario");
+           this.formValido = true;
        }
         
     }//GEN-LAST:event_btnGuardarActionPerformed
@@ -563,6 +595,10 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         this.lblApellidoRequerido.setText(" ");
     }//GEN-LAST:event_txtApellidoKeyTyped
 
+    private void inpFechaNacimientoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_inpFechaNacimientoPropertyChange
+        this.lblFechaNacimientoRequerido.setText(" ");
+    }//GEN-LAST:event_inpFechaNacimientoPropertyChange
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
@@ -576,13 +612,13 @@ public class FrmContacto extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblApellido;
     private javax.swing.JLabel lblApellidoRequerido;
     private javax.swing.JLabel lblEdad;
     private javax.swing.JLabel lblFechaNacimientoRequerido;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblNombreRequerido;
+    private javax.swing.JScrollPane scrContacto;
     private javax.swing.JTable tblContacto;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtNombre;
