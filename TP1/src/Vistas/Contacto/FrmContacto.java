@@ -7,6 +7,7 @@ package Vistas.Contacto;
 
 import Modelos.Gestion.Contacto;
 import com.toedter.calendar.JDateChooser;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -17,7 +18,7 @@ import javax.swing.JTextField;
 public class FrmContacto extends javax.swing.JInternalFrame {
      private GestorVistaContacto gestorContacto;
      private int YES_NO_OPTION;
-     private boolean formValido;
+     private boolean formValido = true;
     /**
      * Creates new form FrmContacto
      */
@@ -139,7 +140,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         btnBuscar.setEnabled(true);
      }
      public void guardarContacto(){
-       /* String dialog;
+         String dialog;
          if(btnGuardar.getText()=="Guardar"){
               this.getGestorVistaContacto().guardarContacto();
               dialog = "Contacto guardado exitosamente";
@@ -150,7 +151,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         this.limpiarPantalla();
         this.vistaInicio();
         this.botonesInicio();
-        JOptionPane.showMessageDialog(null, dialog);*/
+        JOptionPane.showMessageDialog(null, dialog);
     }
      public void revisarFormulario(){
          if(this.txtNombre.getText().isEmpty()){
@@ -171,7 +172,8 @@ public class FrmContacto extends javax.swing.JInternalFrame {
              JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de contacto antes de buscar.");
              this.limpiarPantalla();
          }else{
-             this.getGestorVistaContacto().buscarContacto(txtNombre.getText());
+             List<Contacto> contactos = this.getGestorVistaContacto().buscarContacto(txtNombre.getText().toUpperCase());
+             System.out.println(contactos);
              this.botonesListado();
          }
      }
@@ -203,6 +205,8 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         lblNombreRequerido = new javax.swing.JLabel();
         lblApellidoRequerido = new javax.swing.JLabel();
         lblFechaNacimientoRequerido = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblContacto = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
@@ -281,6 +285,33 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         lblFechaNacimientoRequerido.setForeground(new java.awt.Color(204, 0, 51));
         lblFechaNacimientoRequerido.setText(" ");
 
+        tblContacto.setAutoCreateColumnsFromModel(false);
+        tblContacto.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null}
+            },
+            new String [] {
+                "Nombre", "Apellido", "Fecha Nacimiento", "Edad"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblContacto.setEnabled(false);
+        jScrollPane1.setViewportView(tblContacto);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -311,7 +342,9 @@ public class FrmContacto extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(inpFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblFechaNacimientoRequerido))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -336,6 +369,10 @@ public class FrmContacto extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblFechaNacimientoRequerido)
                 .addGap(47, 47, 47))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -379,8 +416,8 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnNuevo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnEditar)
@@ -388,7 +425,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
                 .addComponent(btnGuardar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnEliminar)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addGap(57, 57, 57))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -426,21 +463,21 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(40, 40, 40)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(40, Short.MAX_VALUE)
                 .addComponent(btnCancelar)
                 .addGap(18, 18, 18)
                 .addComponent(btnSalir)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addGap(37, 37, 37))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(btnSalir))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -452,9 +489,9 @@ public class FrmContacto extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -539,12 +576,14 @@ public class FrmContacto extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblApellido;
     private javax.swing.JLabel lblApellidoRequerido;
     private javax.swing.JLabel lblEdad;
     private javax.swing.JLabel lblFechaNacimientoRequerido;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblNombreRequerido;
+    private javax.swing.JTable tblContacto;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables

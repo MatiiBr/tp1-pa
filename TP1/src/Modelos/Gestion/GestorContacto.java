@@ -6,7 +6,9 @@
 package Modelos.Gestion;
 
 import Hibernate.GestorHibernate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -49,15 +51,15 @@ public class GestorContacto extends GestorHibernate {
     public Date getFechaNacimiento(){
        return this.model.getFechaNacimiento();
     }
-     public Contacto buscarContacto(String nombre) {
-        Contacto  contacto=null;
+     public List buscarContacto(String nombre) {
+        List<Contacto> contactos = new ArrayList();
        try {
-          contacto = (Contacto) this.buscarContacto(Contacto.class, nombre);
-          return contacto;
+          contactos = this.buscarContacto(Contacto.class, nombre);
        }
        catch(Exception e){
-          return contacto;
+          e.printStackTrace();
        }
+       return contactos;
     }
        public void actualizarContacto() {
         this.actualizarObjeto(this.getModel());

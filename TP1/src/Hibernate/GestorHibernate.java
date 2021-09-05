@@ -1,17 +1,6 @@
 package Hibernate;
-import GUtilr.Util;
-import com.sun.mail.imap.protocol.Item;
-import java.awt.Component;
 import java.util.*;
-import javax.swing.JOptionPane;
-import java.awt.HeadlessException;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import javax.swing.JOptionPane;
 import org.hibernate.*;
-import org.hibernate.cfg.*;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -62,10 +51,10 @@ public class GestorHibernate extends HibernateUtil {
             return false;
         }
      }
-       public Object buscarContacto(Class clase, String valor){        
+       public List buscarContacto(Class clase, String valor){        
         Criteria crit = getSession().createCriteria(clase)
-            .add( Restrictions.eq("nombre", valor));
-        return crit.uniqueResult();
+            .add( Restrictions.like("nombre",  "%"+valor+"%"));
+        return crit.list();
 }  
        
        /*public int listarUltimo(Class clase){
