@@ -40,6 +40,7 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
         barraMenuPrincipal = new javax.swing.JMenuBar();
         menuMenu = new javax.swing.JMenu();
         menuItemContacto = new javax.swing.JMenuItem();
+        menuItemProyecto = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,6 +65,14 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
         });
         menuMenu.add(menuItemContacto);
 
+        menuItemProyecto.setText("Proyecto");
+        menuItemProyecto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemProyectoActionPerformed(evt);
+            }
+        });
+        menuMenu.add(menuItemProyecto);
+
         barraMenuPrincipal.add(menuMenu);
 
         setJMenuBar(barraMenuPrincipal);
@@ -85,6 +94,10 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
     private void menuItemContactoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemContactoActionPerformed
         this.gestorMenuPrincipal.abrirContacto(getEscritorio());
     }//GEN-LAST:event_menuItemContactoActionPerformed
+
+    private void menuItemProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemProyectoActionPerformed
+      this.gestorMenuPrincipal.abrirProyecto(getEscritorio());
+    }//GEN-LAST:event_menuItemProyectoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -125,6 +138,7 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar barraMenuPrincipal;
     private javax.swing.JDesktopPane escritorio;
     private javax.swing.JMenuItem menuItemContacto;
+    private javax.swing.JMenuItem menuItemProyecto;
     private javax.swing.JMenu menuMenu;
     // End of variables declaration//GEN-END:variables
 

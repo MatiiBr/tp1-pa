@@ -7,16 +7,9 @@ package Vistas.Contacto;
 
 import Modelos.Gestion.Contacto;
 import com.toedter.calendar.JDateChooser;
-import java.awt.BorderLayout;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 /**
  *
@@ -37,7 +30,6 @@ public class FrmContacto extends javax.swing.JInternalFrame {
             
         }  
         this.setGestorVistaContacto(gestorContacto);
-        //this.onViewOpened();
     }
 
     public JTextField getTxtApellido() {
@@ -63,13 +55,35 @@ public class FrmContacto extends javax.swing.JInternalFrame {
     public void setTxtNombre(JTextField txtNombre) {
         this.txtNombre = txtNombre;
     }
-      public JTable getTblContacto() {
-        return tblContacto;
+    
+    public JLabel getLblNombreRequerido(){
+        return this.lblNombreRequerido;
     }
-
-    public void setTblContacto(JTable tblContacto) {
-        this.tblContacto = tblContacto;
+    public void setLblNombreRequerido(JLabel lblNombreRequerido) {
+        this.lblNombreRequerido = lblNombreRequerido;
     }
+    
+     public JLabel getLblApellidoRequerido(){
+        return this.lblApellidoRequerido;
+    }
+    public void setLblApellidoRequerido(JLabel lblApellidoRequerido) {
+        this.lblApellidoRequerido = lblApellidoRequerido;
+    }
+    
+    public JLabel getLblFechaNacimientoRequerido(){
+        return this.lblFechaNacimientoRequerido;
+    }
+    public void setLblFechaNacimientoRequerido(JLabel lblFechaNacimientoRequerido) {
+        this.lblFechaNacimientoRequerido = lblFechaNacimientoRequerido;
+    }
+    
+    public boolean getFormValido(){
+        return this.formValido;
+    }
+    public void setFormValido(boolean formValido){
+        this.formValido = formValido;
+    }
+    
     public FrmContacto() {
         initComponents();
     }
@@ -166,38 +180,6 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         this.botonesInicio();
         JOptionPane.showMessageDialog(null, dialog);
     }
-     public void revisarFormulario(){
-         if(this.txtNombre.getText().isEmpty()){
-             this.lblNombreRequerido.setText("Requerido.");
-             this.formValido = false;
-         }
-         if(this.txtApellido.getText().isEmpty()){
-             this.lblApellidoRequerido.setText("Requerido.");
-             this.formValido = false;
-         }
-         if(this.inpFechaNacimiento.getDate()==null){
-             this.lblFechaNacimientoRequerido.setText("Requerido.");
-             this.formValido = false;
-         }else if(!verificarEdad()){
-             this.lblFechaNacimientoRequerido.setText("La edad debe ser mayor o igual a 18 años.");
-             this.formValido = false;
-         }
-     }
-     public boolean verificarEdad(){
-         var date = new Date();
-         int edad = 0;
-         if (this.inpFechaNacimiento.getDate().getYear() < date.getYear()) {
-           edad = (date.getYear()) - (this.inpFechaNacimiento.getDate().getYear());
-           if(this.inpFechaNacimiento.getDate().getMonth() > date.getMonth() ) {
-               edad--;
-           } else if(this.inpFechaNacimiento.getDate().getMonth() == date.getMonth()) {
-               if(this.inpFechaNacimiento.getDate().getDate() > date.getDate() ) {
-                   edad--;
-               }
-           }
-         }
-         return edad>=18;
-     }
      
      public void buscarContacto(){
          if(this.txtNombre.getText().isBlank()){
@@ -210,12 +192,6 @@ public class FrmContacto extends javax.swing.JInternalFrame {
             }else{
                 this.botonesListado();
             };
-             /*DefaultTableModel contactoModel = new DefaultTableModel();
-             contactoModel.addColumn("Nombre");
-             contactoModel.addColumn("Apellido");
-             contactoModel.addColumn("Fecha de Nacimiento");
-             this.tblContacto.setModel(contactoModel); */
-             
          }
      }
      
@@ -246,8 +222,6 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         lblNombreRequerido = new javax.swing.JLabel();
         lblApellidoRequerido = new javax.swing.JLabel();
         lblFechaNacimientoRequerido = new javax.swing.JLabel();
-        scrContacto = new javax.swing.JScrollPane();
-        tblContacto = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
@@ -331,18 +305,6 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         lblFechaNacimientoRequerido.setForeground(new java.awt.Color(204, 0, 51));
         lblFechaNacimientoRequerido.setText(" ");
 
-        tblContacto.setAutoCreateColumnsFromModel(false);
-        tblContacto.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        tblContacto.setFillsViewportHeight(true);
-        scrContacto.setViewportView(tblContacto);
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -350,60 +312,59 @@ public class FrmContacto extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(86, 86, 86)
+                        .addGap(161, 161, 161)
+                        .addComponent(lblNombreRequerido))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(164, 164, 164)
+                        .addComponent(lblApellidoRequerido))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(163, 163, 163)
+                        .addComponent(lblFechaNacimientoRequerido)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
                         .addComponent(lblNombre)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblNombreRequerido)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnBuscar))))
+                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnBuscar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(94, 94, 94)
+                        .addGap(60, 60, 60)
                         .addComponent(lblApellido)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblApellidoRequerido)))
+                        .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
                         .addComponent(lblEdad)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(inpFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblFechaNacimientoRequerido))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
-                .addComponent(scrContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
+                        .addComponent(inpFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(27, 333, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNombre)
                     .addComponent(txtNombre)
                     .addComponent(btnBuscar))
-                .addGap(2, 2, 2)
-                .addComponent(lblNombreRequerido)
-                .addGap(18, 18, 18)
+                .addGap(40, 40, 40)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblApellido)
                     .addComponent(txtApellido))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblApellidoRequerido)
-                .addGap(18, 18, 18)
+                .addGap(44, 44, 44)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(inpFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblEdad))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblNombreRequerido)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblApellidoRequerido)
+                .addGap(50, 50, 50)
                 .addComponent(lblFechaNacimientoRequerido)
                 .addGap(47, 47, 47))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(scrContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -447,27 +408,27 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(btnNuevo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEditar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(10, 10, 10)
                 .addComponent(btnGuardar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEliminar)
-                .addGap(57, 57, 57))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNuevo)
                     .addComponent(btnEditar)
                     .addComponent(btnGuardar)
                     .addComponent(btnEliminar))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -520,8 +481,8 @@ public class FrmContacto extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -529,12 +490,12 @@ public class FrmContacto extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         jPanel1.getAccessibleContext().setAccessibleName("Descripcion");
@@ -551,7 +512,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-       this.revisarFormulario();
+       this.getGestorVistaContacto().revisarFormulario();
        if(this.formValido){
             if (JOptionPane.showConfirmDialog(null, (btnGuardar.getText()=="Guardar") ? "¿Desea guardar el contacto seleccionado?":"¿Desea actualizar el contacto seleccionado?","Atencion", YES_NO_OPTION) == 0 )
             this.guardarContacto();
@@ -618,8 +579,6 @@ public class FrmContacto extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblFechaNacimientoRequerido;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblNombreRequerido;
-    private javax.swing.JScrollPane scrContacto;
-    private javax.swing.JTable tblContacto;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables

@@ -1,6 +1,7 @@
 package Hibernate;
 import Modelos.Gestion.Contacto;
-import java.util.*;
+import Modelos.Gestion.Proyecto;
+import java.util.List;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 
@@ -57,6 +58,21 @@ public class GestorHibernate extends HibernateUtil {
             .add( Restrictions.eq("nombre", valor));
         return (Contacto) crit.list().get(0);
      }
+     
+     public Proyecto buscarProyecto(Class clase, String valor){        
+         System.out.println(valor);
+         Criteria crit = getSession().createCriteria(clase)
+            .add( Restrictions.eq("nombre", valor));
+        if (crit.list().isEmpty()){
+            return null;
+        }
+        return (Proyecto) crit.list().get(0);
+     }
+     
+     public List listarClase(Class clase){
+        Criteria crit = getSession().createCriteria(clase);
+        return crit.list();
+    }
        /*public List buscarContacto(Class clase, String valor){        
         Criteria crit = getSession().createCriteria(clase)
             .add( Restrictions.like("nombre",  "%"+valor+"%"));
