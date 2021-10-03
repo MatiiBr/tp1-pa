@@ -36,4 +36,26 @@ public class GestorCliente extends GestorHibernate {
      public List <Cliente> listar(){   
         return this.listarClase(Cliente.class);
     }
+     public Cliente buscarCliente(String nombre) {
+        Cliente cliente = null;
+       try {
+          cliente = this.buscarCliente(Cliente.class, nombre);
+       }
+       catch(Exception e){
+          e.printStackTrace();
+       }
+       return cliente;
+    }
+     
+      public void guardarObjeto(){
+        this.guardarObjeto(this.getModel());
+    }
+      public void actualizarObjeto() {
+        this.actualizarObjeto(this.getModel());
+    }
+       
+       public void eliminarObjeto(){
+        this.eliminarObjeto(this.getModel());
+       }
+       
 }

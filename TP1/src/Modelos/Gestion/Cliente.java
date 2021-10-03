@@ -14,7 +14,7 @@ import javax.persistence.*;
  * @author Usuario
  */
 public class Cliente extends Persona  {
-    
+   
      public String toString() {
         return this.getNombre() + " " + this.getApellido();
     }

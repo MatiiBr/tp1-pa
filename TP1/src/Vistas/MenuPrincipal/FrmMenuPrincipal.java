@@ -40,19 +40,23 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
         barraMenuPrincipal = new javax.swing.JMenuBar();
         menuMenu = new javax.swing.JMenu();
         menuItemContacto = new javax.swing.JMenuItem();
+        menuItemCliente = new javax.swing.JMenuItem();
+        menuItemPersonal = new javax.swing.JMenuItem();
         menuItemProyecto = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        escritorio.setBackground(new java.awt.Color(204, 255, 204));
 
         javax.swing.GroupLayout escritorioLayout = new javax.swing.GroupLayout(escritorio);
         escritorio.setLayout(escritorioLayout);
         escritorioLayout.setHorizontalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 751, Short.MAX_VALUE)
+            .addGap(0, 1131, Short.MAX_VALUE)
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 444, Short.MAX_VALUE)
+            .addGap(0, 717, Short.MAX_VALUE)
         );
 
         menuMenu.setText("Menu");
@@ -64,6 +68,22 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
             }
         });
         menuMenu.add(menuItemContacto);
+
+        menuItemCliente.setText("Cliente");
+        menuItemCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemClienteActionPerformed(evt);
+            }
+        });
+        menuMenu.add(menuItemCliente);
+
+        menuItemPersonal.setText("Personal");
+        menuItemPersonal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemPersonalActionPerformed(evt);
+            }
+        });
+        menuMenu.add(menuItemPersonal);
 
         menuItemProyecto.setText("Proyecto");
         menuItemProyecto.addActionListener(new java.awt.event.ActionListener() {
@@ -81,11 +101,15 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(escritorio)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(escritorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(escritorio, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(escritorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -98,6 +122,14 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
     private void menuItemProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemProyectoActionPerformed
       this.gestorMenuPrincipal.abrirProyecto(getEscritorio());
     }//GEN-LAST:event_menuItemProyectoActionPerformed
+
+    private void menuItemClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemClienteActionPerformed
+        this.gestorMenuPrincipal.abrirCliente(getEscritorio());
+    }//GEN-LAST:event_menuItemClienteActionPerformed
+
+    private void menuItemPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemPersonalActionPerformed
+        this.gestorMenuPrincipal.abrirPersonal(getEscritorio());
+    }//GEN-LAST:event_menuItemPersonalActionPerformed
 
     /**
      * @param args the command line arguments
@@ -137,7 +169,9 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar barraMenuPrincipal;
     private javax.swing.JDesktopPane escritorio;
+    private javax.swing.JMenuItem menuItemCliente;
     private javax.swing.JMenuItem menuItemContacto;
+    private javax.swing.JMenuItem menuItemPersonal;
     private javax.swing.JMenuItem menuItemProyecto;
     private javax.swing.JMenu menuMenu;
     // End of variables declaration//GEN-END:variables

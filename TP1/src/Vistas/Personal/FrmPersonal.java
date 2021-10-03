@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Vistas.Contacto;
-
-import Modelos.Gestion.Contacto;
+package Vistas.Personal;
+import Modelos.Gestion.Personal;
 import com.toedter.calendar.JDateChooser;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -15,21 +15,21 @@ import javax.swing.JTextField;
  *
  * @author Usuario
  */
-public class FrmContacto extends javax.swing.JInternalFrame {
-     private GestorVistaContacto gestorContacto;
+public class FrmPersonal extends javax.swing.JInternalFrame {
+     private GestorVistaPersonal gestorPersonal;
      private int YES_NO_OPTION;
      private boolean formValido = true;
     /**
-     * Creates new form FrmContacto
+     * Creates new form FrmPersonal
      */
-     public FrmContacto(GestorVistaContacto gestorContacto) {
+     public FrmPersonal(GestorVistaPersonal gestorPersonal) {
         try{
            initComponents();
            }
            catch(Exception e){
             
         }  
-        this.setGestorVistaContacto(gestorContacto);
+        this.setGestorVistaPersonal(gestorPersonal);
     }
 
     public JTextField getTxtApellido() {
@@ -76,6 +76,14 @@ public class FrmContacto extends javax.swing.JInternalFrame {
     public void setLblFechaNacimientoRequerido(JLabel lblFechaNacimientoRequerido) {
         this.lblFechaNacimientoRequerido = lblFechaNacimientoRequerido;
     }
+
+    public JComboBox getCboCargo() {
+        return cboCargo;
+    }
+
+    public void setCboCargo(JComboBox cboCargo) {
+        this.cboCargo = cboCargo;
+    }
     
     public boolean getFormValido(){
         return this.formValido;
@@ -84,26 +92,26 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         this.formValido = formValido;
     }
     
-    public FrmContacto() {
+    public FrmPersonal() {
         initComponents();
     }
 
-    public GestorVistaContacto getGestorVistaContacto() {
-        return gestorContacto;
+    public GestorVistaPersonal getGestorVistaPersonal() {
+        return gestorPersonal;
     }
 
-    public void setGestorVistaContacto(GestorVistaContacto gestorContacto) {
-        this.gestorContacto = gestorContacto;
+    public void setGestorVistaPersonal(GestorVistaPersonal gestorPersonal) {
+        this.gestorPersonal = gestorPersonal;
     }
-    public void editarContacto(){
-        this.vistaNuevoContacto();
+    public void editarPersonal(){
+        this.vistaNuevoPersonal();
         this.botonesNuevo();
         btnGuardar.setText("Actualizar");
     }
-    public void nuevoContacto(){
+    public void nuevoPersonal(){
         this.limpiarPantalla();
-        this.vistaNuevoContacto();
-        this.getGestorVistaContacto().newModel();
+        this.vistaNuevoPersonal();
+        this.getGestorVistaPersonal().newModel();
         this.botonesNuevo();
     }
     public void cancelar(){
@@ -111,19 +119,19 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         this.vistaInicio();
         this.botonesInicio();
     }
-    public void cargarContacto(Contacto contacto){
+    public void cargarPersonal(Personal personal){
         this.limpiarPantalla();
         this.vistaInicio();
-        txtNombre.setText(contacto.getNombre());
-        txtApellido.setText(contacto.getApellido());
-        inpFechaNacimiento.setDate(contacto.getFechaNacimiento());
+        txtNombre.setText(personal.getNombre());
+        txtApellido.setText(personal.getApellido());
+        inpFechaNacimiento.setDate(personal.getFechaNacimiento());
     }
     public void vistaInicio(){
         this.inpFechaNacimiento.setEnabled(false);
         this.txtNombre.setEnabled(true);
         this.txtApellido.setEnabled(false);
     }
-    public void vistaNuevoContacto(){
+    public void vistaNuevoPersonal(){
         this.inpFechaNacimiento.setEnabled(true);
         this.txtNombre.setEnabled(true);
         this.txtApellido.setEnabled(true);
@@ -166,14 +174,14 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         btnSalir.setEnabled(true);
         btnBuscar.setEnabled(true);
      }
-     public void guardarContacto(){
+     public void guardarPersonal(){
          String dialog;
          if(btnGuardar.getText()=="Guardar"){
-              this.getGestorVistaContacto().guardarContacto();
-              dialog = "Contacto guardado exitosamente.";
+              this.getGestorVistaPersonal().guardarPersonal();
+              dialog = "Personal guardado exitosamente.";
          }else{
-            this.getGestorVistaContacto().actualizarContacto();
-            dialog = "Contacto actualizado exitosamente.";
+            this.getGestorVistaPersonal().actualizarPersonal();
+            dialog = "Personal actualizado exitosamente.";
          }
         this.limpiarPantalla();
         this.vistaInicio();
@@ -181,12 +189,12 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         JOptionPane.showMessageDialog(null, dialog);
     }
      
-     public void buscarContacto(){
+     public void buscarPersonal(){
          if(this.txtNombre.getText().isBlank()){
              JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de contacto antes de buscar.");
              this.limpiarPantalla();
          }else{
-            if(!this.getGestorVistaContacto().buscarContacto(txtNombre.getText().toUpperCase())){
+            if(!this.getGestorVistaPersonal().buscarPersonal(txtNombre.getText().toUpperCase())){
                 JOptionPane.showMessageDialog(null, "No se encontro un contacto con el nombre ingresado.");
                 this.limpiarPantalla();
             }else{
@@ -195,13 +203,16 @@ public class FrmContacto extends javax.swing.JInternalFrame {
          }
      }
      
-     public void eliminarContacto(){
-         this.getGestorVistaContacto().eliminarContacto();
+     public void eliminarPersonal(){
+         this.getGestorVistaPersonal().eliminarPersonal();
          this.vistaInicio();
          this.limpiarPantalla();
          this.botonesInicio();
-         JOptionPane.showMessageDialog(null, "Contacto eliminado exitosamente");
+         JOptionPane.showMessageDialog(null, "Personal eliminado exitosamente");
      }
+      public void cargarCombos() {
+        this.getGestorVistaPersonal().setModelCargo(cboCargo);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -222,6 +233,8 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         lblNombreRequerido = new javax.swing.JLabel();
         lblApellidoRequerido = new javax.swing.JLabel();
         lblFechaNacimientoRequerido = new javax.swing.JLabel();
+        lblCargo = new javax.swing.JLabel();
+        cboCargo = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
@@ -233,11 +246,11 @@ public class FrmContacto extends javax.swing.JInternalFrame {
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setClosable(true);
-        setTitle("Contacto");
+        setTitle("Personal");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Contacto"));
-        jPanel1.setToolTipText("Contacto");
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Personal"));
+        jPanel1.setToolTipText("Personal");
         jPanel1.setName("Contacto"); // NOI18N
 
         lblNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -305,34 +318,51 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         lblFechaNacimientoRequerido.setForeground(new java.awt.Color(204, 0, 51));
         lblFechaNacimientoRequerido.setText(" ");
 
+        lblCargo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblCargo.setText("Cargo:");
+
+        cboCargo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cboCargo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboCargoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addComponent(lblNombre)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBuscar))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addComponent(lblApellido)
-                        .addGap(18, 18, 18)
+                        .addGap(23, 23, 23)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblNombreRequerido, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblApellidoRequerido, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(52, 52, 52)
+                                .addComponent(lblNombre)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnBuscar))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(60, 60, 60)
+                                .addComponent(lblApellido)
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblNombreRequerido, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblApellidoRequerido, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblEdad)
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblFechaNacimientoRequerido, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(inpFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblEdad)
+                        .addGap(94, 94, 94)
+                        .addComponent(lblCargo)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(inpFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblFechaNacimientoRequerido, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(cboCargo, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -357,7 +387,11 @@ public class FrmContacto extends javax.swing.JInternalFrame {
                     .addComponent(lblEdad))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblFechaNacimientoRequerido)
-                .addGap(47, 47, 47))
+                .addGap(11, 11, 11)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCargo)
+                    .addComponent(cboCargo))
+                .addGap(56, 56, 56))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -475,7 +509,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -483,12 +517,12 @@ public class FrmContacto extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel1.getAccessibleContext().setAccessibleName("Descripcion");
@@ -497,18 +531,18 @@ public class FrmContacto extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        this.nuevoContacto();
+        this.nuevoPersonal();
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-       this.editarContacto();
+       this.editarPersonal();
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-       String mensaje = this.getGestorVistaContacto().revisarFormulario();
+       String mensaje = this.getGestorVistaPersonal().revisarFormulario();
        if(this.formValido){
             if (JOptionPane.showConfirmDialog(null, (btnGuardar.getText()=="Guardar") ? "¿Desea guardar el contacto seleccionado?":"¿Desea actualizar el contacto seleccionado?","Atencion", YES_NO_OPTION) == 0 )
-            this.guardarContacto();
+            this.guardarPersonal();
        }else{
            JOptionPane.showMessageDialog(null, "Error al enviar el formulario."+mensaje);
            this.formValido = true;
@@ -518,7 +552,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         if (JOptionPane.showConfirmDialog(null, "¿Desea eliminar el contacto seleccionado?","Atencion", YES_NO_OPTION) == 0 )
-           this.eliminarContacto();
+           this.eliminarPersonal();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -530,7 +564,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        this.buscarContacto();
+        this.buscarPersonal();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
@@ -553,6 +587,10 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         this.lblFechaNacimientoRequerido.setText(" ");
     }//GEN-LAST:event_inpFechaNacimientoPropertyChange
 
+    private void cboCargoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboCargoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboCargoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
@@ -562,12 +600,14 @@ public class FrmContacto extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JComboBox<String> cboCargo;
     private com.toedter.calendar.JDateChooser inpFechaNacimiento;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblApellido;
     private javax.swing.JLabel lblApellidoRequerido;
+    private javax.swing.JLabel lblCargo;
     private javax.swing.JLabel lblEdad;
     private javax.swing.JLabel lblFechaNacimientoRequerido;
     private javax.swing.JLabel lblNombre;

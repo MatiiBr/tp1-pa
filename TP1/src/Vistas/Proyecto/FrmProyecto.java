@@ -7,6 +7,7 @@ package Vistas.Proyecto;
 
 import Modelos.Gestion.Proyecto;
 import com.toedter.calendar.JDateChooser;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -21,6 +22,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
      private GestorVistaProyecto gestorProyecto;
      private int YES_NO_OPTION;
      private boolean formValido = true;
+     SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
     /**
      * Creates new form FrmContacto
      */
@@ -136,7 +138,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         this.limpiarPantalla();
         this.vistaInicio();
         txtNombre.setText(proyecto.getNombre());
-        lblFechaCargaDato.setText(proyecto.getFechaCarga().toString());
+        lblFechaCargaDato.setText(sdf.format(proyecto.getFechaCarga()));
         inpFechaEntrega.setDate(proyecto.getFechaEntrega());
         inpFechaTerminacion.setDate(proyecto.getFechaTerminacion());
         inpFechaConfirmacion.setDate(proyecto.getFechaConfirmacion());
@@ -161,7 +163,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         this.cboPersonal.setEnabled(true);
         this.cboTipoProyecto.setEnabled(true);
         this.txtNombre.setEnabled(true);
-        this.lblFechaCargaDato.setText(new Date().toString());
+        this.lblFechaCargaDato.setText(sdf.format(new Date()));
     }
     
     public void limpiarPantalla(){
@@ -270,6 +272,8 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         lblFechaConfirmacion2 = new javax.swing.JLabel();
         lblFechaConfirmacion3 = new javax.swing.JLabel();
         cboPersonal = new javax.swing.JComboBox<>();
+        btnCliente = new javax.swing.JButton();
+        btnPersonal = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
@@ -361,6 +365,20 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
             }
         });
 
+        btnCliente.setIcon(new javax.swing.ImageIcon("D:\\Usuario\\Downloads\\add-user (1).png")); // NOI18N
+        btnCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClienteActionPerformed(evt);
+            }
+        });
+
+        btnPersonal.setIcon(new javax.swing.ImageIcon("D:\\Usuario\\Downloads\\add-user (1).png")); // NOI18N
+        btnPersonal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPersonalActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelProyectoLayout = new javax.swing.GroupLayout(panelProyecto);
         panelProyecto.setLayout(panelProyectoLayout);
         panelProyectoLayout.setHorizontalGroup(
@@ -381,7 +399,10 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                             .addComponent(cboCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(cboPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBuscar))
+                        .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnBuscar)
+                            .addComponent(btnCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(panelProyectoLayout.createSequentialGroup()
                         .addGap(161, 161, 161)
                         .addComponent(lblNombreRequerido)))
@@ -400,13 +421,18 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                     .addComponent(lblTipoProyecto)
                     .addComponent(cboTipoProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblFechaConfirmacion2)
-                    .addComponent(cboCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
-                .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblFechaConfirmacion3)
-                    .addComponent(cboPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panelProyectoLayout.createSequentialGroup()
+                        .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblFechaConfirmacion2)
+                                .addComponent(cboCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(12, 12, 12)
+                        .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblFechaConfirmacion3)
+                            .addComponent(cboPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23)
                 .addComponent(lblNombreRequerido)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -716,14 +742,24 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cboPersonalActionPerformed
 
+    private void btnClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClienteActionPerformed
+       //this.nuevoCliente()
+    }//GEN-LAST:event_btnClienteActionPerformed
+
+    private void btnPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonalActionPerformed
+       //this.nuevoPersonal()
+    }//GEN-LAST:event_btnPersonalActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnCliente;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
+    private javax.swing.JButton btnPersonal;
     private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<String> cboCliente;
     private javax.swing.JComboBox<String> cboPersonal;

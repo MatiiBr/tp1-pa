@@ -15,6 +15,7 @@ import javax.swing.DefaultComboBoxModel;
  */
 public class GestorPersonal extends GestorHibernate {
      private Personal  model;
+      private GestorCargo gestorCargo = new GestorCargo();
 
     public Personal  getModel() {
         return model;
@@ -36,4 +37,38 @@ public class GestorPersonal extends GestorHibernate {
      public List <Personal> listar(){   
         return this.listarClase(Personal.class);
     }
+
+    public GestorCargo getGestorCargo() {
+        return gestorCargo;
+    }
+
+    public void setGestorCargo(GestorCargo gestorCargo) {
+        this.gestorCargo = gestorCargo;
+    }
+     
+      public void guardarObjeto(){
+        this.guardarObjeto(this.getModel());
+    }
+      public void actualizarObjeto() {
+        this.actualizarObjeto(this.getModel());
+    }
+       
+       public void eliminarObjeto(){
+        this.eliminarObjeto(this.getModel());
+       }
+       
+       public Personal buscarPersonal(String nombre) {
+        Personal personal = null;
+       try {
+          personal = this.buscarPersonal(Personal.class, nombre);
+       }
+       catch(Exception e){
+          e.printStackTrace();
+       }
+       return personal;
+    }
+       
+       public DefaultComboBoxModel getComboModelCargo() {
+            return this.getGestorCargo().getComboModel();
+       }
 }

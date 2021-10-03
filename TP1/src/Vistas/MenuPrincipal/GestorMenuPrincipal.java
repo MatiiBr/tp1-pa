@@ -5,7 +5,9 @@
  */
 package Vistas.MenuPrincipal;
 
+import Vistas.Cliente.GestorVistaCliente;
 import Vistas.Contacto.GestorVistaContacto;
+import Vistas.Personal.GestorVistaPersonal;
 import Vistas.Proyecto.GestorVistaProyecto;
 import javax.swing.JDesktopPane;
 
@@ -27,5 +29,13 @@ public class GestorMenuPrincipal {
      public void abrirProyecto(JDesktopPane escritorio){
          GestorVistaProyecto gestorVistaProyecto= new GestorVistaProyecto();
         gestorVistaProyecto.openFormulario(escritorio, gestorVistaProyecto);
+     }
+     public void abrirCliente(JDesktopPane escritorio){
+         GestorVistaCliente gestorVistaCliente= new GestorVistaCliente();
+        gestorVistaCliente.openFormulario(escritorio, gestorVistaCliente);
+     }
+     public void abrirPersonal(JDesktopPane escritorio){
+         GestorVistaPersonal gestorVistaPersonal= new GestorVistaPersonal();
+        gestorVistaPersonal.openFormulario(escritorio, gestorVistaPersonal);
      }
 }
