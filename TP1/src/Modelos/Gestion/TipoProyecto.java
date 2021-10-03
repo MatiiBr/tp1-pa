@@ -5,6 +5,7 @@
  */
 package Modelos.Gestion;
 
+import java.util.Date;
 import javax.persistence.*;
 
 @Entity
@@ -16,7 +17,10 @@ import javax.persistence.*;
 public class TipoProyecto {
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tipo_proyecto_id_seq")@SequenceGenerator(name = "tipo_proyecto_id_seq", sequenceName = "tipo_proyecto_id_seq", allocationSize = 1)
         private long id;
-    
+  
+    @Column(name="nombre", columnDefinition = "TEXT")
+        private String nombre; 
+
     @Column(name="descripcion", columnDefinition = "TEXT")
         private String descripcion; 
 
@@ -41,6 +45,12 @@ public class TipoProyecto {
         return this.getDescripcion();
     }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    public String getNombre() {
+        return nombre;
+    }
     
     
 }

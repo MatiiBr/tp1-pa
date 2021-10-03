@@ -36,4 +36,25 @@ public class GestorTipoProyecto extends  GestorHibernate{
      public List <TipoProyecto> listar(){   
         return this.listarClase(TipoProyecto.class);
     }
+    public void guardarObjeto(){
+        this.guardarObjeto(this.getModel());
+    }
+    public void actualizarObjeto() {
+        this.actualizarObjeto(this.getModel());
+    }
+
+    public void eliminarObjeto() {
+        this.eliminarObjeto(this.getModel());
+    }
+
+    public TipoProyecto buscarTipoProyecto(String nombre) {
+       TipoProyecto tipoProyecto = null;
+       try {
+          tipoProyecto = this.buscarTipoProyecto(TipoProyecto.class, nombre);
+       }
+       catch(Exception e){
+          e.printStackTrace();
+       }
+       return tipoProyecto;
+    }
 }
