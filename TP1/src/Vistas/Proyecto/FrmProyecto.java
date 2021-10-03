@@ -294,7 +294,9 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setClosable(true);
+        setResizable(true);
         setTitle("Proyecto");
+        setToolTipText("Proyecto");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         panelProyecto.setBorder(javax.swing.BorderFactory.createTitledBorder("Proyecto"));

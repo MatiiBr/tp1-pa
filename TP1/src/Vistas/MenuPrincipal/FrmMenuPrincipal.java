@@ -43,6 +43,7 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
         menuItemCliente = new javax.swing.JMenuItem();
         menuItemPersonal = new javax.swing.JMenuItem();
         menuItemProyecto = new javax.swing.JMenuItem();
+        menuItemTipoProyecto = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -93,6 +94,14 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
         });
         menuMenu.add(menuItemProyecto);
 
+        menuItemTipoProyecto.setText("Tipo Proyecto");
+        menuItemTipoProyecto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemTipoProyectoActionPerformed(evt);
+            }
+        });
+        menuMenu.add(menuItemTipoProyecto);
+
         barraMenuPrincipal.add(menuMenu);
 
         setJMenuBar(barraMenuPrincipal);
@@ -130,6 +139,10 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
     private void menuItemPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemPersonalActionPerformed
         this.gestorMenuPrincipal.abrirPersonal(getEscritorio());
     }//GEN-LAST:event_menuItemPersonalActionPerformed
+
+    private void menuItemTipoProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemTipoProyectoActionPerformed
+       this.gestorMenuPrincipal.abrirTipoProyecto(getEscritorio());
+    }//GEN-LAST:event_menuItemTipoProyectoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -173,6 +186,7 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuItemContacto;
     private javax.swing.JMenuItem menuItemPersonal;
     private javax.swing.JMenuItem menuItemProyecto;
+    private javax.swing.JMenuItem menuItemTipoProyecto;
     private javax.swing.JMenu menuMenu;
     // End of variables declaration//GEN-END:variables
 
