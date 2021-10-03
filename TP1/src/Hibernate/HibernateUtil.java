@@ -34,6 +34,11 @@ public class HibernateUtil {
             conf.addAnnotatedClass(Modelos.Gestion.Contacto.class);
             conf.addAnnotatedClass(Modelos.Gestion.Persona.class);
 
+            conf.addAnnotatedClass(Modelos.Gestion.Proyecto.class);
+            conf.addAnnotatedClass(Modelos.Gestion.TipoProyecto.class);
+            conf.addAnnotatedClass(Modelos.Gestion.Cliente.class);
+            conf.addAnnotatedClass(Modelos.Gestion.Personal.class);
+            
             try {
                     sessionFactory = conf.buildSessionFactory();
                     session=sessionFactory.openSession();

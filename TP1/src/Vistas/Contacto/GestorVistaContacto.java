@@ -7,7 +7,10 @@ package Vistas.Contacto;
 
 import Modelos.Gestion.Contacto;
 import Modelos.Gestion.GestorContacto;
+import Util.UtilJtable;
+import java.util.Date;
 import javax.swing.JDesktopPane;
+import javax.swing.JTable;
 
 /**
  *
@@ -16,7 +19,16 @@ import javax.swing.JDesktopPane;
 public class GestorVistaContacto {
     private JDesktopPane escritorio;
     FrmContacto form;  
-    private GestorContacto gestor;  
+    private GestorContacto gestor; 
+     private UtilJtable UtilTable= new UtilJtable();
+    
+    public UtilJtable getUtilTable() {
+        return UtilTable;
+    }
+
+    public void setUtilTable(UtilJtable UtilTable) {
+        this.UtilTable = UtilTable;
+    }
     
     public GestorVistaContacto() {
     }
@@ -78,7 +90,7 @@ public class GestorVistaContacto {
     
    public void actualizarContacto(){
        this.setModel();
-       this.getGestor().actualizarContacto();
+       this.getGestor().actualizarObjeto();
    }
     
      public boolean buscarContacto(String nombre) {
@@ -98,6 +110,38 @@ public class GestorVistaContacto {
      }
     
     public void eliminarContacto(){
-        this.getGestor().eliminarContacto();
+        this.getGestor().eliminarObjeto();
     }
+    public void revisarFormulario(){
+         if(this.getForm().getTxtNombre().getText().isEmpty()){
+             this.getForm().getLblNombreRequerido().setText("Requerido.");
+             this.getForm().setFormValido(false);
+         }
+         if(this.getForm().getTxtApellido().getText().isEmpty()){
+             this.getForm().getLblApellidoRequerido().setText("Requerido.");
+             this.getForm().setFormValido(false);
+         }
+         if(this.getForm().getInpFechaNacimiento().getDate()==null){
+             this.getForm().getLblFechaNacimientoRequerido().setText("Requerido.");
+             this.getForm().setFormValido(false);
+         }else if(!verificarEdad()){
+             this.getForm().getLblFechaNacimientoRequerido().setText("La edad debe ser mayor o igual a 18 años.");
+             this.getForm().setFormValido(false);
+         }
+     }
+     public boolean verificarEdad(){
+         var date = new Date();
+         int edad = 0;
+         if (this.getForm().getInpFechaNacimiento().getDate().getYear() < date.getYear()) {
+           edad = (date.getYear()) - (this.getForm().getInpFechaNacimiento().getDate().getYear());
+           if(this.getForm().getInpFechaNacimiento().getDate().getMonth() > date.getMonth() ) {
+               edad--;
+           } else if(this.getForm().getInpFechaNacimiento().getDate().getMonth() == date.getMonth()) {
+               if(this.getForm().getInpFechaNacimiento().getDate().getDate() > date.getDate() ) {
+                   edad--;
+               }
+           }
+         }
+         return edad>=18;
+     }
 }
