@@ -242,15 +242,36 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
      }
      
     public void cargarCombos() {
-        this.gestorProyecto.setModelTipoProyecto(cboTipoProyecto);
-         this.gestorProyecto.setModelCliente(cboCliente);
-         this.gestorProyecto.setModelPersonal(cboPersonal);
+        this.cargarTipoProyecto();
+         this.cargarClientes();
+         this.cargarPersonal();
+    }
+    public void cargarClientes(){
+        this.getGestorVistaProyecto().setModelCliente(cboCliente);
+    }
+    public void cargarTipoProyecto(){
+        this.getGestorVistaProyecto().setModelTipoProyecto(cboTipoProyecto);
+    }
+    public void cargarPersonal(){
+        this.getGestorVistaProyecto().setModelPersonal(cboPersonal);
     }
     
     public void limpiarCombos(){
          this.cboTipoProyecto.setSelectedIndex(0);
          this.cboPersonal.setSelectedIndex(0);
          this.cboCliente.setSelectedIndex(0);
+    }
+    
+    public void nuevoCliente(){
+        this.getGestorVistaProyecto().nuevoCliente();
+    }
+    
+     public void nuevoPersonal(){
+        this.getGestorVistaProyecto().nuevoPersonal();
+    }
+     
+     public void nuevoTipoProyecto(){
+        this.getGestorVistaProyecto().nuevoTipoProyecto();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -274,6 +295,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         cboPersonal = new javax.swing.JComboBox<>();
         btnCliente = new javax.swing.JButton();
         btnPersonal = new javax.swing.JButton();
+        btnTipoProyecto = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
@@ -337,6 +359,15 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         cboTipoProyecto.setToolTipText("Seleccione.");
         cboTipoProyecto.setEnabled(false);
         cboTipoProyecto.setName(""); // NOI18N
+        cboTipoProyecto.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+                cboTipoProyectoPopupMenuWillBecomeVisible(evt);
+            }
+        });
         cboTipoProyecto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboTipoProyectoActionPerformed(evt);
@@ -346,6 +377,15 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         cboCliente.setToolTipText("Seleccione.");
         cboCliente.setEnabled(false);
         cboCliente.setName(""); // NOI18N
+        cboCliente.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+                cboClientePopupMenuWillBecomeVisible(evt);
+            }
+        });
         cboCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboClienteActionPerformed(evt);
@@ -361,23 +401,39 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         cboPersonal.setToolTipText("Seleccione.");
         cboPersonal.setEnabled(false);
         cboPersonal.setName(""); // NOI18N
+        cboPersonal.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+                cboPersonalPopupMenuWillBecomeVisible(evt);
+            }
+        });
         cboPersonal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboPersonalActionPerformed(evt);
             }
         });
 
-        btnCliente.setIcon(new javax.swing.ImageIcon("D:\\Usuario\\Downloads\\add-user (1).png")); // NOI18N
+        btnCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/add-user.png"))); // NOI18N
         btnCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnClienteActionPerformed(evt);
             }
         });
 
-        btnPersonal.setIcon(new javax.swing.ImageIcon("D:\\Usuario\\Downloads\\add-user (1).png")); // NOI18N
+        btnPersonal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/add-user.png"))); // NOI18N
         btnPersonal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPersonalActionPerformed(evt);
+            }
+        });
+
+        btnTipoProyecto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/add.png"))); // NOI18N
+        btnTipoProyecto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTipoProyectoActionPerformed(evt);
             }
         });
 
@@ -404,11 +460,12 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                         .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnBuscar)
                             .addComponent(btnCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnTipoProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(panelProyectoLayout.createSequentialGroup()
                         .addGap(161, 161, 161)
                         .addComponent(lblNombreRequerido)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(253, Short.MAX_VALUE))
         );
         panelProyectoLayout.setVerticalGroup(
             panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -419,9 +476,11 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                     .addComponent(txtNombre)
                     .addComponent(btnBuscar))
                 .addGap(27, 27, 27)
-                .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblTipoProyecto)
-                    .addComponent(cboTipoProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblTipoProyecto)
+                        .addComponent(cboTipoProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnTipoProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelProyectoLayout.createSequentialGroup()
@@ -622,7 +681,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         panelFechasLayout.setVerticalGroup(
             panelFechasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFechasLayout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panelFechasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblFechaCarga)
                     .addComponent(lblFechaCargaDato))
@@ -651,7 +710,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                     .addComponent(panelProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(panelFechas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -662,12 +721,12 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(panelProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelFechas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addComponent(panelFechas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panelProyecto.getAccessibleContext().setAccessibleName("Descripcion");
@@ -705,7 +764,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void inpFechaTerminacionPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_inpFechaTerminacionPropertyChange
@@ -737,7 +796,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cboTipoProyectoActionPerformed
 
     private void cboClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboClienteActionPerformed
-        // TODO add your handling code here:
+       
     }//GEN-LAST:event_cboClienteActionPerformed
 
     private void cboPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboPersonalActionPerformed
@@ -745,12 +804,28 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cboPersonalActionPerformed
 
     private void btnClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClienteActionPerformed
-       //this.nuevoCliente()
+       this.nuevoCliente();
     }//GEN-LAST:event_btnClienteActionPerformed
 
     private void btnPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonalActionPerformed
-       //this.nuevoPersonal()
+       this.nuevoPersonal();
     }//GEN-LAST:event_btnPersonalActionPerformed
+
+    private void cboClientePopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cboClientePopupMenuWillBecomeVisible
+        this.cargarClientes();
+    }//GEN-LAST:event_cboClientePopupMenuWillBecomeVisible
+
+    private void btnTipoProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTipoProyectoActionPerformed
+        this.nuevoTipoProyecto();
+    }//GEN-LAST:event_btnTipoProyectoActionPerformed
+
+    private void cboTipoProyectoPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cboTipoProyectoPopupMenuWillBecomeVisible
+        this.cargarTipoProyecto();
+    }//GEN-LAST:event_cboTipoProyectoPopupMenuWillBecomeVisible
+
+    private void cboPersonalPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cboPersonalPopupMenuWillBecomeVisible
+        this.cargarPersonal();
+    }//GEN-LAST:event_cboPersonalPopupMenuWillBecomeVisible
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -763,6 +838,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnPersonal;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JButton btnTipoProyecto;
     private javax.swing.JComboBox<String> cboCliente;
     private javax.swing.JComboBox<String> cboPersonal;
     private javax.swing.JComboBox cboTipoProyecto;

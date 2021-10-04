@@ -130,11 +130,13 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
         this.inpFechaNacimiento.setEnabled(false);
         this.txtNombre.setEnabled(true);
         this.txtApellido.setEnabled(false);
+        this.cboCargo.setEnabled(false);
     }
     public void vistaNuevoPersonal(){
         this.inpFechaNacimiento.setEnabled(true);
         this.txtNombre.setEnabled(true);
         this.txtApellido.setEnabled(true);
+        this.cboCargo.setEnabled(true);
     }
     
     public void limpiarPantalla(){
@@ -322,6 +324,7 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
         lblCargo.setText("Cargo:");
 
         cboCargo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cboCargo.setEnabled(false);
         cboCargo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboCargoActionPerformed(evt);
@@ -560,7 +563,7 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed

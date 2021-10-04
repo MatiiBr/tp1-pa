@@ -57,6 +57,7 @@ public class GestorVistaCliente {
         this.getEscritorio().add(form);
         this.getForm().setVisible(true);
     }
+
     
     public JDesktopPane getEscritorio() {
         return escritorio;
@@ -150,5 +151,6 @@ public class GestorVistaCliente {
          }
          return edad>=18;
      }
+
      
 }

@@ -21,11 +21,14 @@ public class GestorVistaTipoProyecto {
     private GestorTipoProyecto gestor; 
     private UtilJtable UtilTable= new UtilJtable();
     
-    public void revisarFormulario(){
+    public String revisarFormulario(){
+        String mensaje = "";
         if(this.getForm().getTxtNombre().getText().isEmpty()){
              this.getForm().setFormValido(false);
              this.getForm().getLblNombreRequerido().setText("Requerido.");
+             mensaje +="\n - El campo Nombre no puede estar vacio.";
          }
+        return mensaje;
     }
     public FrmTipoProyecto getForm() {
         return form;

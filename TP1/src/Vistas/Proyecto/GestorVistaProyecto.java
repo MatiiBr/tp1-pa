@@ -11,6 +11,7 @@ import Modelos.Gestion.GestorProyecto;
 import Modelos.Gestion.Personal;
 import Modelos.Gestion.TipoProyecto;
 import Util.UtilJtable;
+import Vistas.MenuPrincipal.GestorMenuPrincipal;
 import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
@@ -24,7 +25,8 @@ public class GestorVistaProyecto {
     private JDesktopPane escritorio;
     private boolean actualizacion;
     FrmProyecto form;  
-    private GestorProyecto gestor; 
+    private GestorProyecto gestor;
+    private GestorMenuPrincipal gestorMenu;
      private UtilJtable UtilTable= new UtilJtable();
     
     public UtilJtable getUtilTable() {
@@ -103,6 +105,20 @@ public class GestorVistaProyecto {
     public void setGestor(GestorProyecto gestor) {
         this.gestor = gestor;
     }
+
+    public GestorMenuPrincipal getGestorMenu() {
+        if (gestorMenu == null) {
+           synchronized (GestorMenuPrincipal.class) {
+                gestorMenu = new GestorMenuPrincipal();
+           }
+        }
+        return gestorMenu;
+    }
+
+    public void setGestorMenu(GestorMenuPrincipal gestorMenu) {
+        this.gestorMenu = gestorMenu;
+    }
+    
     public void guardarProyecto(){
         this.setActualizacion(false);
         this.setModel();
@@ -214,6 +230,18 @@ public class GestorVistaProyecto {
     }
     public void setModelPersonal(JComboBox cboPersonal) {
        cboPersonal.setModel(gestor.getComboModelPersonal());
+    }
+    
+    public void nuevoCliente(){
+        this.getGestorMenu().abrirCliente(this.getEscritorio());
+    }
+    
+    public void nuevoPersonal(){
+        this.getGestorMenu().abrirPersonal(this.getEscritorio());
+    }
+    
+    public void nuevoTipoProyecto(){
+        this.getGestorMenu().abrirTipoProyecto(this.getEscritorio());
     }
     
 }

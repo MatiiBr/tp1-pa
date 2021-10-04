@@ -41,6 +41,7 @@ public class FrmTipoProyecto extends javax.swing.JInternalFrame {
         }  
         this.setGestorVistaTipoProyecto(gestor);
         this.getGestorVistaTipoProyecto().newModel();
+        this.vistaInicio();
     }
 
     public GestorVistaTipoProyecto getGestorVistaTipoProyecto() {
@@ -182,10 +183,10 @@ public class FrmTipoProyecto extends javax.swing.JInternalFrame {
         String dialog;
          if("Guardar".equals(btnGuardar.getText())){
               this.getGestorVistaTipoProyecto().guardarTipoProyecto();
-              dialog = "Proyecto guardado exitosamente.";
+              dialog = "Tipo de Proyecto guardado exitosamente.";
          }else{
             this.getGestorVistaTipoProyecto().actualizarTipoProyecto();
-            dialog = "Proyecto actualizado exitosamente.";
+            dialog = "Tipo de Proyecto actualizado exitosamente.";
          }
         this.limpiarPantalla();
         this.vistaInicio();
@@ -251,6 +252,7 @@ public class FrmTipoProyecto extends javax.swing.JInternalFrame {
         this.limpiarPantalla();
         this.vistaInicio();
         txtNombre.setText(tipoProyecto.getNombre());
+        jTxtDescripcion.setText(tipoProyecto.getDescripcion());
     }
     /** This method is called from within the constructor to
      * initialize the form.
@@ -385,7 +387,7 @@ public class FrmTipoProyecto extends javax.swing.JInternalFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(btnSalir))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         panelTipoProyecto.setBorder(javax.swing.BorderFactory.createTitledBorder("Tipo de Proyecto"));
@@ -515,12 +517,12 @@ public class FrmTipoProyecto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        this.getGestorVistaTipoProyecto().revisarFormulario();
+        String mensaje = this.getGestorVistaTipoProyecto().revisarFormulario();
         if(this.formValido){
             if (JOptionPane.showConfirmDialog(null, ("Guardar".equals(btnGuardar.getText())) ? "¿Desea guardar el Tipo de Proyecto?":"¿Desea actualizar el Tipo de Proyecto?","Atencion", YES_NO_OPTION) == 0 )
             this.guardarTipoProyecto();
         }else{
-            JOptionPane.showMessageDialog(null, "Error al enviar el formulario");
+            JOptionPane.showMessageDialog(null, "Error al enviar el formulario."+mensaje+" ");
             this.formValido = true;
         }
 
@@ -536,7 +538,7 @@ public class FrmTipoProyecto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
 

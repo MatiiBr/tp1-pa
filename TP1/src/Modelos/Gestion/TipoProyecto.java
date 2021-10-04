@@ -42,7 +42,7 @@ public class TipoProyecto {
 
     @Override
     public String toString() {
-        return this.getDescripcion();
+        return this.getNombre();
     }
 
     public void setNombre(String nombre) {

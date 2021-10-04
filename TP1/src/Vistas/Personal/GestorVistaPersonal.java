@@ -134,6 +134,11 @@ public class GestorVistaPersonal {
               mensaje +="\n - La edad debe ser mayor o igual a 18 años.";
              this.getForm().setFormValido(false);
          }
+         if(this.getForm().getCboCargo().getSelectedIndex()==0 || this.getForm().getCboCargo().getSelectedIndex()==-1){
+             System.out.println(this.getForm().getCboCargo().getSelectedIndex());
+             mensaje +="\n - Debe seleccionar un Cargo.";
+             this.getForm().setFormValido(false);
+         }
          return mensaje;
      }
      public boolean verificarEdad(){

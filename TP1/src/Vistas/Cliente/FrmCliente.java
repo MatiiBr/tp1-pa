@@ -23,15 +23,20 @@ public class FrmCliente extends javax.swing.JInternalFrame {
      * Creates new form FrmContacto
      */
      public FrmCliente(GestorVistaCliente gestorCliente) {
-        try{
+         try{
            initComponents();
-           }
-           catch(Exception e){
+        }
+        catch(Exception e){
             
         }  
         this.setGestorVistaCliente(gestorCliente);
     }
-
+     
+    public FrmCliente() {
+       
+        initComponents();
+     }
+    
     public JTextField getTxtApellido() {
         return txtApellido;
     }
@@ -84,10 +89,6 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         this.formValido = formValido;
     }
     
-    public FrmCliente() {
-        initComponents();
-    }
-
     public GestorVistaCliente getGestorVistaCliente() {
         return gestorCliente;
     }
@@ -527,7 +528,7 @@ public class FrmCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void inpFechaNacimientoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_inpFechaNacimientoPropertyChange
