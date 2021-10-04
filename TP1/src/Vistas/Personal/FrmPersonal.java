@@ -325,6 +325,15 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
 
         cboCargo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cboCargo.setEnabled(false);
+        cboCargo.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+                cboCargoPopupMenuWillBecomeVisible(evt);
+            }
+        });
         cboCargo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboCargoActionPerformed(evt);
@@ -593,6 +602,10 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
     private void cboCargoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboCargoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cboCargoActionPerformed
+
+    private void cboCargoPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cboCargoPopupMenuWillBecomeVisible
+        this.cargarCombos();
+    }//GEN-LAST:event_cboCargoPopupMenuWillBecomeVisible
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
