@@ -25,7 +25,7 @@ public class HibernateUtil {
             }
             
             conf.setProperty("hibernate.connection.username","postgres");
-            conf.setProperty("hibernate.connection.password","");
+            conf.setProperty("hibernate.connection.password","noloypola12");
 
             conf.setProperty("hibernate.connection.pool_size","10");                          
             conf.setProperty("hibernate.hbm2ddl.auto","update");
@@ -33,6 +33,11 @@ public class HibernateUtil {
             conf.addPackage("Modelos.Gestion");
             conf.addAnnotatedClass(Modelos.Gestion.Contacto.class);
             conf.addAnnotatedClass(Modelos.Gestion.Persona.class);
+            conf.addAnnotatedClass(Modelos.Gestion.Proyecto.class);
+            conf.addAnnotatedClass(Modelos.Gestion.TipoProyecto.class);
+            conf.addAnnotatedClass(Modelos.Gestion.Cliente.class);
+            conf.addAnnotatedClass(Modelos.Gestion.Cargo.class);
+            conf.addAnnotatedClass(Modelos.Gestion.Personal.class);
             
             try {
                     sessionFactory = conf.buildSessionFactory();

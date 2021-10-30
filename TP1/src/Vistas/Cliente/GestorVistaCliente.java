@@ -3,23 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Vistas.Contacto;
+package Vistas.Cliente;
 
-import Modelos.Gestion.Contacto;
-import Modelos.Gestion.GestorContacto;
+import Modelos.Gestion.Cargo;
+import Modelos.Gestion.Cliente;
+import Modelos.Gestion.GestorCliente;
 import Util.UtilJtable;
 import java.util.Date;
+import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
-import javax.swing.JTable;
 
 /**
  *
  * @author Usuario
  */
-public class GestorVistaContacto {
+public class GestorVistaCliente {
     private JDesktopPane escritorio;
-    FrmContacto form;  
-    private GestorContacto gestor; 
+    FrmCliente form;  
+    private GestorCliente gestor; 
      private UtilJtable UtilTable= new UtilJtable();
     
     public UtilJtable getUtilTable() {
@@ -30,32 +31,33 @@ public class GestorVistaContacto {
         this.UtilTable = UtilTable;
     }
     
-    public GestorVistaContacto() {
+    public GestorVistaCliente() {
     }
         public void newModel() {
             this.getGestor().newModel();
     }
         
-     public Contacto getModel() {
+     public Cliente getModel() {
         return this.getGestor().getModel();
     }
      
      public void setModel(){
-          this.getModel().setNombre(this.getForm().getTxtNombre().getText());
-          this.getModel().setApellido(this.getForm().getTxtApellido().getText());
+          this.getModel().setNombre(this.getForm().getTxtNombre().getText().toUpperCase());
+          this.getModel().setApellido(this.getForm().getTxtApellido().getText().toUpperCase());
           this.getModel().setFechaNacimiento(this.getForm().getInpFechaNacimiento().getDate());
     }
     
-    public void setModel(Contacto model) {
+    public void setModel(Cliente model) {
         this.getGestor().setModel(model);
     }
      
-    public void openFormulario(JDesktopPane pantalla, GestorVistaContacto gestor) {
+    public void openFormulario(JDesktopPane pantalla, GestorVistaCliente gestor) {
         this.setEscritorio(pantalla);
-        this.setForm(new FrmContacto(gestor));
+        this.setForm(new FrmCliente(gestor));
         this.getEscritorio().add(form);
         this.getForm().setVisible(true);
     }
+
     
     public JDesktopPane getEscritorio() {
         return escritorio;
@@ -65,51 +67,51 @@ public class GestorVistaContacto {
         this.escritorio = escritorio;
     }
 
-     public FrmContacto getForm() {
+     public FrmCliente getForm() {
         return form;
     }
-      public void setForm(FrmContacto form) {
+      public void setForm(FrmCliente form) {
         this.form = form;
     }
     
-    public GestorContacto getGestor() {
+    public GestorCliente getGestor() {
         if (gestor == null) {
-           synchronized (GestorContacto.class) {
-                gestor = new GestorContacto();
+           synchronized (GestorCliente.class) {
+                gestor = new GestorCliente();
            }
         }
         return gestor;
     }
-    public void setGestor(GestorContacto gestor) {
+    public void setGestor(GestorCliente gestor) {
         this.gestor = gestor;
     }
-    public void guardarContacto(){
+    public void guardarCliente(){
         this.setModel();
         this.getGestor().guardarObjeto();
     }
     
-   public void actualizarContacto(){
+   public void actualizarCliente(){
        this.setModel();
        this.getGestor().actualizarObjeto();
    }
     
-     public boolean buscarContacto(String nombre) {
-        Contacto contacto;
-        contacto=this.getGestor().buscarContacto(nombre);
-         if(contacto!=null){
-              this.setModel(contacto);
-              this.cargarContacto(contacto);
+     public boolean buscarCliente(String nombre) {
+        Cliente cliente;
+        cliente=this.getGestor().buscarCliente(nombre);
+         if(cliente!=null){
+              this.setModel(cliente);
+              this.cargarCliente(cliente);
          }else{
              return false;
          }
          return true;
     }
     
-     public void cargarContacto(Contacto contacto){
-         this.getForm().cargarContacto(contacto);
+     public void cargarCliente(Cliente cliente){
+         this.getForm().cargarCliente(cliente);
      }
     
-    public void eliminarContacto(){
+    public void eliminarCliente(){
         this.getGestor().eliminarObjeto();
     }
     public String revisarFormulario(){
@@ -149,4 +151,6 @@ public class GestorVistaContacto {
          }
          return edad>=18;
      }
+
+     
 }
