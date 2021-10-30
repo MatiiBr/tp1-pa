@@ -310,8 +310,6 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         btnCliente = new javax.swing.JButton();
         btnPersonal = new javax.swing.JButton();
         btnTipoProyecto = new javax.swing.JButton();
-        scrProyectos = new javax.swing.JScrollPane();
-        tblProyectos = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
@@ -329,6 +327,10 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         lblFechaEntrega = new javax.swing.JLabel();
         lblFechaCarga = new javax.swing.JLabel();
         lblFechaCargaDato = new javax.swing.JLabel();
+        panelProyecto1 = new javax.swing.JPanel();
+        lblNombreRequerido1 = new javax.swing.JLabel();
+        scrProyectos = new javax.swing.JScrollPane();
+        tblProyectos = new javax.swing.JTable();
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setClosable(true);
@@ -340,9 +342,11 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         panelProyecto.setBorder(javax.swing.BorderFactory.createTitledBorder("Proyecto"));
         panelProyecto.setToolTipText("Proyecto");
         panelProyecto.setName("Contacto"); // NOI18N
+        panelProyecto.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblNombre.setText("Nombre: ");
+        panelProyecto.add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(87, 31, -1, -1));
 
         txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtNombre.setToolTipText("Nombre");
@@ -356,6 +360,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 txtNombreKeyTyped(evt);
             }
         });
+        panelProyecto.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 28, 139, -1));
 
         btnBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnBuscar.setText("Buscar");
@@ -364,13 +369,16 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 btnBuscarActionPerformed(evt);
             }
         });
+        panelProyecto.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(307, 27, -1, -1));
 
         lblNombreRequerido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblNombreRequerido.setForeground(new java.awt.Color(204, 0, 51));
         lblNombreRequerido.setText(" ");
+        panelProyecto.add(lblNombreRequerido, new org.netbeans.lib.awtextra.AbsoluteConstraints(167, 213, -1, -1));
 
         lblTipoProyecto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblTipoProyecto.setText("Tipo Proyecto:");
+        panelProyecto.add(lblTipoProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 85, -1, -1));
 
         cboTipoProyecto.setToolTipText("Seleccione.");
         cboTipoProyecto.setEnabled(false);
@@ -389,6 +397,8 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 cboTipoProyectoActionPerformed(evt);
             }
         });
+        panelProyecto.add(cboTipoProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 83, 139, 28));
+        cboTipoProyecto.getAccessibleContext().setAccessibleName("");
 
         cboCliente.setToolTipText("Seleccione.");
         cboCliente.setEnabled(false);
@@ -407,12 +417,15 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 cboClienteActionPerformed(evt);
             }
         });
+        panelProyecto.add(cboCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 122, 139, 28));
 
         lblFechaConfirmacion2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblFechaConfirmacion2.setText("Cliente:");
+        panelProyecto.add(lblFechaConfirmacion2, new org.netbeans.lib.awtextra.AbsoluteConstraints(99, 124, -1, -1));
 
         lblFechaConfirmacion3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblFechaConfirmacion3.setText("Personal:");
+        panelProyecto.add(lblFechaConfirmacion3, new org.netbeans.lib.awtextra.AbsoluteConstraints(89, 164, -1, -1));
 
         cboPersonal.setToolTipText("Seleccione.");
         cboPersonal.setEnabled(false);
@@ -431,6 +444,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 cboPersonalActionPerformed(evt);
             }
         });
+        panelProyecto.add(cboPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 162, 139, 28));
 
         btnCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/add-user.png"))); // NOI18N
         btnCliente.addActionListener(new java.awt.event.ActionListener() {
@@ -438,6 +452,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 btnClienteActionPerformed(evt);
             }
         });
+        panelProyecto.add(btnCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(307, 122, 30, 28));
 
         btnPersonal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/add-user.png"))); // NOI18N
         btnPersonal.addActionListener(new java.awt.event.ActionListener() {
@@ -445,6 +460,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 btnPersonalActionPerformed(evt);
             }
         });
+        panelProyecto.add(btnPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(307, 162, 30, 28));
 
         btnTipoProyecto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/add.png"))); // NOI18N
         btnTipoProyecto.addActionListener(new java.awt.event.ActionListener() {
@@ -452,88 +468,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 btnTipoProyectoActionPerformed(evt);
             }
         });
-
-        tblProyectos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        scrProyectos.setViewportView(tblProyectos);
-
-        javax.swing.GroupLayout panelProyectoLayout = new javax.swing.GroupLayout(panelProyecto);
-        panelProyecto.setLayout(panelProyectoLayout);
-        panelProyectoLayout.setHorizontalGroup(
-            panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelProyectoLayout.createSequentialGroup()
-                .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelProyectoLayout.createSequentialGroup()
-                        .addGap(51, 51, 51)
-                        .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblTipoProyecto)
-                            .addComponent(lblNombre)
-                            .addComponent(lblFechaConfirmacion2)
-                            .addComponent(lblFechaConfirmacion3))
-                        .addGap(18, 18, 18)
-                        .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtNombre)
-                            .addComponent(cboTipoProyecto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cboCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cboPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnBuscar)
-                            .addComponent(btnCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnTipoProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(scrProyectos, javax.swing.GroupLayout.PREFERRED_SIZE, 668, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelProyectoLayout.createSequentialGroup()
-                        .addGap(161, 161, 161)
-                        .addComponent(lblNombreRequerido)))
-                .addGap(39, 39, 39))
-        );
-        panelProyectoLayout.setVerticalGroup(
-            panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelProyectoLayout.createSequentialGroup()
-                .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelProyectoLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblNombre)
-                            .addComponent(txtNombre)
-                            .addComponent(btnBuscar))
-                        .addGap(27, 27, 27)
-                        .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lblTipoProyecto)
-                                .addComponent(cboTipoProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnTipoProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(panelProyectoLayout.createSequentialGroup()
-                                .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(lblFechaConfirmacion2)
-                                        .addComponent(cboCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(btnCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(12, 12, 12)
-                                .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblFechaConfirmacion3)
-                                    .addComponent(cboPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(btnPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(scrProyectos, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(23, 23, 23)
-                .addComponent(lblNombreRequerido)
-                .addGap(210, 210, 210))
-        );
-
-        cboTipoProyecto.getAccessibleContext().setAccessibleName("");
+        panelProyecto.add(btnTipoProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(307, 83, 30, 28));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
@@ -734,6 +669,31 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 .addGap(22, 22, 22))
         );
 
+        panelProyecto1.setBorder(javax.swing.BorderFactory.createTitledBorder("Proyecto"));
+        panelProyecto1.setToolTipText("Proyecto");
+        panelProyecto1.setName("Contacto"); // NOI18N
+        panelProyecto1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblNombreRequerido1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblNombreRequerido1.setForeground(new java.awt.Color(204, 0, 51));
+        lblNombreRequerido1.setText(" ");
+        panelProyecto1.add(lblNombreRequerido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(167, 213, -1, -1));
+
+        tblProyectos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        scrProyectos.setViewportView(tblProyectos);
+
+        panelProyecto1.add(scrProyectos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 700, 350));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -741,26 +701,35 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 594, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(panelFechas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(10, 469, Short.MAX_VALUE)
+                        .addComponent(panelProyecto1, javax.swing.GroupLayout.PREFERRED_SIZE, 716, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(panelFechas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(panelProyecto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panelProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelFechas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(panelProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(panelFechas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(panelProyecto1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         panelProyecto.getAccessibleContext().setAccessibleName("Descripcion");
@@ -890,9 +859,11 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblFechaTerminacion;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblNombreRequerido;
+    private javax.swing.JLabel lblNombreRequerido1;
     private javax.swing.JLabel lblTipoProyecto;
     private javax.swing.JPanel panelFechas;
     private javax.swing.JPanel panelProyecto;
+    private javax.swing.JPanel panelProyecto1;
     private javax.swing.JScrollPane scrProyectos;
     private javax.swing.JTable tblProyectos;
     private javax.swing.JTextField txtNombre;
