@@ -5,6 +5,7 @@
  */
 package Modelos.Gestion;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 
@@ -14,7 +15,7 @@ import javax.persistence.*;
  *
  * @author Usuario
  */
-public class TipoProyecto {
+public class TipoProyecto implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tipo_proyecto_id_seq")@SequenceGenerator(name = "tipo_proyecto_id_seq", sequenceName = "tipo_proyecto_id_seq", allocationSize = 1)
         private long id;
   

@@ -180,14 +180,7 @@ public class FrmTipoProyecto extends javax.swing.JInternalFrame {
     }
 
     private void guardarTipoProyecto() {
-        String dialog;
-         if("Guardar".equals(btnGuardar.getText())){
-              this.getGestorVistaTipoProyecto().guardarTipoProyecto();
-              dialog = "Tipo de Proyecto guardado exitosamente.";
-         }else{
-            this.getGestorVistaTipoProyecto().actualizarTipoProyecto();
-            dialog = "Tipo de Proyecto actualizado exitosamente.";
-         }
+        String dialog = this.getGestorVistaTipoProyecto().save(btnGuardar.getText());
         this.limpiarPantalla();
         this.vistaInicio();
         this.botonesInicio();
@@ -215,7 +208,7 @@ public class FrmTipoProyecto extends javax.swing.JInternalFrame {
         this.vistaInicio();
         this.limpiarPantalla();
         this.botonesInicio();
-        JOptionPane.showMessageDialog(null, "Proyecto eliminado exitosamente");
+        JOptionPane.showMessageDialog(null, "Proyecto eliminado exitosamente","Validación de Datos",JOptionPane.WARNING_MESSAGE);
     }
 
     private void cancelar() {
@@ -226,11 +219,11 @@ public class FrmTipoProyecto extends javax.swing.JInternalFrame {
 
     private void buscarTipoProyecto() {
         if(this.txtNombre.getText().isBlank()){
-             JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de Tipo de Proyecto antes de buscar.");
+             JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de Tipo de Proyecto antes de buscar.","Validación de Datos",JOptionPane.WARNING_MESSAGE);
              this.limpiarPantalla();
          }else{
             if(!this.getGestorVistaTipoProyecto().buscarTipoProyecto(txtNombre.getText().toUpperCase())){
-                JOptionPane.showMessageDialog(null, "No se encontro un Tipo de Proyecto con el nombre ingresado.");
+                JOptionPane.showMessageDialog(null, "No se encontro un Tipo de Proyecto con el nombre ingresado.","Validación de Datos",JOptionPane.WARNING_MESSAGE);
                 this.limpiarPantalla();
             }else{
                 this.botonesListado();
@@ -561,4 +554,7 @@ public class FrmTipoProyecto extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 
-}
+    public boolean isBlanck(JTextField txt) {
+        return txt.getText().isBlank();
+    }
+    }

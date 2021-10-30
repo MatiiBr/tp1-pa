@@ -59,6 +59,7 @@ public class GestorVistaTipoProyecto {
     private TipoProyecto getModel() {
         return this.getGestor().getModel();
     }
+    
     void actualizarTipoProyecto() {
        this.setActualizacion(true);
        this.setModel();
@@ -112,5 +113,15 @@ public class GestorVistaTipoProyecto {
         this.getGestor().newModel();
     }
 
-    
+    public String save(String accion) {
+        String dialog="";
+        if("Guardar".equals(accion)){
+              this.guardarTipoProyecto();
+              dialog = "Tipo de Proyecto guardado exitosamente.";
+         }else{
+            this.actualizarTipoProyecto();
+            dialog = "Tipo de Proyecto actualizado exitosamente.";
+         } 
+        return dialog;
+    }
 }
