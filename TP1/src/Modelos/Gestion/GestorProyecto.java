@@ -7,7 +7,10 @@ package Modelos.Gestion;
 
 import Hibernate.GestorHibernate;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -130,5 +133,40 @@ public class GestorProyecto extends GestorHibernate {
          public DefaultComboBoxModel getComboModelPersonal() {
             return this.getGestorPersonal().getComboModel();
        }
+         
+         public DefaultTableModel  consultarProyectos() {
+                List proyectos = this.buscarProyectos(Proyecto.class);
+                String[] titulos = {"ID", "Nombre", "Tipo de Proyecto", "Cliente", "Personal"};
+                DefaultTableModel modelo = new DefaultTableModel(null, titulos);
+                String[] registros = new String[5];
+                for (Iterator it = proyectos.iterator(); it.hasNext();) {
+                    Proyecto proyecto = (Proyecto) it.next();
+                     registros[0] = String.valueOf(proyecto.getId());
+                     registros[1] =  proyecto.getNombre();
+                     registros[2] = proyecto.getTipoProyecto().getNombre();
+                     registros[3] = proyecto.getCliente().toString();
+                     registros[4] = proyecto.getPersonal().toString();
+                     modelo.addRow(registros);
+                }
+               return modelo;
+            /*String[] titulos = {"Id", "Nombre", "Matricula", "Nota"};
+            DefaultTableModel modelo = new DefaultTableModel(null, titulos);
+            String[] registros = new String[4];
+            sSQL = "SELECT * FROM notas";
+            try {
+                st = cn.createStatement();
+                rs = st.executeQuery(sSQL);
+                while (rs.next()) {
+                    registros[0] = String.valueOf(rs.getInt("id"));
+                    registros[1] = rs.getString("nombre");
+                    registros[2] = rs.getString("matricula");
+                    registros[3] = String.valueOf(rs.getInt("nota"));
+                    modelo.addRow(registros);
+                }
+                return modelo;
+            } catch (Exception e) {
+                return null;
+            }*/
+        }
        
 }

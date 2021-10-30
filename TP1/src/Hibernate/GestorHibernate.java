@@ -4,6 +4,7 @@ import Modelos.Gestion.Contacto;
 import Modelos.Gestion.Personal;
 import Modelos.Gestion.Proyecto;
 import Modelos.Gestion.TipoProyecto;
+import Modelos.Gestion.Perfil;
 import java.util.List;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
@@ -75,6 +76,14 @@ public class GestorHibernate extends HibernateUtil {
         return (Proyecto) crit.list().get(0);
      }
      
+      public List buscarProyectos(Class clase){
+         Criteria crit = getSession().createCriteria(clase);
+        if (crit.list().isEmpty()){
+            return null;
+        }
+        return crit.list();
+     }
+     
       public Cliente buscarCliente(Class clase, String valor){        
          System.out.println(valor);
          Criteria crit = getSession().createCriteria(clase)
@@ -92,6 +101,15 @@ public class GestorHibernate extends HibernateUtil {
             return null;
         }
         return (Personal) crit.list().get(0);
+     }
+      public Perfil buscarPerfil(Class clase, String valor){        
+         System.out.println(valor);
+         Criteria crit = getSession().createCriteria(clase)
+            .add( Restrictions.eq("nombre", valor));
+        if (crit.list().isEmpty()){
+            return null;
+        }
+        return (Perfil) crit.list().get(0);
      }
        public TipoProyecto buscarTipoProyecto(Class clase, String valor){        
          System.out.println(valor);
