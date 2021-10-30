@@ -3,12 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Vistas.TipoProyecto;
+package Vistas.Perfil;
 
-import Vistas.TipoProyecto.FrmTipoProyecto;
-import Vistas.TipoProyecto.GestorVistaTipoProyecto;
-import Modelos.Gestion.GestorTipoProyecto;
-import Modelos.Gestion.TipoProyecto;
+import Modelos.Gestion.GestorPerfil;
+import Modelos.Gestion.Perfil;
 import Util.UtilJtable;
 import javax.swing.JDesktopPane;
 
@@ -16,11 +14,11 @@ import javax.swing.JDesktopPane;
  *
  * @author Pedro
  */
-public class GestorVistaTipoProyecto {
+public class GestorVistaPerfil {
     private JDesktopPane escritorio;
     private boolean actualizacion;
-    FrmTipoProyecto form;  
-    private GestorTipoProyecto gestor; 
+    FrmPerfil form;  
+    private GestorPerfil gestor; 
     private UtilJtable UtilTable= new UtilJtable();
     
     public String revisarFormulario(){
@@ -32,11 +30,11 @@ public class GestorVistaTipoProyecto {
          }
         return mensaje;
     }
-    public FrmTipoProyecto getForm() {
+    public FrmPerfil getForm() {
         return form;
     }
 
-    void guardarTipoProyecto() {
+    void guardarPerfil() {
         this.setActualizacion(false);
         this.setModel();
         this.getGestor().guardarObjeto();
@@ -50,51 +48,51 @@ public class GestorVistaTipoProyecto {
         this.getModel().setNombre(this.getForm().getTxtNombre().getText().toUpperCase());
         this.getModel().setDescripcion(this.getForm().getjTxtDescripcion().getText().toUpperCase());
     }
-    private GestorTipoProyecto getGestor() {
+    private GestorPerfil getGestor() {
         if (gestor == null) {
-           synchronized (GestorTipoProyecto.class) {
-                gestor = new GestorTipoProyecto();
+           synchronized (GestorPerfil.class) {
+                gestor = new GestorPerfil();
            }
         }
         return gestor;
     }
-    private TipoProyecto getModel() {
+    private Perfil getModel() {
         return this.getGestor().getModel();
     }
     
-    void actualizarTipoProyecto() {
+    void actualizarPerfil() {
        this.setActualizacion(true);
        this.setModel();
        this.getGestor().actualizarObjeto();
     }
 
-    void eliminarTipoProyecto() {
+    void eliminarPerfil() {
         this.getGestor().eliminarObjeto();
     }
 
-    boolean buscarTipoProyecto(String nombre) {
-        TipoProyecto tipoProyecto;
-        tipoProyecto = this.getGestor().buscarTipoProyecto(nombre);
-         if(tipoProyecto!=null){
-              this.setModel(tipoProyecto);
-              this.cargarTipoProyecto(tipoProyecto);
+    boolean buscarPerfil(String nombre) {
+        Perfil perfil;
+        perfil = this.getGestor().buscarPerfil(nombre);
+         if(perfil!=null){
+              this.setModel(perfil);
+              this.cargarPerfil(perfil);
          }else{
              return false;
          }
          return true;
     }
 
-    private void setModel(TipoProyecto model) {
+    private void setModel(Perfil model) {
         this.getGestor().setModel(model);
     }
 
-    private void cargarTipoProyecto(TipoProyecto tipoProyecto) {
-        this.getForm().cargarTipoProyecto(tipoProyecto);
+    private void cargarPerfil(Perfil perfil) {
+        this.getForm().cargarPerfil(perfil);
     }
 
-    public void openFormulario(JDesktopPane pantalla, GestorVistaTipoProyecto gestor) {
+    public void openFormulario(JDesktopPane pantalla, GestorVistaPerfil gestor) {
         this.setEscritorio(pantalla);
-        this.setForm(new FrmTipoProyecto(gestor));
+        this.setForm(new FrmPerfil(gestor));
         this.getEscritorio().add(form);
         this.getForm().setVisible(true);
     }
@@ -103,7 +101,7 @@ public class GestorVistaTipoProyecto {
         this.escritorio = pantalla;
     }
 
-    private void setForm(FrmTipoProyecto form) {
+    private void setForm(FrmPerfil form) {
         this.form = form;
     }
 
@@ -118,11 +116,11 @@ public class GestorVistaTipoProyecto {
     public String save(String accion) {
         String dialog="";
         if("Guardar".equals(accion)){
-              this.guardarTipoProyecto();
-              dialog = "Tipo de Proyecto guardado exitosamente.";
+              this.guardarPerfil();
+              dialog = "Perfil guardado exitosamente.";
          }else{
-            this.actualizarTipoProyecto();
-            dialog = "Tipo de Proyecto actualizado exitosamente.";
+            this.actualizarPerfil();
+            dialog = "Perfil actualizado exitosamente.";
          } 
         return dialog;
     }

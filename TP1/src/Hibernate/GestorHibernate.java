@@ -1,5 +1,6 @@
 package Hibernate;
 import Modelos.Gestion.Cliente;
+import Modelos.Gestion.Perfil;
 import Modelos.Gestion.Contacto;
 import Modelos.Gestion.Personal;
 import Modelos.Gestion.Proyecto;

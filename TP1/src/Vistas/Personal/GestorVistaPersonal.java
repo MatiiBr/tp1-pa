@@ -9,6 +9,7 @@ import Modelos.Gestion.Cargo;
 import Modelos.Gestion.GestorPersonal;
 import Modelos.Gestion.Personal;
 import Util.UtilJtable;
+import Vistas.MenuPrincipal.GestorMenuPrincipal;
 import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
@@ -21,6 +22,7 @@ public class GestorVistaPersonal {
     private JDesktopPane escritorio;
     FrmPersonal form;  
     private GestorPersonal gestor; 
+    private GestorMenuPrincipal gestorMenu;
      private UtilJtable UtilTable= new UtilJtable();
     
     public UtilJtable getUtilTable() {
@@ -158,5 +160,21 @@ public class GestorVistaPersonal {
      }
     public void setModelCargo(JComboBox cboCargo) {
        cboCargo.setModel(getGestor().getComboModelCargo());
+    }
+
+    public GestorMenuPrincipal getGestorMenu() {
+        if (gestorMenu == null) {
+           synchronized (GestorMenuPrincipal.class) {
+                gestorMenu = new GestorMenuPrincipal();
+           }
+        }
+        return gestorMenu;
+    }
+
+    public void setGestorMenu(GestorMenuPrincipal gestorMenu) {
+        this.gestorMenu = gestorMenu;
+    }
+    void nuevoPerfil() {
+        this.getGestorMenu().abrirPerfil(this.getEscritorio());
     }
 }

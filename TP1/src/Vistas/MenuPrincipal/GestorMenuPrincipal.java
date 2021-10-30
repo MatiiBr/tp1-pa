@@ -9,7 +9,7 @@ import Vistas.Cliente.GestorVistaCliente;
 import Vistas.Contacto.GestorVistaContacto;
 import Vistas.Personal.GestorVistaPersonal;
 import Vistas.Proyecto.GestorVistaProyecto;
-import Vistas.TipoProyecto.GestorVistaTipoProyecto;
+import Vistas.Perfil.GestorVistaPerfil;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
@@ -61,7 +61,7 @@ public class GestorMenuPrincipal {
      }
      public void abrirTipoProyecto(JDesktopPane escritorio){
          if(this.estaCerrada(escritorio, "Tipo de Proyecto")){
-            GestorVistaTipoProyecto gestorVistaTipoProyecto= new GestorVistaTipoProyecto();
+            GestorVistaPerfil gestorVistaTipoProyecto= new GestorVistaPerfil();
             gestorVistaTipoProyecto.openFormulario(escritorio, gestorVistaTipoProyecto);
          }else{
                this.mostrarMensajeVentanaAbierta("Tipo de Proyecto");
@@ -82,5 +82,14 @@ public class GestorMenuPrincipal {
     
     public void mostrarMensajeVentanaAbierta(String msg){
         JOptionPane.showMessageDialog(null, "La ventana "+msg+" ya esta abierta");
+    }
+
+    public void abrirPerfil(JDesktopPane escritorio) {
+        if(this.estaCerrada(escritorio, "Tipo de Proyecto")){
+            GestorVistaPerfil gestorVistaTipoProyecto= new GestorVistaPerfil();
+            gestorVistaTipoProyecto.openFormulario(escritorio, gestorVistaTipoProyecto);
+         }else{
+               this.mostrarMensajeVentanaAbierta("Tipo de Proyecto");
+         }
     }
 }

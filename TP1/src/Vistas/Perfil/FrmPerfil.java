@@ -4,10 +4,9 @@
  * and open the template in the editor.
  */
 
-package Vistas.TipoProyecto;
+package Vistas.Perfil;
 
-import Vistas.TipoProyecto.GestorVistaTipoProyecto;
-import Modelos.Gestion.TipoProyecto;
+import Modelos.Gestion.Perfil;
 import Vistas.Proyecto.GestorVistaProyecto;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -20,37 +19,37 @@ import javax.swing.JTextField;
  *
  * @author Usuario
  */
-public class FrmTipoProyecto extends javax.swing.JInternalFrame {
+public class FrmPerfil extends javax.swing.JInternalFrame {
 
-    /** Creates new form FrmTipoProyectoo */
-     private GestorVistaTipoProyecto gestorTipoProyecto;
+    /** Creates new form FrmPerfil  */
+     private GestorVistaPerfil gestorPerfil;
      private int YES_NO_OPTION;
      private boolean formValido = true;
     /**
-     * Creates new form FrmTipoProyecto
+     * Creates new form FrmPerfil
      */
-    public FrmTipoProyecto() {
+    public FrmPerfil() {
         initComponents();
     }
 
-    FrmTipoProyecto(GestorVistaTipoProyecto gestor) {
+    FrmPerfil(GestorVistaPerfil gestor) {
         try{
            initComponents();
            }
            catch(Exception e){
             
         }  
-        this.setGestorVistaTipoProyecto(gestor);
-        this.getGestorVistaTipoProyecto().newModel();
+        this.setGestorVistaPerfil(gestor);
+        this.getGestorVistaPerfil().newModel();
         this.vistaInicio();
     }
 
-    public GestorVistaTipoProyecto getGestorVistaTipoProyecto() {
-        return gestorTipoProyecto;
+    public GestorVistaPerfil getGestorVistaPerfil() {
+        return gestorPerfil;
     }
 
-    public void setGestorVistaTipoProyecto(GestorVistaTipoProyecto gestorTipoProyecto) {
-        this.gestorTipoProyecto = gestorTipoProyecto;
+    public void setGestorVistaPerfil(GestorVistaPerfil gestorPerfil) {
+        this.gestorPerfil = gestorPerfil;
     }
 
     public boolean isFormValido() {
@@ -125,12 +124,12 @@ public class FrmTipoProyecto extends javax.swing.JInternalFrame {
         this.jTxtDescripcion = jTxtDescripcion;
     }
 
-    public JPanel getPanelTipoProyecto() {
-        return panelTipoProyecto;
+    public JPanel getPanelPerfil() {
+        return panelPerfil;
     }
 
-    public void setPanelTipoProyecto(JPanel panelTipoProyecto) {
-        this.panelTipoProyecto = panelTipoProyecto;
+    public void setPanelPerfil(JPanel panelPerfil) {
+        this.panelPerfil = panelPerfil;
     }
 
     public JTextField getTxtNombre() {
@@ -148,7 +147,7 @@ public class FrmTipoProyecto extends javax.swing.JInternalFrame {
     public void setLblNombreRequerido(JLabel lblNombreRequerido) {
         this.lblNombreRequerido = lblNombreRequerido;
     }
- private void nuevoTipoProyecto() {
+ private void nuevoPerfil() {
         this.limpiarPantalla();
         this.vistaNuevoProyecto();
         this.botonesNuevo();
@@ -180,8 +179,8 @@ public class FrmTipoProyecto extends javax.swing.JInternalFrame {
         btnGuardar.setText("Actualizar");
     }
 
-    private void guardarTipoProyecto() {
-        String dialog = this.getGestorVistaTipoProyecto().save(btnGuardar.getText());
+    private void guardarPerfil() {
+        String dialog = this.getGestorVistaPerfil().save(btnGuardar.getText());
         this.limpiarPantalla();
         this.vistaInicio();
         this.botonesInicio();
@@ -204,8 +203,8 @@ public class FrmTipoProyecto extends javax.swing.JInternalFrame {
         btnBuscar.setEnabled(true);
     }    
 
-    private void eliminarTipoProyecto() {
-        this.getGestorVistaTipoProyecto().eliminarTipoProyecto();
+    private void eliminarPerfil() {
+        this.getGestorVistaPerfil().eliminarPerfil();
         this.vistaInicio();
         this.limpiarPantalla();
         this.botonesInicio();
@@ -218,13 +217,13 @@ public class FrmTipoProyecto extends javax.swing.JInternalFrame {
         this.botonesInicio();
     }
 
-    private void buscarTipoProyecto() {
+    private void buscarPerfil() {
         if(this.txtNombre.getText().isBlank()){
-             JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de Tipo de Proyecto antes de buscar.","Validación de Datos",JOptionPane.WARNING_MESSAGE);
+             JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de Perfil antes de buscar.","Validación de Datos",JOptionPane.WARNING_MESSAGE);
              this.limpiarPantalla();
          }else{
-            if(!this.getGestorVistaTipoProyecto().buscarTipoProyecto(txtNombre.getText().toUpperCase())){
-                JOptionPane.showMessageDialog(null, "No se encontro un Tipo de Proyecto con el nombre ingresado.","Validación de Datos",JOptionPane.WARNING_MESSAGE);
+            if(!this.getGestorVistaPerfil().buscarPerfil(txtNombre.getText().toUpperCase())){
+                JOptionPane.showMessageDialog(null, "No se encontro un Perfil con el nombre ingresado.","Validación de Datos",JOptionPane.WARNING_MESSAGE);
                 this.limpiarPantalla();
             }else{
                 this.botonesListado();
@@ -242,11 +241,11 @@ public class FrmTipoProyecto extends javax.swing.JInternalFrame {
         btnBuscar.setEnabled(false);
     }
 
-    void cargarTipoProyecto(TipoProyecto tipoProyecto) {
+    void cargarPerfil(Perfil perfil) {
         this.limpiarPantalla();
         this.vistaInicio();
-        txtNombre.setText(tipoProyecto.getNombre());
-        jTxtDescripcion.setText(tipoProyecto.getDescripcion());
+        txtNombre.setText(perfil.getNombre());
+        jTxtDescripcion.setText(perfil.getDescripcion());
     }
     /** This method is called from within the constructor to
      * initialize the form.
@@ -265,7 +264,7 @@ public class FrmTipoProyecto extends javax.swing.JInternalFrame {
         jPanel5 = new javax.swing.JPanel();
         btnCancelar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
-        panelTipoProyecto = new javax.swing.JPanel();
+        panelPerfil = new javax.swing.JPanel();
         lblNombre = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
@@ -276,8 +275,9 @@ public class FrmTipoProyecto extends javax.swing.JInternalFrame {
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setClosable(true);
-        setTitle("Tipo de Proyecto");
-        setToolTipText("Tipo de Proyecto");
+        setTitle("Perfil");
+        setToolTipText("Perfil");
+        setEnabled(false);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
@@ -384,7 +384,7 @@ public class FrmTipoProyecto extends javax.swing.JInternalFrame {
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        panelTipoProyecto.setBorder(javax.swing.BorderFactory.createTitledBorder("Tipo de Proyecto"));
+        panelPerfil.setBorder(javax.swing.BorderFactory.createTitledBorder("Perfil"));
 
         lblNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblNombre.setText("Nombre: ");
@@ -421,44 +421,44 @@ public class FrmTipoProyecto extends javax.swing.JInternalFrame {
         lblNombreRequerido.setForeground(new java.awt.Color(255, 0, 51));
         lblNombreRequerido.setText("  ");
 
-        javax.swing.GroupLayout panelTipoProyectoLayout = new javax.swing.GroupLayout(panelTipoProyecto);
-        panelTipoProyecto.setLayout(panelTipoProyectoLayout);
-        panelTipoProyectoLayout.setHorizontalGroup(
-            panelTipoProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTipoProyectoLayout.createSequentialGroup()
+        javax.swing.GroupLayout panelPerfilLayout = new javax.swing.GroupLayout(panelPerfil);
+        panelPerfil.setLayout(panelPerfilLayout);
+        panelPerfilLayout.setHorizontalGroup(
+            panelPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPerfilLayout.createSequentialGroup()
                 .addContainerGap(42, Short.MAX_VALUE)
-                .addGroup(panelTipoProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelTipoProyectoLayout.createSequentialGroup()
+                .addGroup(panelPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelPerfilLayout.createSequentialGroup()
                         .addComponent(lblNombre1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelTipoProyectoLayout.createSequentialGroup()
+                    .addGroup(panelPerfilLayout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addComponent(lblNombre)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(panelTipoProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblNombreRequerido)
-                            .addGroup(panelTipoProyectoLayout.createSequentialGroup()
+                            .addGroup(panelPerfilLayout.createSequentialGroup()
                                 .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnBuscar)))))
                 .addGap(290, 290, 290))
         );
-        panelTipoProyectoLayout.setVerticalGroup(
-            panelTipoProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelTipoProyectoLayout.createSequentialGroup()
+        panelPerfilLayout.setVerticalGroup(
+            panelPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPerfilLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelTipoProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelTipoProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtNombre)
                         .addComponent(btnBuscar))
-                    .addGroup(panelTipoProyectoLayout.createSequentialGroup()
+                    .addGroup(panelPerfilLayout.createSequentialGroup()
                         .addComponent(lblNombre)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(1, 1, 1)
                 .addComponent(lblNombreRequerido)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelTipoProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblNombre1)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38))
@@ -474,18 +474,20 @@ public class FrmTipoProyecto extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
                 .addContainerGap())
-            .addComponent(panelTipoProyecto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelPerfil, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(panelTipoProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
+
+        panelPerfil.getAccessibleContext().setAccessibleName("Perfil");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -499,11 +501,11 @@ public class FrmTipoProyecto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtNombreKeyTyped
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        this.buscarTipoProyecto();
+        this.buscarPerfil();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        this.nuevoTipoProyecto();
+        this.nuevoPerfil();
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
@@ -511,10 +513,10 @@ public class FrmTipoProyecto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        String mensaje = this.getGestorVistaTipoProyecto().revisarFormulario();
+        String mensaje = this.getGestorVistaPerfil().revisarFormulario();
         if(this.formValido){
-            if (JOptionPane.showConfirmDialog(null, ("Guardar".equals(btnGuardar.getText())) ? "¿Desea guardar el Tipo de Proyecto?":"¿Desea actualizar el Tipo de Proyecto?","Atencion", YES_NO_OPTION) == 0 )
-            this.guardarTipoProyecto();
+            if (JOptionPane.showConfirmDialog(null, ("Guardar".equals(btnGuardar.getText())) ? "¿Desea guardar el Perfil?":"¿Desea actualizar el Perfil?","Atencion", YES_NO_OPTION) == 0 )
+            this.guardarPerfil();
         }else{
             JOptionPane.showMessageDialog(null, "Error al enviar el formulario."+mensaje+" ");
             this.formValido = true;
@@ -523,8 +525,8 @@ public class FrmTipoProyecto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        if (JOptionPane.showConfirmDialog(null, "¿Desea eliminar el Tipo de Proyecto seleccionado?","Atencion", YES_NO_OPTION) == 0 )
-        this.eliminarTipoProyecto();
+        if (JOptionPane.showConfirmDialog(null, "¿Desea eliminar el Perfil seleccionado?","Atencion", YES_NO_OPTION) == 0 )
+        this.eliminarPerfil();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -551,7 +553,7 @@ public class FrmTipoProyecto extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblNombre1;
     private javax.swing.JLabel lblNombreRequerido;
-    private javax.swing.JPanel panelTipoProyecto;
+    private javax.swing.JPanel panelPerfil;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 
