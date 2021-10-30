@@ -16,6 +16,8 @@ import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 /**
  *
@@ -243,5 +245,21 @@ public class GestorVistaProyecto {
     public void nuevoTipoProyecto(){
         this.getGestorMenu().abrirTipoProyecto(this.getEscritorio());
     }
+    public String save(String accion) {
+        String dialog="";
+        if("Guardar".equals(accion)){
+              this.guardarProyecto();
+              dialog = "Proyecto guardado exitosamente.";
+         }else{
+            this.actualizarProyecto();
+            dialog = "Proyecto actualizado exitosamente.";
+         } 
+        return dialog;
+    }
+    
+    public void cargarTabla(JTable tabla){
+        tabla.setModel(this.getGestor().consultarProyectos());
+    }
+    
     
 }

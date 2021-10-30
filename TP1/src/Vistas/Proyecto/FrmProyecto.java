@@ -12,6 +12,8 @@ import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 /**
@@ -36,7 +38,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         this.setGestorVistaProyecto(gestorProyecto);
         this.getGestorVistaProyecto().newModel();
         this.cargarCombos();
-        
+        this.getGestorVistaProyecto().cargarTabla(this.getTblProyectos());
     }
 
     public JComboBox getCboCliente() {
@@ -106,7 +108,23 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     public void setFormValido(boolean formValido){
         this.formValido = formValido;
     }
-    
+
+    public JScrollPane getScrProyectos() {
+        return scrProyectos;
+    }
+
+    public void setScrProyectos(JScrollPane scrProyectos) {
+        this.scrProyectos = scrProyectos;
+    }
+
+    public JTable getTblProyectos() {
+        return tblProyectos;
+    }
+
+    public void setTblProyectos(JTable tblProyectos) {
+        this.tblProyectos = tblProyectos;
+    }
+
     public FrmProyecto() {
         initComponents();
     }
@@ -205,17 +223,11 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         btnBuscar.setEnabled(false);
      }
      public void guardarProyecto(){
-         String dialog;
-         if("Guardar".equals(btnGuardar.getText())){
-              this.getGestorVistaProyecto().guardarProyecto();
-              dialog = "Proyecto guardado exitosamente.";
-         }else{
-            this.getGestorVistaProyecto().actualizarProyecto();
-            dialog = "Proyecto actualizado exitosamente.";
-         }
+         String dialog = this.getGestorVistaProyecto().save(btnGuardar.getText());
         this.limpiarPantalla();
         this.vistaInicio();
         this.botonesInicio();
+        this.getGestorVistaProyecto().cargarTabla(this.getTblProyectos());
         JOptionPane.showMessageDialog(null, dialog);
     }
      
@@ -238,6 +250,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
          this.vistaInicio();
          this.limpiarPantalla();
          this.botonesInicio();
+         this.getGestorVistaProyecto().cargarTabla(this.getTblProyectos());
          JOptionPane.showMessageDialog(null, "Proyecto eliminado exitosamente");
      }
      
@@ -273,6 +286,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
      public void nuevoTipoProyecto(){
         this.getGestorVistaProyecto().nuevoTipoProyecto();
     }
+     
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -296,6 +310,8 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         btnCliente = new javax.swing.JButton();
         btnPersonal = new javax.swing.JButton();
         btnTipoProyecto = new javax.swing.JButton();
+        scrProyectos = new javax.swing.JScrollPane();
+        tblProyectos = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
@@ -437,6 +453,19 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
             }
         });
 
+        tblProyectos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        scrProyectos.setViewportView(tblProyectos);
+
         javax.swing.GroupLayout panelProyectoLayout = new javax.swing.GroupLayout(panelProyecto);
         panelProyecto.setLayout(panelProyectoLayout);
         panelProyectoLayout.setHorizontalGroup(
@@ -461,42 +490,47 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                             .addComponent(btnBuscar)
                             .addComponent(btnCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnTipoProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnTipoProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(scrProyectos, javax.swing.GroupLayout.PREFERRED_SIZE, 668, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelProyectoLayout.createSequentialGroup()
                         .addGap(161, 161, 161)
                         .addComponent(lblNombreRequerido)))
-                .addContainerGap(253, Short.MAX_VALUE))
+                .addGap(39, 39, 39))
         );
         panelProyectoLayout.setVerticalGroup(
             panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelProyectoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNombre)
-                    .addComponent(txtNombre)
-                    .addComponent(btnBuscar))
-                .addGap(27, 27, 27)
                 .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblTipoProyecto)
-                        .addComponent(cboTipoProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnTipoProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelProyectoLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblNombre)
+                            .addComponent(txtNombre)
+                            .addComponent(btnBuscar))
+                        .addGap(27, 27, 27)
                         .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lblFechaConfirmacion2)
-                                .addComponent(cboCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
-                        .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblFechaConfirmacion3)
-                            .addComponent(cboPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(btnPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(lblTipoProyecto)
+                                .addComponent(cboTipoProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnTipoProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(panelProyectoLayout.createSequentialGroup()
+                                .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(lblFechaConfirmacion2)
+                                        .addComponent(cboCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btnCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(12, 12, 12)
+                                .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblFechaConfirmacion3)
+                                    .addComponent(cboPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(scrProyectos, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(23, 23, 23)
                 .addComponent(lblNombreRequerido)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(210, 210, 210))
         );
 
         cboTipoProyecto.getAccessibleContext().setAccessibleName("");
@@ -710,7 +744,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                     .addComponent(panelProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 594, Short.MAX_VALUE)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(panelFechas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -726,7 +760,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         panelProyecto.getAccessibleContext().setAccessibleName("Descripcion");
@@ -859,6 +893,8 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblTipoProyecto;
     private javax.swing.JPanel panelFechas;
     private javax.swing.JPanel panelProyecto;
+    private javax.swing.JScrollPane scrProyectos;
+    private javax.swing.JTable tblProyectos;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }
