@@ -30,6 +30,6 @@ public class Personal extends Persona implements Serializable {
     
     @Override
     public String toString() {
-        return this.getNombre() + " " + this.getApellido() + " - " + this.getCargo();
+        return this.getNombre() + " " + this.getApellido();
     }
 }
