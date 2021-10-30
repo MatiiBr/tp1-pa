@@ -133,18 +133,6 @@ public class GestorVistaProyecto {
        this.getGestor().actualizarObjeto();
    }
     
-     public boolean buscarProyecto(String nombre) {
-        Proyecto proyecto;
-        proyecto = this.getGestor().buscarProyecto(nombre);
-         if(proyecto!=null){
-              this.setModel(proyecto);
-              this.cargarProyecto(proyecto);
-         }else{
-             return false;
-         }
-         return true;
-    }
-    
      public void cargarProyecto(Proyecto proyecto){
          this.getForm().cargarProyecto(proyecto);
      }
@@ -261,5 +249,8 @@ public class GestorVistaProyecto {
         tabla.setModel(this.getGestor().consultarProyectos());
     }
     
+     public void buscarProyecto(String nombre) {
+       this.getForm().getTblProyectos().setModel(this.getGestor().consultarProyectosPorNombre(nombre));
+    }
     
 }
