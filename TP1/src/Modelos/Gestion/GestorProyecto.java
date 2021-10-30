@@ -135,7 +135,7 @@ public class GestorProyecto extends GestorHibernate {
        }
          
          public DefaultTableModel  consultarProyectos() {
-                List proyectos = this.buscarProyectos(Proyecto.class);
+                List proyectos = this.listarClase(Proyecto.class);
                 String[] titulos = {"ID", "Nombre", "Tipo de Proyecto", "Cliente", "Personal"};
                 DefaultTableModel modelo = new DefaultTableModel(null, titulos);
                 String[] registros = new String[5];

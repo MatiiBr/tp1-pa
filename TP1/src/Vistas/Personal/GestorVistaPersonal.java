@@ -13,6 +13,7 @@ import Vistas.MenuPrincipal.GestorMenuPrincipal;
 import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
+import javax.swing.JList;
 
 /**
  *
@@ -174,7 +175,10 @@ public class GestorVistaPersonal {
     public void setGestorMenu(GestorMenuPrincipal gestorMenu) {
         this.gestorMenu = gestorMenu;
     }
-    void nuevoPerfil() {
+    public void nuevoPerfil() {
         this.getGestorMenu().abrirPerfil(this.getEscritorio());
+    }
+    public void buscarPerfiles() {
+        this.getForm().getListPerfilesIzq().setModel(this.getGestor().buscarPerfiles());
     }
 }

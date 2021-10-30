@@ -76,15 +76,6 @@ public class GestorHibernate extends HibernateUtil {
         }
         return (Proyecto) crit.list().get(0);
      }
-     
-      public List buscarProyectos(Class clase){
-         Criteria crit = getSession().createCriteria(clase);
-        if (crit.list().isEmpty()){
-            return null;
-        }
-        return crit.list();
-     }
-     
       public Cliente buscarCliente(Class clase, String valor){        
          System.out.println(valor);
          Criteria crit = getSession().createCriteria(clase)
@@ -123,6 +114,9 @@ public class GestorHibernate extends HibernateUtil {
      }
      public List listarClase(Class clase){
         Criteria crit = getSession().createCriteria(clase);
+        if (crit.list().isEmpty()){
+            return null;
+        }
         return crit.list();
     }
        /*public List buscarContacto(Class clase, String valor){        
@@ -144,4 +138,5 @@ public class GestorHibernate extends HibernateUtil {
     public void setTx(Transaction tx) {
         this.tx = tx;
     }
+    
 }

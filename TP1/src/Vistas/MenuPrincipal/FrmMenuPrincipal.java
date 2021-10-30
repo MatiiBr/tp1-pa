@@ -42,6 +42,7 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
         menuItemContacto = new javax.swing.JMenuItem();
         menuItemCliente = new javax.swing.JMenuItem();
         menuItemPersonal = new javax.swing.JMenuItem();
+        menuItemPerfil = new javax.swing.JMenuItem();
         menuItemProyecto = new javax.swing.JMenuItem();
         menuItemTipoProyecto = new javax.swing.JMenuItem();
 
@@ -85,6 +86,14 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
             }
         });
         menuMenu.add(menuItemPersonal);
+
+        menuItemPerfil.setText("Perfil");
+        menuItemPerfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemPerfilActionPerformed(evt);
+            }
+        });
+        menuMenu.add(menuItemPerfil);
 
         menuItemProyecto.setText("Proyecto");
         menuItemProyecto.addActionListener(new java.awt.event.ActionListener() {
@@ -140,6 +149,10 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
        this.gestorMenuPrincipal.abrirTipoProyecto(getEscritorio());
     }//GEN-LAST:event_menuItemTipoProyectoActionPerformed
 
+    private void menuItemPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemPerfilActionPerformed
+        this.gestorMenuPrincipal.abrirPerfil(getEscritorio());
+    }//GEN-LAST:event_menuItemPerfilActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -180,6 +193,7 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JDesktopPane escritorio;
     private javax.swing.JMenuItem menuItemCliente;
     private javax.swing.JMenuItem menuItemContacto;
+    private javax.swing.JMenuItem menuItemPerfil;
     private javax.swing.JMenuItem menuItemPersonal;
     private javax.swing.JMenuItem menuItemProyecto;
     private javax.swing.JMenuItem menuItemTipoProyecto;
