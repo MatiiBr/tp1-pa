@@ -6,8 +6,10 @@
 package Modelos.Gestion;
 
 import Hibernate.GestorHibernate;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -71,4 +73,18 @@ public class GestorPersonal extends GestorHibernate {
        public DefaultComboBoxModel getComboModelCargo() {
             return this.getGestorCargo().getComboModel();
        }
+    public DefaultListModel buscarPerfiles(){
+        List perfiles = this.listarClase(Perfil.class);
+        if (perfiles!=null) {
+            DefaultListModel modelo = new DefaultListModel();
+            String[] registros = new String[1];
+            for (Iterator it = perfiles.iterator(); it.hasNext();) {
+                Perfil perfil = (Perfil) it.next();
+                 registros[0] = perfil.getNombre();
+                 modelo.addElement(registros);
+            }
+            return modelo;    
+        }
+        return null;
+    }
 }

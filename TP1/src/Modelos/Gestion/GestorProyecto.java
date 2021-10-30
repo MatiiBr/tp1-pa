@@ -154,7 +154,7 @@ public class GestorProyecto extends GestorHibernate {
            return modelo;
          }
          public DefaultTableModel  consultarProyectos() {
-            List proyectos = this.buscarProyectos(Proyecto.class);
+            List proyectos = this.listarClase(Proyecto.class);
             if(proyectos != null){
                return this.crearTabla(proyectos);
             }

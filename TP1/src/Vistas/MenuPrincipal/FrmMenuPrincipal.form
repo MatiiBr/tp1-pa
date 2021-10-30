@@ -33,6 +33,14 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItemPersonalActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="menuItemPerfil">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Perfil"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItemPerfilActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menuItemProyecto">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Proyecto"/>

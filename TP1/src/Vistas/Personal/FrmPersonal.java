@@ -8,6 +8,7 @@ import Modelos.Gestion.Personal;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -30,8 +31,26 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
             
         }  
         this.setGestorVistaPersonal(gestorPersonal);
+        this.getGestorVistaPersonal().buscarPerfiles();
+     
     }
 
+    public JList<String> getListPerfilesDer() {
+        return listPerfilesDer;
+    }
+
+    public void setListPerfilesDer(JList<String> listPerfilesDer) {
+        this.listPerfilesDer = listPerfilesDer;
+    }
+
+    public JList<String> getListPerfilesIzq() {
+        return listPerfilesIzq;
+    }
+
+    public void setListPerfilesIzq(JList<String> listPerfilesIzq) {
+        this.listPerfilesIzq = listPerfilesIzq;
+    }
+    
     public JTextField getTxtApellido() {
         return txtApellido;
     }
@@ -240,9 +259,9 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
         btnPerfil = new javax.swing.JButton();
         lblCargo1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        listPerfilesDer = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
+        listPerfilesIzq = new javax.swing.JList<>();
         btnFlechaSacar = new javax.swing.JButton();
         btnFlechaAgregar1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -373,21 +392,21 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
         lblCargo1.setText("Perfil:");
         jPanel1.add(lblCargo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 210, -1, -1));
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        listPerfilesDer.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(listPerfilesDer);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 250, 90, -1));
 
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
+        listPerfilesIzq.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane2.setViewportView(jList2);
+        jScrollPane2.setViewportView(listPerfilesIzq);
 
         jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, 90, -1));
 
@@ -515,7 +534,7 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 482, Short.MAX_VALUE))
+                .addGap(0, 473, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -616,8 +635,6 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<String> cboCargo;
     private com.toedter.calendar.JDateChooser inpFechaNacimiento;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JList<String> jList2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -631,6 +648,8 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblFechaNacimientoRequerido;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblNombreRequerido;
+    private javax.swing.JList<String> listPerfilesDer;
+    private javax.swing.JList<String> listPerfilesIzq;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
