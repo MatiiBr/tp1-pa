@@ -26,7 +26,6 @@ public class HibernateUtil {
             
             conf.setProperty("hibernate.connection.username","postgres");
             conf.setProperty("hibernate.connection.password","root");
-
             conf.setProperty("hibernate.connection.pool_size","10");                          
             conf.setProperty("hibernate.hbm2ddl.auto","update");
 
@@ -39,13 +38,13 @@ public class HibernateUtil {
             conf.addAnnotatedClass(Modelos.Gestion.Cargo.class);
             conf.addAnnotatedClass(Modelos.Gestion.Personal.class);
             conf.addAnnotatedClass(Modelos.Gestion.Perfil.class);
-            
             try {
                     sessionFactory = conf.buildSessionFactory();
                     session=sessionFactory.openSession();
                 }
                 catch(HibernateException e){
                     JOptionPane.showMessageDialog(null, e);
+                    System.out.println(e);
                 }
         } catch (HeadlessException ex) {
             throw new ExceptionInInitializerError(ex);

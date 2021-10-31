@@ -76,6 +76,16 @@ public class GestorHibernate extends HibernateUtil {
         }
         return (Proyecto) crit.list().get(0);
      }
+      
+      public List buscarProyectosPorNombre(Class clase, String valor){
+         Criteria crit = getSession().createCriteria(clase)
+                 .add( Restrictions.like("nombre",  "%"+valor+"%"));;
+        if (crit.list().isEmpty()){
+            return null;
+        }
+        return crit.list();
+     }
+      
       public Cliente buscarCliente(Class clase, String valor){        
          System.out.println(valor);
          Criteria crit = getSession().createCriteria(clase)

@@ -38,7 +38,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         this.setGestorVistaProyecto(gestorProyecto);
         this.getGestorVistaProyecto().newModel();
         this.cargarCombos();
-        this.getGestorVistaProyecto().cargarTabla(this.getTblProyectos());
+        this.getGestorVistaProyecto().cargarTabla(this.tblProyectos);
     }
 
     public JComboBox getCboCliente() {
@@ -227,22 +227,12 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         this.limpiarPantalla();
         this.vistaInicio();
         this.botonesInicio();
-        this.getGestorVistaProyecto().cargarTabla(this.getTblProyectos());
+        this.getGestorVistaProyecto().cargarTabla(this.tblProyectos);
         JOptionPane.showMessageDialog(null, dialog);
     }
      
      public void buscarProyecto(){
-         if(this.txtNombre.getText().isBlank()){
-             JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de proyecto antes de buscar.");
-             this.limpiarPantalla();
-         }else{
-            if(!this.getGestorVistaProyecto().buscarProyecto(txtNombre.getText().toUpperCase())){
-                JOptionPane.showMessageDialog(null, "No se encontro un proyecto con el nombre ingresado.");
-                this.limpiarPantalla();
-            }else{
-                this.botonesListado();
-            };
-         }
+         this.getGestorVistaProyecto().buscarProyecto(this.txtBuscarNombre.getText().toUpperCase());
      }
      
      public void eliminarProyecto(){
@@ -250,7 +240,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
          this.vistaInicio();
          this.limpiarPantalla();
          this.botonesInicio();
-         this.getGestorVistaProyecto().cargarTabla(this.getTblProyectos());
+         this.getGestorVistaProyecto().cargarTabla(this.tblProyectos);
          JOptionPane.showMessageDialog(null, "Proyecto eliminado exitosamente");
      }
      
@@ -299,7 +289,6 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         panelProyecto = new javax.swing.JPanel();
         lblNombre = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
-        btnBuscar = new javax.swing.JButton();
         lblNombreRequerido = new javax.swing.JLabel();
         lblTipoProyecto = new javax.swing.JLabel();
         cboTipoProyecto = new javax.swing.JComboBox();
@@ -331,6 +320,9 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         lblNombreRequerido1 = new javax.swing.JLabel();
         scrProyectos = new javax.swing.JScrollPane();
         tblProyectos = new javax.swing.JTable();
+        cboFiltros = new javax.swing.JComboBox<>();
+        txtBuscarNombre = new javax.swing.JTextField();
+        btnBuscar = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setClosable(true);
@@ -361,15 +353,6 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
             }
         });
         panelProyecto.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 28, 139, -1));
-
-        btnBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnBuscar.setText("Buscar");
-        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarActionPerformed(evt);
-            }
-        });
-        panelProyecto.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(307, 27, -1, -1));
 
         lblNombreRequerido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblNombreRequerido.setForeground(new java.awt.Color(204, 0, 51));
@@ -645,7 +628,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                             .addComponent(inpFechaConfirmacion, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblFechaCargaDato))
                         .addGap(1, 1, 1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
         panelFechasLayout.setVerticalGroup(
             panelFechasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -690,9 +673,44 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblProyectos.setEnabled(false);
         scrProyectos.setViewportView(tblProyectos);
 
         panelProyecto1.add(scrProyectos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 700, 350));
+
+        cboFiltros.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Tipo Proyecto", "Cliente", "Personal" }));
+        cboFiltros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboFiltrosActionPerformed(evt);
+            }
+        });
+        panelProyecto1.add(cboFiltros, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 160, 30));
+
+        txtBuscarNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtBuscarNombre.setToolTipText("Nombre");
+        txtBuscarNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBuscarNombreActionPerformed(evt);
+            }
+        });
+        txtBuscarNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscarNombreKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBuscarNombreKeyTyped(evt);
+            }
+        });
+        panelProyecto1.add(txtBuscarNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, 340, 30));
+
+        btnBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+        panelProyecto1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, 90, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -711,7 +729,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(panelFechas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(panelProyecto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE))
+                            .addComponent(panelProyecto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -782,10 +800,6 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_inpFechaConfirmacionPropertyChange
 
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        this.buscarProyecto();
-    }//GEN-LAST:event_btnBuscarActionPerformed
-
     private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
         this.lblNombreRequerido.setText(" ");
     }//GEN-LAST:event_txtNombreKeyTyped
@@ -830,6 +844,26 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         this.cargarPersonal();
     }//GEN-LAST:event_cboPersonalPopupMenuWillBecomeVisible
 
+    private void cboFiltrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboFiltrosActionPerformed
+        System.out.println("Vistas.Proyecto.FrmProyecto.cboFiltrosActionPerformed()");
+    }//GEN-LAST:event_cboFiltrosActionPerformed
+
+    private void txtBuscarNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarNombreActionPerformed
+
+    private void txtBuscarNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarNombreKeyTyped
+       
+    }//GEN-LAST:event_txtBuscarNombreKeyTyped
+
+    private void txtBuscarNombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarNombreKeyReleased
+        this.buscarProyecto();
+    }//GEN-LAST:event_txtBuscarNombreKeyReleased
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        this.buscarProyecto();
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
@@ -843,6 +877,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnTipoProyecto;
     private javax.swing.JComboBox<String> cboCliente;
+    private javax.swing.JComboBox<String> cboFiltros;
     private javax.swing.JComboBox<String> cboPersonal;
     private javax.swing.JComboBox cboTipoProyecto;
     private com.toedter.calendar.JDateChooser inpFechaConfirmacion;
@@ -866,6 +901,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     private javax.swing.JPanel panelProyecto1;
     private javax.swing.JScrollPane scrProyectos;
     private javax.swing.JTable tblProyectos;
+    private javax.swing.JTextField txtBuscarNombre;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }
