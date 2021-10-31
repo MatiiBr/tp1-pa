@@ -25,7 +25,7 @@ public class HibernateUtil {
             }
             
             conf.setProperty("hibernate.connection.username","postgres");
-            conf.setProperty("hibernate.connection.password","noloypola12");
+            conf.setProperty("hibernate.connection.password","root");
 
             conf.setProperty("hibernate.connection.pool_size","10");                          
             conf.setProperty("hibernate.hbm2ddl.auto","update");
