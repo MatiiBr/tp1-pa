@@ -21,6 +21,7 @@ public class Proyecto {
         private String nombre; 
      
     @Column(name="fechaEntrega", columnDefinition = "Date")
+    @Temporal(javax.persistence.TemporalType.DATE)
        private Date fechaEntrega; 
 
     @Column(name="fechaCarga", columnDefinition = "Date")

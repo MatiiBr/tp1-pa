@@ -7,10 +7,13 @@ package Vistas.Proyecto;
 
 import Modelos.Gestion.Proyecto;
 import com.toedter.calendar.JDateChooser;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 /**
@@ -21,6 +24,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
      private GestorVistaProyecto gestorProyecto;
      private int YES_NO_OPTION;
      private boolean formValido = true;
+     SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
     /**
      * Creates new form FrmContacto
      */
@@ -34,7 +38,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         this.setGestorVistaProyecto(gestorProyecto);
         this.getGestorVistaProyecto().newModel();
         this.cargarCombos();
-        
+        this.getGestorVistaProyecto().cargarTabla(this.tblProyectos);
     }
 
     public JComboBox getCboCliente() {
@@ -104,7 +108,23 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     public void setFormValido(boolean formValido){
         this.formValido = formValido;
     }
-    
+
+    public JScrollPane getScrProyectos() {
+        return scrProyectos;
+    }
+
+    public void setScrProyectos(JScrollPane scrProyectos) {
+        this.scrProyectos = scrProyectos;
+    }
+
+    public JTable getTblProyectos() {
+        return tblProyectos;
+    }
+
+    public void setTblProyectos(JTable tblProyectos) {
+        this.tblProyectos = tblProyectos;
+    }
+
     public FrmProyecto() {
         initComponents();
     }
@@ -136,7 +156,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         this.limpiarPantalla();
         this.vistaInicio();
         txtNombre.setText(proyecto.getNombre());
-        lblFechaCargaDato.setText(proyecto.getFechaCarga().toString());
+        lblFechaCargaDato.setText(sdf.format(proyecto.getFechaCarga()));
         inpFechaEntrega.setDate(proyecto.getFechaEntrega());
         inpFechaTerminacion.setDate(proyecto.getFechaTerminacion());
         inpFechaConfirmacion.setDate(proyecto.getFechaConfirmacion());
@@ -161,7 +181,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         this.cboPersonal.setEnabled(true);
         this.cboTipoProyecto.setEnabled(true);
         this.txtNombre.setEnabled(true);
-        this.lblFechaCargaDato.setText(new Date().toString());
+        this.lblFechaCargaDato.setText(sdf.format(new Date()));
     }
     
     public void limpiarPantalla(){
@@ -203,32 +223,16 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         btnBuscar.setEnabled(false);
      }
      public void guardarProyecto(){
-         String dialog;
-         if("Guardar".equals(btnGuardar.getText())){
-              this.getGestorVistaProyecto().guardarProyecto();
-              dialog = "Proyecto guardado exitosamente.";
-         }else{
-            this.getGestorVistaProyecto().actualizarProyecto();
-            dialog = "Proyecto actualizado exitosamente.";
-         }
+         String dialog = this.getGestorVistaProyecto().save(btnGuardar.getText());
         this.limpiarPantalla();
         this.vistaInicio();
         this.botonesInicio();
+        this.getGestorVistaProyecto().cargarTabla(this.tblProyectos);
         JOptionPane.showMessageDialog(null, dialog);
     }
      
      public void buscarProyecto(){
-         if(this.txtNombre.getText().isBlank()){
-             JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de proyecto antes de buscar.");
-             this.limpiarPantalla();
-         }else{
-            if(!this.getGestorVistaProyecto().buscarProyecto(txtNombre.getText().toUpperCase())){
-                JOptionPane.showMessageDialog(null, "No se encontro un proyecto con el nombre ingresado.");
-                this.limpiarPantalla();
-            }else{
-                this.botonesListado();
-            };
-         }
+         this.getGestorVistaProyecto().buscarProyecto(this.txtBuscarNombre.getText().toUpperCase());
      }
      
      public void eliminarProyecto(){
@@ -236,13 +240,23 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
          this.vistaInicio();
          this.limpiarPantalla();
          this.botonesInicio();
+         this.getGestorVistaProyecto().cargarTabla(this.tblProyectos);
          JOptionPane.showMessageDialog(null, "Proyecto eliminado exitosamente");
      }
      
     public void cargarCombos() {
-        this.gestorProyecto.setModelTipoProyecto(cboTipoProyecto);
-         this.gestorProyecto.setModelCliente(cboCliente);
-         this.gestorProyecto.setModelPersonal(cboPersonal);
+        this.cargarTipoProyecto();
+         this.cargarClientes();
+         this.cargarPersonal();
+    }
+    public void cargarClientes(){
+        this.getGestorVistaProyecto().setModelCliente(cboCliente);
+    }
+    public void cargarTipoProyecto(){
+        this.getGestorVistaProyecto().setModelTipoProyecto(cboTipoProyecto);
+    }
+    public void cargarPersonal(){
+        this.getGestorVistaProyecto().setModelPersonal(cboPersonal);
     }
     
     public void limpiarCombos(){
@@ -250,6 +264,19 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
          this.cboPersonal.setSelectedIndex(0);
          this.cboCliente.setSelectedIndex(0);
     }
+    
+    public void nuevoCliente(){
+        this.getGestorVistaProyecto().nuevoCliente();
+    }
+    
+     public void nuevoPersonal(){
+        this.getGestorVistaProyecto().nuevoPersonal();
+    }
+     
+     public void nuevoTipoProyecto(){
+        this.getGestorVistaProyecto().nuevoTipoProyecto();
+    }
+     
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -262,7 +289,6 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         panelProyecto = new javax.swing.JPanel();
         lblNombre = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
-        btnBuscar = new javax.swing.JButton();
         lblNombreRequerido = new javax.swing.JLabel();
         lblTipoProyecto = new javax.swing.JLabel();
         cboTipoProyecto = new javax.swing.JComboBox();
@@ -270,6 +296,9 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         lblFechaConfirmacion2 = new javax.swing.JLabel();
         lblFechaConfirmacion3 = new javax.swing.JLabel();
         cboPersonal = new javax.swing.JComboBox<>();
+        btnCliente = new javax.swing.JButton();
+        btnPersonal = new javax.swing.JButton();
+        btnTipoProyecto = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
@@ -287,18 +316,29 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         lblFechaEntrega = new javax.swing.JLabel();
         lblFechaCarga = new javax.swing.JLabel();
         lblFechaCargaDato = new javax.swing.JLabel();
+        panelProyecto1 = new javax.swing.JPanel();
+        lblNombreRequerido1 = new javax.swing.JLabel();
+        scrProyectos = new javax.swing.JScrollPane();
+        tblProyectos = new javax.swing.JTable();
+        cboFiltros = new javax.swing.JComboBox<>();
+        txtBuscarNombre = new javax.swing.JTextField();
+        btnBuscar = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setClosable(true);
+        setResizable(true);
         setTitle("Proyecto");
+        setToolTipText("Proyecto");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         panelProyecto.setBorder(javax.swing.BorderFactory.createTitledBorder("Proyecto"));
         panelProyecto.setToolTipText("Proyecto");
         panelProyecto.setName("Contacto"); // NOI18N
+        panelProyecto.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblNombre.setText("Nombre: ");
+        panelProyecto.add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(87, 31, -1, -1));
 
         txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtNombre.setToolTipText("Nombre");
@@ -312,107 +352,106 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 txtNombreKeyTyped(evt);
             }
         });
-
-        btnBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnBuscar.setText("Buscar");
-        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarActionPerformed(evt);
-            }
-        });
+        panelProyecto.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 28, 139, -1));
 
         lblNombreRequerido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblNombreRequerido.setForeground(new java.awt.Color(204, 0, 51));
         lblNombreRequerido.setText(" ");
+        panelProyecto.add(lblNombreRequerido, new org.netbeans.lib.awtextra.AbsoluteConstraints(167, 213, -1, -1));
 
         lblTipoProyecto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblTipoProyecto.setText("Tipo Proyecto:");
+        panelProyecto.add(lblTipoProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 85, -1, -1));
 
         cboTipoProyecto.setToolTipText("Seleccione.");
         cboTipoProyecto.setEnabled(false);
         cboTipoProyecto.setName(""); // NOI18N
+        cboTipoProyecto.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+                cboTipoProyectoPopupMenuWillBecomeVisible(evt);
+            }
+        });
         cboTipoProyecto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboTipoProyectoActionPerformed(evt);
             }
         });
+        panelProyecto.add(cboTipoProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 83, 139, 28));
+        cboTipoProyecto.getAccessibleContext().setAccessibleName("");
 
         cboCliente.setToolTipText("Seleccione.");
         cboCliente.setEnabled(false);
         cboCliente.setName(""); // NOI18N
+        cboCliente.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+                cboClientePopupMenuWillBecomeVisible(evt);
+            }
+        });
         cboCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboClienteActionPerformed(evt);
             }
         });
+        panelProyecto.add(cboCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 122, 139, 28));
 
         lblFechaConfirmacion2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblFechaConfirmacion2.setText("Cliente:");
+        panelProyecto.add(lblFechaConfirmacion2, new org.netbeans.lib.awtextra.AbsoluteConstraints(99, 124, -1, -1));
 
         lblFechaConfirmacion3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblFechaConfirmacion3.setText("Personal:");
+        panelProyecto.add(lblFechaConfirmacion3, new org.netbeans.lib.awtextra.AbsoluteConstraints(89, 164, -1, -1));
 
         cboPersonal.setToolTipText("Seleccione.");
         cboPersonal.setEnabled(false);
         cboPersonal.setName(""); // NOI18N
+        cboPersonal.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+                cboPersonalPopupMenuWillBecomeVisible(evt);
+            }
+        });
         cboPersonal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboPersonalActionPerformed(evt);
             }
         });
+        panelProyecto.add(cboPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 162, 139, 28));
 
-        javax.swing.GroupLayout panelProyectoLayout = new javax.swing.GroupLayout(panelProyecto);
-        panelProyecto.setLayout(panelProyectoLayout);
-        panelProyectoLayout.setHorizontalGroup(
-            panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelProyectoLayout.createSequentialGroup()
-                .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelProyectoLayout.createSequentialGroup()
-                        .addGap(51, 51, 51)
-                        .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblTipoProyecto)
-                            .addComponent(lblNombre)
-                            .addComponent(lblFechaConfirmacion2)
-                            .addComponent(lblFechaConfirmacion3))
-                        .addGap(18, 18, 18)
-                        .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtNombre)
-                            .addComponent(cboTipoProyecto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cboCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cboPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBuscar))
-                    .addGroup(panelProyectoLayout.createSequentialGroup()
-                        .addGap(161, 161, 161)
-                        .addComponent(lblNombreRequerido)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panelProyectoLayout.setVerticalGroup(
-            panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelProyectoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNombre)
-                    .addComponent(txtNombre)
-                    .addComponent(btnBuscar))
-                .addGap(27, 27, 27)
-                .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblTipoProyecto)
-                    .addComponent(cboTipoProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblFechaConfirmacion2)
-                    .addComponent(cboCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
-                .addGroup(panelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblFechaConfirmacion3)
-                    .addComponent(cboPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
-                .addComponent(lblNombreRequerido)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        btnCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/add-user.png"))); // NOI18N
+        btnCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClienteActionPerformed(evt);
+            }
+        });
+        panelProyecto.add(btnCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(307, 122, 30, 28));
 
-        cboTipoProyecto.getAccessibleContext().setAccessibleName("");
+        btnPersonal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/add-user.png"))); // NOI18N
+        btnPersonal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPersonalActionPerformed(evt);
+            }
+        });
+        panelProyecto.add(btnPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(307, 162, 30, 28));
+
+        btnTipoProyecto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/add.png"))); // NOI18N
+        btnTipoProyecto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTipoProyectoActionPerformed(evt);
+            }
+        });
+        panelProyecto.add(btnTipoProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(307, 83, 30, 28));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
@@ -589,12 +628,12 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                             .addComponent(inpFechaConfirmacion, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblFechaCargaDato))
                         .addGap(1, 1, 1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
         panelFechasLayout.setVerticalGroup(
             panelFechasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFechasLayout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panelFechasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblFechaCarga)
                     .addComponent(lblFechaCargaDato))
@@ -613,6 +652,66 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 .addGap(22, 22, 22))
         );
 
+        panelProyecto1.setBorder(javax.swing.BorderFactory.createTitledBorder("Proyecto"));
+        panelProyecto1.setToolTipText("Proyecto");
+        panelProyecto1.setName("Contacto"); // NOI18N
+        panelProyecto1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblNombreRequerido1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblNombreRequerido1.setForeground(new java.awt.Color(204, 0, 51));
+        lblNombreRequerido1.setText(" ");
+        panelProyecto1.add(lblNombreRequerido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(167, 213, -1, -1));
+
+        tblProyectos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblProyectos.setEnabled(false);
+        scrProyectos.setViewportView(tblProyectos);
+
+        panelProyecto1.add(scrProyectos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 700, 350));
+
+        cboFiltros.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Tipo Proyecto", "Cliente", "Personal" }));
+        cboFiltros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboFiltrosActionPerformed(evt);
+            }
+        });
+        panelProyecto1.add(cboFiltros, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 160, 30));
+
+        txtBuscarNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtBuscarNombre.setToolTipText("Nombre");
+        txtBuscarNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBuscarNombreActionPerformed(evt);
+            }
+        });
+        txtBuscarNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscarNombreKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBuscarNombreKeyTyped(evt);
+            }
+        });
+        panelProyecto1.add(txtBuscarNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, 340, 30));
+
+        btnBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+        panelProyecto1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, 90, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -620,22 +719,31 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(panelFechas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(10, 469, Short.MAX_VALUE)
+                        .addComponent(panelProyecto1, javax.swing.GroupLayout.PREFERRED_SIZE, 716, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(panelFechas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(panelProyecto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panelProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelFechas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(panelProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(panelFechas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(panelProyecto1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -677,7 +785,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void inpFechaTerminacionPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_inpFechaTerminacionPropertyChange
@@ -692,10 +800,6 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_inpFechaConfirmacionPropertyChange
 
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        this.buscarProyecto();
-    }//GEN-LAST:event_btnBuscarActionPerformed
-
     private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
         this.lblNombreRequerido.setText(" ");
     }//GEN-LAST:event_txtNombreKeyTyped
@@ -709,23 +813,71 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cboTipoProyectoActionPerformed
 
     private void cboClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboClienteActionPerformed
-        // TODO add your handling code here:
+       
     }//GEN-LAST:event_cboClienteActionPerformed
 
     private void cboPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboPersonalActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cboPersonalActionPerformed
 
+    private void btnClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClienteActionPerformed
+       this.nuevoCliente();
+    }//GEN-LAST:event_btnClienteActionPerformed
+
+    private void btnPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonalActionPerformed
+       this.nuevoPersonal();
+    }//GEN-LAST:event_btnPersonalActionPerformed
+
+    private void cboClientePopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cboClientePopupMenuWillBecomeVisible
+        this.cargarClientes();
+    }//GEN-LAST:event_cboClientePopupMenuWillBecomeVisible
+
+    private void btnTipoProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTipoProyectoActionPerformed
+        this.nuevoTipoProyecto();
+    }//GEN-LAST:event_btnTipoProyectoActionPerformed
+
+    private void cboTipoProyectoPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cboTipoProyectoPopupMenuWillBecomeVisible
+        this.cargarTipoProyecto();
+    }//GEN-LAST:event_cboTipoProyectoPopupMenuWillBecomeVisible
+
+    private void cboPersonalPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cboPersonalPopupMenuWillBecomeVisible
+        this.cargarPersonal();
+    }//GEN-LAST:event_cboPersonalPopupMenuWillBecomeVisible
+
+    private void cboFiltrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboFiltrosActionPerformed
+        System.out.println("Vistas.Proyecto.FrmProyecto.cboFiltrosActionPerformed()");
+    }//GEN-LAST:event_cboFiltrosActionPerformed
+
+    private void txtBuscarNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarNombreActionPerformed
+
+    private void txtBuscarNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarNombreKeyTyped
+       
+    }//GEN-LAST:event_txtBuscarNombreKeyTyped
+
+    private void txtBuscarNombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarNombreKeyReleased
+        this.buscarProyecto();
+    }//GEN-LAST:event_txtBuscarNombreKeyReleased
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        this.buscarProyecto();
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnCliente;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
+    private javax.swing.JButton btnPersonal;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JButton btnTipoProyecto;
     private javax.swing.JComboBox<String> cboCliente;
+    private javax.swing.JComboBox<String> cboFiltros;
     private javax.swing.JComboBox<String> cboPersonal;
     private javax.swing.JComboBox cboTipoProyecto;
     private com.toedter.calendar.JDateChooser inpFechaConfirmacion;
@@ -742,9 +894,14 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblFechaTerminacion;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblNombreRequerido;
+    private javax.swing.JLabel lblNombreRequerido1;
     private javax.swing.JLabel lblTipoProyecto;
     private javax.swing.JPanel panelFechas;
     private javax.swing.JPanel panelProyecto;
+    private javax.swing.JPanel panelProyecto1;
+    private javax.swing.JScrollPane scrProyectos;
+    private javax.swing.JTable tblProyectos;
+    private javax.swing.JTextField txtBuscarNombre;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }

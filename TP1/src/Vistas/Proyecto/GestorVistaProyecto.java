@@ -11,10 +11,13 @@ import Modelos.Gestion.GestorProyecto;
 import Modelos.Gestion.Personal;
 import Modelos.Gestion.TipoProyecto;
 import Util.UtilJtable;
+import Vistas.MenuPrincipal.GestorMenuPrincipal;
 import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 /**
  *
@@ -24,7 +27,8 @@ public class GestorVistaProyecto {
     private JDesktopPane escritorio;
     private boolean actualizacion;
     FrmProyecto form;  
-    private GestorProyecto gestor; 
+    private GestorProyecto gestor;
+    private GestorMenuPrincipal gestorMenu;
      private UtilJtable UtilTable= new UtilJtable();
     
     public UtilJtable getUtilTable() {
@@ -103,6 +107,20 @@ public class GestorVistaProyecto {
     public void setGestor(GestorProyecto gestor) {
         this.gestor = gestor;
     }
+
+    public GestorMenuPrincipal getGestorMenu() {
+        if (gestorMenu == null) {
+           synchronized (GestorMenuPrincipal.class) {
+                gestorMenu = new GestorMenuPrincipal();
+           }
+        }
+        return gestorMenu;
+    }
+
+    public void setGestorMenu(GestorMenuPrincipal gestorMenu) {
+        this.gestorMenu = gestorMenu;
+    }
+    
     public void guardarProyecto(){
         this.setActualizacion(false);
         this.setModel();
@@ -114,18 +132,6 @@ public class GestorVistaProyecto {
        this.setModel();
        this.getGestor().actualizarObjeto();
    }
-    
-     public boolean buscarProyecto(String nombre) {
-        Proyecto proyecto;
-        proyecto = this.getGestor().buscarProyecto(nombre);
-         if(proyecto!=null){
-              this.setModel(proyecto);
-              this.cargarProyecto(proyecto);
-         }else{
-             return false;
-         }
-         return true;
-    }
     
      public void cargarProyecto(Proyecto proyecto){
          this.getForm().cargarProyecto(proyecto);
@@ -214,6 +220,37 @@ public class GestorVistaProyecto {
     }
     public void setModelPersonal(JComboBox cboPersonal) {
        cboPersonal.setModel(gestor.getComboModelPersonal());
+    }
+    
+    public void nuevoCliente(){
+        this.getGestorMenu().abrirCliente(this.getEscritorio());
+    }
+    
+    public void nuevoPersonal(){
+        this.getGestorMenu().abrirPersonal(this.getEscritorio());
+    }
+    
+    public void nuevoTipoProyecto(){
+        this.getGestorMenu().abrirTipoProyecto(this.getEscritorio());
+    }
+    public String save(String accion) {
+        String dialog="";
+        if("Guardar".equals(accion)){
+              this.guardarProyecto();
+              dialog = "Proyecto guardado exitosamente.";
+         }else{
+            this.actualizarProyecto();
+            dialog = "Proyecto actualizado exitosamente.";
+         } 
+        return dialog;
+    }
+    
+    public void cargarTabla(JTable tabla){
+        tabla.setModel(this.getGestor().consultarProyectos());
+    }
+    
+     public void buscarProyecto(String nombre) {
+       this.getForm().getTblProyectos().setModel(this.getGestor().consultarProyectosPorNombre(nombre));
     }
     
 }

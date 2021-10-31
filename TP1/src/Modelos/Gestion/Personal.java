@@ -5,6 +5,7 @@
  */
 package Modelos.Gestion;
 
+import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
@@ -13,21 +14,22 @@ import javax.persistence.*;
  *
  * @author Usuario
  */
-public class Personal extends Persona {
+public class Personal extends Persona implements Serializable {
     
-    @Column(name="puesto", columnDefinition = "TEXT")
-        private String puesto; 
+     @OneToOne (targetEntity = Cargo.class, cascade= CascadeType.DETACH,fetch=FetchType.LAZY)
+        private Cargo cargo;
 
-    public String getPuesto() {
-        return puesto;
+    public Cargo getCargo() {
+        return cargo;
     }
 
-    public void setPuesto(String puesto) {
-        this.puesto = puesto;
+    public void setCargo(Cargo cargo) {
+        this.cargo = cargo;
     }
+    
     
     @Override
     public String toString() {
-        return this.getNombre() + " " + this.getApellido() + " - " + this.getPuesto();
+        return this.getNombre() + " " + this.getApellido();
     }
 }

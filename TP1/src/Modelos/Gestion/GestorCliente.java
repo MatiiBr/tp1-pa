@@ -28,12 +28,37 @@ public class GestorCliente extends GestorHibernate {
     public DefaultComboBoxModel getComboModel() {      
         DefaultComboBoxModel auxModel= new DefaultComboBoxModel();
         auxModel.addElement("");
-        for (Cliente auxTipo : this.listar()) {
-            auxModel.addElement(auxTipo);
+         List <Cliente> lista = this.listar();
+        if(lista != null){
+            for (Cliente auxTipo : lista) {
+                auxModel.addElement(auxTipo);
+            }
         }
          return auxModel;
     }
      public List <Cliente> listar(){   
         return this.listarClase(Cliente.class);
     }
+     public Cliente buscarCliente(String nombre) {
+        Cliente cliente = null;
+       try {
+          cliente = this.buscarCliente(Cliente.class, nombre);
+       }
+       catch(Exception e){
+          e.printStackTrace();
+       }
+       return cliente;
+    }
+     
+      public void guardarObjeto(){
+        this.guardarObjeto(this.getModel());
+    }
+      public void actualizarObjeto() {
+        this.actualizarObjeto(this.getModel());
+    }
+       
+       public void eliminarObjeto(){
+        this.eliminarObjeto(this.getModel());
+       }
+       
 }

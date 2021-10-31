@@ -13,31 +13,28 @@ import javax.swing.DefaultComboBoxModel;
  *
  * @author Usuario
  */
-public class GestorTipoProyecto extends  GestorHibernate{
-     private TipoProyecto  model;
+public class GestorPerfil extends  GestorHibernate{
+     private Perfil  model;
 
-    public TipoProyecto  getModel() {
+    public Perfil  getModel() {
         return model;
     }
     public void newModel() {
-         this.setModel(new TipoProyecto());
+         this.setModel(new Perfil());
     }
-    public void setModel(TipoProyecto  tipoProyecto) {
-        this.model = tipoProyecto;
+    public void setModel(Perfil  perfil) {
+        this.model = perfil;
     }
     public DefaultComboBoxModel getComboModel() {      
         DefaultComboBoxModel auxModel= new DefaultComboBoxModel();
         auxModel.addElement("");
-         List <TipoProyecto> lista = this.listar();
-        if(lista != null){
-            for (TipoProyecto auxTipo : lista) {
-                auxModel.addElement(auxTipo);
-            }
+        for (Perfil auxPerfil : this.listar()) {
+            auxModel.addElement(auxPerfil);
         }
          return auxModel;
     }
-     public List <TipoProyecto> listar(){   
-        return this.listarClase(TipoProyecto.class);
+     public List <Perfil> listar(){   
+        return this.listarClase(Perfil.class);
     }
     public void guardarObjeto(){
         this.guardarObjeto(this.getModel());
@@ -50,14 +47,14 @@ public class GestorTipoProyecto extends  GestorHibernate{
         this.eliminarObjeto(this.getModel());
     }
 
-    public TipoProyecto buscarTipoProyecto(String nombre) {
-       TipoProyecto tipoProyecto = null;
+    public Perfil buscarPerfil(String nombre) {
+       Perfil perfil = null;
        try {
-          tipoProyecto = this.buscarTipoProyecto(TipoProyecto.class, nombre);
+          perfil = this.buscarPerfil(Perfil.class, nombre);
        }
        catch(Exception e){
           e.printStackTrace();
        }
-       return tipoProyecto;
+       return perfil;
     }
 }

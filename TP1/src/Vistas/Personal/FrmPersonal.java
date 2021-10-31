@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Vistas.Contacto;
-
-import Modelos.Gestion.Contacto;
+package Vistas.Personal;
+import Modelos.Gestion.Personal;
 import com.toedter.calendar.JDateChooser;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -15,23 +16,41 @@ import javax.swing.JTextField;
  *
  * @author Usuario
  */
-public class FrmContacto extends javax.swing.JInternalFrame {
-     private GestorVistaContacto gestorContacto;
+public class FrmPersonal extends javax.swing.JInternalFrame {
+     private GestorVistaPersonal gestorPersonal;
      private int YES_NO_OPTION;
      private boolean formValido = true;
     /**
-     * Creates new form FrmContacto
+     * Creates new form FrmPersonal
      */
-     public FrmContacto(GestorVistaContacto gestorContacto) {
+     public FrmPersonal(GestorVistaPersonal gestorPersonal) {
         try{
            initComponents();
            }
            catch(Exception e){
             
         }  
-        this.setGestorVistaContacto(gestorContacto);
+        this.setGestorVistaPersonal(gestorPersonal);
+        this.getGestorVistaPersonal().buscarPerfiles(this.listPerfilesIzq);
+     
     }
 
+    public JList<String> getListPerfilesDer() {
+        return listPerfilesDer;
+    }
+
+    public void setListPerfilesDer(JList<String> listPerfilesDer) {
+        this.listPerfilesDer = listPerfilesDer;
+    }
+
+    public JList<String> getListPerfilesIzq() {
+        return listPerfilesIzq;
+    }
+
+    public void setListPerfilesIzq(JList<String> listPerfilesIzq) {
+        this.listPerfilesIzq = listPerfilesIzq;
+    }
+    
     public JTextField getTxtApellido() {
         return txtApellido;
     }
@@ -76,6 +95,14 @@ public class FrmContacto extends javax.swing.JInternalFrame {
     public void setLblFechaNacimientoRequerido(JLabel lblFechaNacimientoRequerido) {
         this.lblFechaNacimientoRequerido = lblFechaNacimientoRequerido;
     }
+
+    public JComboBox getCboCargo() {
+        return cboCargo;
+    }
+
+    public void setCboCargo(JComboBox cboCargo) {
+        this.cboCargo = cboCargo;
+    }
     
     public boolean getFormValido(){
         return this.formValido;
@@ -84,26 +111,26 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         this.formValido = formValido;
     }
     
-    public FrmContacto() {
+    public FrmPersonal() {
         initComponents();
     }
 
-    public GestorVistaContacto getGestorVistaContacto() {
-        return gestorContacto;
+    public GestorVistaPersonal getGestorVistaPersonal() {
+        return gestorPersonal;
     }
 
-    public void setGestorVistaContacto(GestorVistaContacto gestorContacto) {
-        this.gestorContacto = gestorContacto;
+    public void setGestorVistaPersonal(GestorVistaPersonal gestorPersonal) {
+        this.gestorPersonal = gestorPersonal;
     }
-    public void editarContacto(){
-        this.vistaNuevoContacto();
+    public void editarPersonal(){
+        this.vistaNuevoPersonal();
         this.botonesNuevo();
         btnGuardar.setText("Actualizar");
     }
-    public void nuevoContacto(){
+    public void nuevoPersonal(){
         this.limpiarPantalla();
-        this.vistaNuevoContacto();
-        this.getGestorVistaContacto().newModel();
+        this.vistaNuevoPersonal();
+        this.getGestorVistaPersonal().newModel();
         this.botonesNuevo();
     }
     public void cancelar(){
@@ -111,22 +138,24 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         this.vistaInicio();
         this.botonesInicio();
     }
-    public void cargarContacto(Contacto contacto){
+    public void cargarPersonal(Personal personal){
         this.limpiarPantalla();
         this.vistaInicio();
-        txtNombre.setText(contacto.getNombre());
-        txtApellido.setText(contacto.getApellido());
-        inpFechaNacimiento.setDate(contacto.getFechaNacimiento());
+        txtNombre.setText(personal.getNombre());
+        txtApellido.setText(personal.getApellido());
+        inpFechaNacimiento.setDate(personal.getFechaNacimiento());
     }
     public void vistaInicio(){
         this.inpFechaNacimiento.setEnabled(false);
         this.txtNombre.setEnabled(true);
         this.txtApellido.setEnabled(false);
+        this.cboCargo.setEnabled(false);
     }
-    public void vistaNuevoContacto(){
+    public void vistaNuevoPersonal(){
         this.inpFechaNacimiento.setEnabled(true);
         this.txtNombre.setEnabled(true);
         this.txtApellido.setEnabled(true);
+        this.cboCargo.setEnabled(true);
     }
     
     public void limpiarPantalla(){
@@ -166,14 +195,14 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         btnSalir.setEnabled(true);
         btnBuscar.setEnabled(true);
      }
-     public void guardarContacto(){
+     public void guardarPersonal(){
          String dialog;
          if(btnGuardar.getText()=="Guardar"){
-              this.getGestorVistaContacto().guardarContacto();
-              dialog = "Contacto guardado exitosamente.";
+              this.getGestorVistaPersonal().guardarPersonal();
+              dialog = "Personal guardado exitosamente.";
          }else{
-            this.getGestorVistaContacto().actualizarContacto();
-            dialog = "Contacto actualizado exitosamente.";
+            this.getGestorVistaPersonal().actualizarPersonal();
+            dialog = "Personal actualizado exitosamente.";
          }
         this.limpiarPantalla();
         this.vistaInicio();
@@ -181,12 +210,12 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         JOptionPane.showMessageDialog(null, dialog);
     }
      
-     public void buscarContacto(){
+     public void buscarPersonal(){
          if(this.txtNombre.getText().isBlank()){
              JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de contacto antes de buscar.");
              this.limpiarPantalla();
          }else{
-            if(!this.getGestorVistaContacto().buscarContacto(txtNombre.getText().toUpperCase())){
+            if(!this.getGestorVistaPersonal().buscarPersonal(txtNombre.getText().toUpperCase())){
                 JOptionPane.showMessageDialog(null, "No se encontro un contacto con el nombre ingresado.");
                 this.limpiarPantalla();
             }else{
@@ -195,13 +224,16 @@ public class FrmContacto extends javax.swing.JInternalFrame {
          }
      }
      
-     public void eliminarContacto(){
-         this.getGestorVistaContacto().eliminarContacto();
+     public void eliminarPersonal(){
+         this.getGestorVistaPersonal().eliminarPersonal();
          this.vistaInicio();
          this.limpiarPantalla();
          this.botonesInicio();
-         JOptionPane.showMessageDialog(null, "Contacto eliminado exitosamente");
+         JOptionPane.showMessageDialog(null, "Personal eliminado exitosamente");
      }
+      public void cargarCombos() {
+        this.getGestorVistaPersonal().setModelCargo(cboCargo);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -222,6 +254,17 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         lblNombreRequerido = new javax.swing.JLabel();
         lblApellidoRequerido = new javax.swing.JLabel();
         lblFechaNacimientoRequerido = new javax.swing.JLabel();
+        lblCargo = new javax.swing.JLabel();
+        cboCargo = new javax.swing.JComboBox<>();
+        btnActualizarPerfiles = new javax.swing.JButton();
+        lblCargo1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        listPerfilesDer = new javax.swing.JList<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        listPerfilesIzq = new javax.swing.JList<>();
+        btnSacarPerfil = new javax.swing.JButton();
+        btnAgregarPerfil = new javax.swing.JButton();
+        btnNuevoPerfil = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
@@ -233,21 +276,25 @@ public class FrmContacto extends javax.swing.JInternalFrame {
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setClosable(true);
-        setTitle("Contacto");
+        setTitle("Personal");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Contacto"));
-        jPanel1.setToolTipText("Contacto");
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Personal"));
+        jPanel1.setToolTipText("Personal");
         jPanel1.setName("Contacto"); // NOI18N
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblNombre.setText("Nombre: ");
+        jPanel1.add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(81, 29, -1, -1));
 
         lblEdad.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblEdad.setText("Fecha Nacimiento:");
+        jPanel1.add(lblEdad, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, -1, -1));
 
         lblApellido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblApellido.setText("Apellido:");
+        jPanel1.add(lblApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(81, 86, -1, -1));
 
         txtApellido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtApellido.setToolTipText("Apellido");
@@ -262,6 +309,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
                 txtApellidoKeyTyped(evt);
             }
         });
+        jPanel1.add(txtApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 80, 135, 30));
 
         txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtNombre.setToolTipText("Nombre");
@@ -275,6 +323,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
                 txtNombreKeyTyped(evt);
             }
         });
+        jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(159, 26, 139, -1));
 
         btnBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnBuscar.setText("Buscar");
@@ -283,6 +332,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
                 btnBuscarActionPerformed(evt);
             }
         });
+        jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(304, 25, -1, -1));
 
         inpFechaNacimiento.setToolTipText("Fecha de Nacimiento");
         inpFechaNacimiento.setEnabled(false);
@@ -292,73 +342,78 @@ public class FrmContacto extends javax.swing.JInternalFrame {
                 inpFechaNacimientoPropertyChange(evt);
             }
         });
+        jPanel1.add(inpFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, 161, 26));
 
         lblNombreRequerido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblNombreRequerido.setForeground(new java.awt.Color(204, 0, 51));
         lblNombreRequerido.setText(" ");
+        jPanel1.add(lblNombreRequerido, new org.netbeans.lib.awtextra.AbsoluteConstraints(163, 56, 100, -1));
 
         lblApellidoRequerido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblApellidoRequerido.setForeground(new java.awt.Color(204, 0, 51));
         lblApellidoRequerido.setText(" ");
+        jPanel1.add(lblApellidoRequerido, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, 100, -1));
 
         lblFechaNacimientoRequerido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblFechaNacimientoRequerido.setForeground(new java.awt.Color(204, 0, 51));
         lblFechaNacimientoRequerido.setText(" ");
+        jPanel1.add(lblFechaNacimientoRequerido, new org.netbeans.lib.awtextra.AbsoluteConstraints(304, 286, 111, -1));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addComponent(lblNombre)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBuscar))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addComponent(lblApellido)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblNombreRequerido, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblApellidoRequerido, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblEdad)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(inpFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblFechaNacimientoRequerido, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNombre)
-                    .addComponent(txtNombre)
-                    .addComponent(btnBuscar))
-                .addGap(2, 2, 2)
-                .addComponent(lblNombreRequerido)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblApellido)
-                    .addComponent(txtApellido))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblApellidoRequerido)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(inpFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblEdad))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblFechaNacimientoRequerido)
-                .addGap(47, 47, 47))
-        );
+        lblCargo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblCargo.setText("Cargo:");
+        jPanel1.add(lblCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 180, -1, -1));
+
+        cboCargo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cboCargo.setEnabled(false);
+        cboCargo.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+                cboCargoPopupMenuWillBecomeVisible(evt);
+            }
+        });
+        cboCargo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboCargoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(cboCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 180, 138, 20));
+
+        btnActualizarPerfiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/actualizar.png"))); // NOI18N
+        btnActualizarPerfiles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarPerfilesActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnActualizarPerfiles, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 420, 40, 40));
+
+        lblCargo1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblCargo1.setText("Perfiles:");
+        jPanel1.add(lblCargo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 240, -1, -1));
+
+        jScrollPane1.setViewportView(listPerfilesDer);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 270, 180, 190));
+
+        jScrollPane2.setViewportView(listPerfilesIzq);
+
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 180, 190));
+
+        btnSacarPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/flecha-izquierda.png"))); // NOI18N
+        jPanel1.add(btnSacarPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 370, 40, 40));
+
+        btnAgregarPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/flecha-derecha.png"))); // NOI18N
+        jPanel1.add(btnAgregarPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 320, 40, 40));
+
+        btnNuevoPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/add.png"))); // NOI18N
+        btnNuevoPerfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoPerfilActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnNuevoPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 270, 40, 40));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
@@ -416,11 +471,12 @@ public class FrmContacto extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnNuevo)
-                    .addComponent(btnEditar)
-                    .addComponent(btnGuardar)
-                    .addComponent(btnEliminar))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnNuevo)
+                        .addComponent(btnEditar)
+                        .addComponent(btnGuardar)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -471,24 +527,23 @@ public class FrmContacto extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 517, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(24, Short.MAX_VALUE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         jPanel1.getAccessibleContext().setAccessibleName("Descripcion");
@@ -497,18 +552,18 @@ public class FrmContacto extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        this.nuevoContacto();
+        this.nuevoPersonal();
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-       this.editarContacto();
+       this.editarPersonal();
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-       String mensaje = this.getGestorVistaContacto().revisarFormulario();
+       String mensaje = this.getGestorVistaPersonal().revisarFormulario();
        if(this.formValido){
             if (JOptionPane.showConfirmDialog(null, (btnGuardar.getText()=="Guardar") ? "¿Desea guardar el contacto seleccionado?":"¿Desea actualizar el contacto seleccionado?","Atencion", YES_NO_OPTION) == 0 )
-            this.guardarContacto();
+            this.guardarPersonal();
        }else{
            JOptionPane.showMessageDialog(null, "Error al enviar el formulario."+mensaje);
            this.formValido = true;
@@ -518,7 +573,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         if (JOptionPane.showConfirmDialog(null, "¿Desea eliminar el contacto seleccionado?","Atencion", YES_NO_OPTION) == 0 )
-           this.eliminarContacto();
+           this.eliminarPersonal();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -529,50 +584,81 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        this.buscarContacto();
-    }//GEN-LAST:event_btnBuscarActionPerformed
+    private void btnActualizarPerfilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarPerfilesActionPerformed
+        this.nuevoPerfil();
+    }//GEN-LAST:event_btnActualizarPerfilesActionPerformed
 
-    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
+    private void cboCargoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboCargoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreActionPerformed
+    }//GEN-LAST:event_cboCargoActionPerformed
 
-    private void txtApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApellidoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtApellidoActionPerformed
-
-    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
-       this.lblNombreRequerido.setText(" ");
-    }//GEN-LAST:event_txtNombreKeyTyped
-
-    private void txtApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellidoKeyTyped
-        this.lblApellidoRequerido.setText(" ");
-    }//GEN-LAST:event_txtApellidoKeyTyped
+    private void cboCargoPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cboCargoPopupMenuWillBecomeVisible
+        this.cargarCombos();
+    }//GEN-LAST:event_cboCargoPopupMenuWillBecomeVisible
 
     private void inpFechaNacimientoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_inpFechaNacimientoPropertyChange
         this.lblFechaNacimientoRequerido.setText(" ");
     }//GEN-LAST:event_inpFechaNacimientoPropertyChange
 
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        this.buscarPersonal();
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        this.lblNombreRequerido.setText(" ");
+    }//GEN-LAST:event_txtNombreKeyTyped
+
+    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreActionPerformed
+
+    private void txtApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellidoKeyTyped
+        this.lblApellidoRequerido.setText(" ");
+    }//GEN-LAST:event_txtApellidoKeyTyped
+
+    private void txtApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApellidoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtApellidoActionPerformed
+
+    private void btnNuevoPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoPerfilActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnNuevoPerfilActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActualizarPerfiles;
+    private javax.swing.JButton btnAgregarPerfil;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
+    private javax.swing.JButton btnNuevoPerfil;
+    private javax.swing.JButton btnSacarPerfil;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JComboBox<String> cboCargo;
     private com.toedter.calendar.JDateChooser inpFechaNacimiento;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblApellido;
     private javax.swing.JLabel lblApellidoRequerido;
+    private javax.swing.JLabel lblCargo;
+    private javax.swing.JLabel lblCargo1;
     private javax.swing.JLabel lblEdad;
     private javax.swing.JLabel lblFechaNacimientoRequerido;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblNombreRequerido;
+    private javax.swing.JList<String> listPerfilesDer;
+    private javax.swing.JList<String> listPerfilesIzq;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
+
+    private void nuevoPerfil() {
+        this.getGestorVistaPersonal().nuevoPerfil();
+    }
 }

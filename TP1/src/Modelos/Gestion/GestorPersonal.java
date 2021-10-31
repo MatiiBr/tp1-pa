@@ -6,8 +6,10 @@
 package Modelos.Gestion;
 
 import Hibernate.GestorHibernate;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -15,6 +17,7 @@ import javax.swing.DefaultComboBoxModel;
  */
 public class GestorPersonal extends GestorHibernate {
      private Personal  model;
+      private GestorCargo gestorCargo = new GestorCargo();
 
     public Personal  getModel() {
         return model;
@@ -28,12 +31,61 @@ public class GestorPersonal extends GestorHibernate {
     public DefaultComboBoxModel getComboModel() {      
         DefaultComboBoxModel auxModel= new DefaultComboBoxModel();
         auxModel.addElement("");
-        for (Personal auxTipo : this.listar()) {
-            auxModel.addElement(auxTipo);
+         List <Personal> lista = this.listar();
+        if(lista != null){
+            for (Personal auxTipo : lista) {
+                auxModel.addElement(auxTipo);
+            }
         }
          return auxModel;
     }
      public List <Personal> listar(){   
         return this.listarClase(Personal.class);
+    }
+
+    public GestorCargo getGestorCargo() {
+        return gestorCargo;
+    }
+
+    public void setGestorCargo(GestorCargo gestorCargo) {
+        this.gestorCargo = gestorCargo;
+    }
+     
+      public void guardarObjeto(){
+        this.guardarObjeto(this.getModel());
+    }
+      public void actualizarObjeto() {
+        this.actualizarObjeto(this.getModel());
+    }
+       
+       public void eliminarObjeto(){
+        this.eliminarObjeto(this.getModel());
+       }
+       
+       public Personal buscarPersonal(String nombre) {
+        Personal personal = null;
+       try {
+          personal = this.buscarPersonal(Personal.class, nombre);
+       }
+       catch(Exception e){
+          e.printStackTrace();
+       }
+       return personal;
+    }
+       
+       public DefaultComboBoxModel getComboModelCargo() {
+            return this.getGestorCargo().getComboModel();
+       }
+    public DefaultListModel buscarPerfiles(){
+        List perfiles = this.listarClase(Perfil.class);
+        if (perfiles!=null) {
+            DefaultListModel modelo = new DefaultListModel();
+            for (Iterator it = perfiles.iterator(); it.hasNext();) {
+                Perfil perfil = (Perfil) it.next();
+                 modelo.addElement(perfil.getNombre());
+            }
+            return modelo;    
+        }
+        return null;
     }
 }

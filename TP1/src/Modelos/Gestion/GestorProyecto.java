@@ -6,8 +6,12 @@
 package Modelos.Gestion;
 
 import Hibernate.GestorHibernate;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -130,5 +134,33 @@ public class GestorProyecto extends GestorHibernate {
          public DefaultComboBoxModel getComboModelPersonal() {
             return this.getGestorPersonal().getComboModel();
        }
+         public DefaultTableModel crearTabla(List lista){
+            String[] titulos = {"Nombre", "Tipo de Proyecto", "Cliente", "Personal", "Fecha Carga"};
+            DefaultTableModel modelo = new DefaultTableModel(null, titulos);
+            if(lista==null){
+                return modelo;
+            }
+            String[] registros = new String[5];
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            for (Iterator it = lista.iterator(); it.hasNext();) {
+                Proyecto proyecto = (Proyecto) it.next();
+                 registros[0] =  proyecto.getNombre();
+                 registros[1] = proyecto.getTipoProyecto().getNombre();
+                 registros[2] = proyecto.getCliente().toString();
+                 registros[3] = proyecto.getPersonal().toString();
+                 registros[4] = formatter.format(proyecto.getFechaCarga());
+                 modelo.addRow(registros);
+            }
+           return modelo;
+         }
+         public DefaultTableModel  consultarProyectos() {
+            List proyectos = this.listarClase(Proyecto.class);
+            return this.crearTabla(proyectos);
+        }
+         
+         public DefaultTableModel  consultarProyectosPorNombre(String nombre) {
+            List proyectos = this.buscarProyectosPorNombre(Proyecto.class, nombre);
+            return this.crearTabla(proyectos);
+        }
        
 }

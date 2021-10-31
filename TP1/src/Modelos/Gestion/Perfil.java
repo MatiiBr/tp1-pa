@@ -10,13 +10,13 @@ import java.util.Date;
 import javax.persistence.*;
 
 @Entity
-@Table (name="tipo_proyecto") 
+@Table (name="perfil") 
 /**
  *
  * @author Usuario
  */
-public class TipoProyecto implements Serializable {
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tipo_proyecto_id_seq")@SequenceGenerator(name = "tipo_proyecto_id_seq", sequenceName = "tipo_proyecto_id_seq", allocationSize = 1)
+public class Perfil implements Serializable {
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "perfil_id_seq")@SequenceGenerator(name = "perfil_id_seq", sequenceName = "perfil_id_seq", allocationSize = 1)
         private long id;
   
     @Column(name="nombre", columnDefinition = "TEXT")

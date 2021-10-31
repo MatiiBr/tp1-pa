@@ -3,23 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Vistas.Contacto;
+package Vistas.Personal;
 
-import Modelos.Gestion.Contacto;
-import Modelos.Gestion.GestorContacto;
+import Modelos.Gestion.Cargo;
+import Modelos.Gestion.GestorPersonal;
+import Modelos.Gestion.Personal;
 import Util.UtilJtable;
+import Vistas.MenuPrincipal.GestorMenuPrincipal;
 import java.util.Date;
+import javax.swing.DefaultListModel;
+import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
-import javax.swing.JTable;
+import javax.swing.JList;
 
 /**
  *
  * @author Usuario
  */
-public class GestorVistaContacto {
+public class GestorVistaPersonal {
     private JDesktopPane escritorio;
-    FrmContacto form;  
-    private GestorContacto gestor; 
+    FrmPersonal form;  
+    private GestorPersonal gestor; 
+    private GestorMenuPrincipal gestorMenu;
      private UtilJtable UtilTable= new UtilJtable();
     
     public UtilJtable getUtilTable() {
@@ -30,29 +35,30 @@ public class GestorVistaContacto {
         this.UtilTable = UtilTable;
     }
     
-    public GestorVistaContacto() {
+    public GestorVistaPersonal() {
     }
         public void newModel() {
             this.getGestor().newModel();
     }
         
-     public Contacto getModel() {
+     public Personal getModel() {
         return this.getGestor().getModel();
     }
      
      public void setModel(){
-          this.getModel().setNombre(this.getForm().getTxtNombre().getText());
-          this.getModel().setApellido(this.getForm().getTxtApellido().getText());
+          this.getModel().setNombre(this.getForm().getTxtNombre().getText().toUpperCase());
+          this.getModel().setApellido(this.getForm().getTxtApellido().getText().toUpperCase());
           this.getModel().setFechaNacimiento(this.getForm().getInpFechaNacimiento().getDate());
+           this.getModel().setCargo((Cargo) this.getForm().getCboCargo().getSelectedItem());
     }
     
-    public void setModel(Contacto model) {
+    public void setModel(Personal model) {
         this.getGestor().setModel(model);
     }
      
-    public void openFormulario(JDesktopPane pantalla, GestorVistaContacto gestor) {
+    public void openFormulario(JDesktopPane pantalla, GestorVistaPersonal gestor) {
         this.setEscritorio(pantalla);
-        this.setForm(new FrmContacto(gestor));
+        this.setForm(new FrmPersonal(gestor));
         this.getEscritorio().add(form);
         this.getForm().setVisible(true);
     }
@@ -65,51 +71,51 @@ public class GestorVistaContacto {
         this.escritorio = escritorio;
     }
 
-     public FrmContacto getForm() {
+     public FrmPersonal getForm() {
         return form;
     }
-      public void setForm(FrmContacto form) {
+      public void setForm(FrmPersonal form) {
         this.form = form;
     }
     
-    public GestorContacto getGestor() {
+    public GestorPersonal getGestor() {
         if (gestor == null) {
-           synchronized (GestorContacto.class) {
-                gestor = new GestorContacto();
+           synchronized (GestorPersonal.class) {
+                gestor = new GestorPersonal();
            }
         }
         return gestor;
     }
-    public void setGestor(GestorContacto gestor) {
+    public void setGestor(GestorPersonal gestor) {
         this.gestor = gestor;
     }
-    public void guardarContacto(){
+    public void guardarPersonal(){
         this.setModel();
         this.getGestor().guardarObjeto();
     }
     
-   public void actualizarContacto(){
+   public void actualizarPersonal(){
        this.setModel();
        this.getGestor().actualizarObjeto();
    }
     
-     public boolean buscarContacto(String nombre) {
-        Contacto contacto;
-        contacto=this.getGestor().buscarContacto(nombre);
-         if(contacto!=null){
-              this.setModel(contacto);
-              this.cargarContacto(contacto);
+     public boolean buscarPersonal(String nombre) {
+        Personal personal;
+        personal=this.getGestor().buscarPersonal(nombre);
+         if(personal!=null){
+              this.setModel(personal);
+              this.cargarPersonal(personal);
          }else{
              return false;
          }
          return true;
     }
     
-     public void cargarContacto(Contacto contacto){
-         this.getForm().cargarContacto(contacto);
+     public void cargarPersonal(Personal personal){
+         this.getForm().cargarPersonal(personal);
      }
     
-    public void eliminarContacto(){
+    public void eliminarPersonal(){
         this.getGestor().eliminarObjeto();
     }
     public String revisarFormulario(){
@@ -132,6 +138,11 @@ public class GestorVistaContacto {
               mensaje +="\n - La edad debe ser mayor o igual a 18 años.";
              this.getForm().setFormValido(false);
          }
+         if(this.getForm().getCboCargo().getSelectedIndex()==0 || this.getForm().getCboCargo().getSelectedIndex()==-1){
+             System.out.println(this.getForm().getCboCargo().getSelectedIndex());
+             mensaje +="\n - Debe seleccionar un Cargo.";
+             this.getForm().setFormValido(false);
+         }
          return mensaje;
      }
      public boolean verificarEdad(){
@@ -149,4 +160,29 @@ public class GestorVistaContacto {
          }
          return edad>=18;
      }
+    public void setModelCargo(JComboBox cboCargo) {
+       cboCargo.setModel(getGestor().getComboModelCargo());
+    }
+
+    public GestorMenuPrincipal getGestorMenu() {
+        if (gestorMenu == null) {
+           synchronized (GestorMenuPrincipal.class) {
+                gestorMenu = new GestorMenuPrincipal();
+           }
+        }
+        return gestorMenu;
+    }
+
+    public void setGestorMenu(GestorMenuPrincipal gestorMenu) {
+        this.gestorMenu = gestorMenu;
+    }
+    public void nuevoPerfil() {
+        this.getGestorMenu().abrirPerfil(this.getEscritorio());
+    }
+    public void buscarPerfiles(JList lista) {
+        DefaultListModel modelo = this.getGestor().buscarPerfiles();
+        if(modelo!=null){
+            lista.setModel(modelo);
+        }
+    }
 }
