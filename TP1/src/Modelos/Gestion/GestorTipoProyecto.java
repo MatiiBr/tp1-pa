@@ -28,8 +28,11 @@ public class GestorTipoProyecto extends  GestorHibernate{
     public DefaultComboBoxModel getComboModel() {      
         DefaultComboBoxModel auxModel= new DefaultComboBoxModel();
         auxModel.addElement("");
-        for (TipoProyecto auxTipo : this.listar()) {
-            auxModel.addElement(auxTipo);
+         List <TipoProyecto> lista = this.listar();
+        if(lista != null){
+            for (TipoProyecto auxTipo : lista) {
+                auxModel.addElement(auxTipo);
+            }
         }
          return auxModel;
     }

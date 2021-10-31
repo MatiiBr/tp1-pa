@@ -34,7 +34,7 @@ public class GestorVistaPerfil {
         return form;
     }
 
-    void guardarPerfil() {
+    public void guardarPerfil() {
         this.setActualizacion(false);
         this.setModel();
         this.getGestor().guardarObjeto();
@@ -60,17 +60,17 @@ public class GestorVistaPerfil {
         return this.getGestor().getModel();
     }
     
-    void actualizarPerfil() {
+    public void actualizarPerfil() {
        this.setActualizacion(true);
        this.setModel();
        this.getGestor().actualizarObjeto();
     }
 
-    void eliminarPerfil() {
+    public void eliminarPerfil() {
         this.getGestor().eliminarObjeto();
     }
 
-    boolean buscarPerfil(String nombre) {
+    public boolean buscarPerfil(String nombre) {
         Perfil perfil;
         perfil = this.getGestor().buscarPerfil(nombre);
          if(perfil!=null){

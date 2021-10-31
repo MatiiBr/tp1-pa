@@ -11,6 +11,7 @@ import Modelos.Gestion.Personal;
 import Util.UtilJtable;
 import Vistas.MenuPrincipal.GestorMenuPrincipal;
 import java.util.Date;
+import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JList;
@@ -178,7 +179,10 @@ public class GestorVistaPersonal {
     public void nuevoPerfil() {
         this.getGestorMenu().abrirPerfil(this.getEscritorio());
     }
-    public void buscarPerfiles() {
-        this.getForm().getListPerfilesIzq().setModel(this.getGestor().buscarPerfiles());
+    public void buscarPerfiles(JList lista) {
+        DefaultListModel modelo = this.getGestor().buscarPerfiles();
+        if(modelo!=null){
+            lista.setModel(modelo);
+        }
     }
 }

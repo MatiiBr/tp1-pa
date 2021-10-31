@@ -36,7 +36,7 @@ public class GestorVistaTipoProyecto {
         return form;
     }
 
-    void guardarTipoProyecto() {
+    public void guardarTipoProyecto() {
         this.setActualizacion(false);
         this.setModel();
         this.getGestor().guardarObjeto();
@@ -62,17 +62,17 @@ public class GestorVistaTipoProyecto {
         return this.getGestor().getModel();
     }
     
-    void actualizarTipoProyecto() {
+    public void actualizarTipoProyecto() {
        this.setActualizacion(true);
        this.setModel();
        this.getGestor().actualizarObjeto();
     }
 
-    void eliminarTipoProyecto() {
+    public void eliminarTipoProyecto() {
         this.getGestor().eliminarObjeto();
     }
 
-    boolean buscarTipoProyecto(String nombre) {
+    public boolean buscarTipoProyecto(String nombre) {
         TipoProyecto tipoProyecto;
         tipoProyecto = this.getGestor().buscarTipoProyecto(nombre);
          if(tipoProyecto!=null){

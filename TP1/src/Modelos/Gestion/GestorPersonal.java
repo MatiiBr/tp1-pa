@@ -31,8 +31,11 @@ public class GestorPersonal extends GestorHibernate {
     public DefaultComboBoxModel getComboModel() {      
         DefaultComboBoxModel auxModel= new DefaultComboBoxModel();
         auxModel.addElement("");
-        for (Personal auxTipo : this.listar()) {
-            auxModel.addElement(auxTipo);
+         List <Personal> lista = this.listar();
+        if(lista != null){
+            for (Personal auxTipo : lista) {
+                auxModel.addElement(auxTipo);
+            }
         }
          return auxModel;
     }
@@ -77,11 +80,9 @@ public class GestorPersonal extends GestorHibernate {
         List perfiles = this.listarClase(Perfil.class);
         if (perfiles!=null) {
             DefaultListModel modelo = new DefaultListModel();
-            String[] registros = new String[1];
             for (Iterator it = perfiles.iterator(); it.hasNext();) {
                 Perfil perfil = (Perfil) it.next();
-                 registros[0] = perfil.getNombre();
-                 modelo.addElement(registros);
+                 modelo.addElement(perfil.getNombre());
             }
             return modelo;    
         }
