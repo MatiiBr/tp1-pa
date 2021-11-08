@@ -7,10 +7,13 @@ package Vistas.Personal;
 
 import Modelos.Gestion.Cargo;
 import Modelos.Gestion.GestorPersonal;
+import Modelos.Gestion.Perfil;
 import Modelos.Gestion.Personal;
 import Util.UtilJtable;
 import Vistas.MenuPrincipal.GestorMenuPrincipal;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
@@ -25,7 +28,9 @@ public class GestorVistaPersonal {
     FrmPersonal form;  
     private GestorPersonal gestor; 
     private GestorMenuPrincipal gestorMenu;
-     private UtilJtable UtilTable= new UtilJtable();
+    private UtilJtable UtilTable= new UtilJtable();
+    private DefaultListModel modeloListaDerecha= new DefaultListModel();
+    private DefaultListModel modeloListaIzquierda= new DefaultListModel();
     
     public UtilJtable getUtilTable() {
         return UtilTable;
@@ -110,11 +115,9 @@ public class GestorVistaPersonal {
          }
          return true;
     }
-    
      public void cargarPersonal(Personal personal){
          this.getForm().cargarPersonal(personal);
      }
-    
     public void eliminarPersonal(){
         this.getGestor().eliminarObjeto();
     }
@@ -163,7 +166,6 @@ public class GestorVistaPersonal {
     public void setModelCargo(JComboBox cboCargo) {
        cboCargo.setModel(getGestor().getComboModelCargo());
     }
-
     public GestorMenuPrincipal getGestorMenu() {
         if (gestorMenu == null) {
            synchronized (GestorMenuPrincipal.class) {
@@ -172,7 +174,6 @@ public class GestorVistaPersonal {
         }
         return gestorMenu;
     }
-
     public void setGestorMenu(GestorMenuPrincipal gestorMenu) {
         this.gestorMenu = gestorMenu;
     }
@@ -180,9 +181,22 @@ public class GestorVistaPersonal {
         this.getGestorMenu().abrirPerfil(this.getEscritorio());
     }
     public void buscarPerfiles(JList lista) {
-        DefaultListModel modelo = this.getGestor().buscarPerfiles();
-        if(modelo!=null){
-            lista.setModel(modelo);
+        lista.setModel(this.crearModelo(this.getGestor().buscarPerfiles(),this.modeloListaIzquierda));
+    }
+    public void moverPerfilesDer(List listaPerfiles, JList listaDer) {
+        listaDer.setModel(this.crearModelo(listaPerfiles,this.modeloListaDerecha));
+    }
+    public DefaultListModel crearModelo(List perfiles, DefaultListModel modelo){
+        if (perfiles!=null) {
+            //DefaultListModel modelo = new DefaultListModel();
+            
+            for (Iterator it = perfiles.iterator(); it.hasNext();) {
+                //Perfil perfil = (Perfil) it.next();
+                 modelo.addElement(it.next());
+            }
+            //return modelo;
         }
+        //return null;
+        return modelo;
     }
 }

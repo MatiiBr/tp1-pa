@@ -76,16 +76,11 @@ public class GestorPersonal extends GestorHibernate {
        public DefaultComboBoxModel getComboModelCargo() {
             return this.getGestorCargo().getComboModel();
        }
-    public DefaultListModel buscarPerfiles(){
-        List perfiles = this.listarClase(Perfil.class);
-        if (perfiles!=null) {
-            DefaultListModel modelo = new DefaultListModel();
-            for (Iterator it = perfiles.iterator(); it.hasNext();) {
-                Perfil perfil = (Perfil) it.next();
-                 modelo.addElement(perfil.getNombre());
-            }
-            return modelo;    
-        }
-        return null;
+    public List buscarPerfiles(){
+        return this.listarClase(Perfil.class);
+    }
+
+    public void moverPerfilesDer() {
+        
     }
 }

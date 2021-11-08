@@ -31,8 +31,7 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
             
         }  
         this.setGestorVistaPersonal(gestorPersonal);
-        this.getGestorVistaPersonal().buscarPerfiles(this.listPerfilesIzq);
-     
+        this.actualizarPerfiles();
     }
 
     public JList<String> getListPerfilesDer() {
@@ -234,6 +233,15 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
       public void cargarCombos() {
         this.getGestorVistaPersonal().setModelCargo(cboCargo);
     }
+      private void nuevoPerfil() {
+        this.getGestorVistaPersonal().nuevoPerfil();
+    }
+    private void moverPerfilesDer() {
+        this.getGestorVistaPersonal().moverPerfilesDer(this.listPerfilesIzq.getSelectedValuesList(), this.listPerfilesDer);
+    }
+    public void actualizarPerfiles() {
+        this.getGestorVistaPersonal().buscarPerfiles(this.listPerfilesIzq);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -381,13 +389,13 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
         });
         jPanel1.add(cboCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 180, 138, 20));
 
-        btnActualizarPerfiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/actualizar.png"))); // NOI18N
+        btnActualizarPerfiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/add.png"))); // NOI18N
         btnActualizarPerfiles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActualizarPerfilesActionPerformed(evt);
             }
         });
-        jPanel1.add(btnActualizarPerfiles, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 420, 40, 40));
+        jPanel1.add(btnActualizarPerfiles, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 270, 40, 40));
 
         lblCargo1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblCargo1.setText("Perfiles:");
@@ -405,15 +413,20 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
         jPanel1.add(btnSacarPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 370, 40, 40));
 
         btnAgregarPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/flecha-derecha.png"))); // NOI18N
+        btnAgregarPerfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarPerfilActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnAgregarPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 320, 40, 40));
 
-        btnNuevoPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/add.png"))); // NOI18N
+        btnNuevoPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/actualizar.png"))); // NOI18N
         btnNuevoPerfil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNuevoPerfilActionPerformed(evt);
             }
         });
-        jPanel1.add(btnNuevoPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 270, 40, 40));
+        jPanel1.add(btnNuevoPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 420, 40, 40));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
@@ -505,7 +518,7 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(40, Short.MAX_VALUE)
+                .addContainerGap(38, Short.MAX_VALUE)
                 .addComponent(btnCancelar)
                 .addGap(18, 18, 18)
                 .addComponent(btnSalir)
@@ -518,7 +531,7 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(btnSalir))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -621,8 +634,12 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtApellidoActionPerformed
 
     private void btnNuevoPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoPerfilActionPerformed
-        // TODO add your handling code here:
+        this.actualizarPerfiles();
     }//GEN-LAST:event_btnNuevoPerfilActionPerformed
+
+    private void btnAgregarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPerfilActionPerformed
+        this.moverPerfilesDer();
+    }//GEN-LAST:event_btnAgregarPerfilActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -658,7 +675,4 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 
-    private void nuevoPerfil() {
-        this.getGestorVistaPersonal().nuevoPerfil();
-    }
 }
