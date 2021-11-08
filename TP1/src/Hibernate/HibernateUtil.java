@@ -23,14 +23,8 @@ public class HibernateUtil {
             catch(Exception e){
                 JOptionPane.showMessageDialog(null, "Error de Base de Datos Nº 2001");
             }
-<<<<<<< HEAD
-            
             conf.setProperty("hibernate.connection.username","postgres");
             conf.setProperty("hibernate.connection.password","root");
-=======
->>>>>>> 6a55afd2a9f34c070c9229b1539278e6ff4a6d16
-
-            conf.setProperty("hibernate.connection.username","postgres");
             
             conf.setProperty("hibernate.connection.password","1234");
             conf.setProperty("hibernate.connection.pool_size","10");
@@ -60,10 +54,6 @@ public class HibernateUtil {
             throw new ExceptionInInitializerError(ex);
         }
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> 6a55afd2a9f34c070c9229b1539278e6ff4a6d16
     public static Session getSession()
     throws HibernateException {
         return session;
