@@ -108,10 +108,11 @@ public class GestorProyecto extends GestorHibernate {
     public void setTipoProyecto(TipoProyecto tipoProyecto) {
         this.model.setTipoProyecto(tipoProyecto);
     }
-     public Proyecto buscarProyecto(String nombre) {
+     
+     public Proyecto buscarProyectoPorId(Long id) {
         Proyecto proyecto = null;
        try {
-          proyecto = this.buscarProyecto(Proyecto.class, nombre);
+          proyecto = this.buscarProyectoPorId(Proyecto.class, id);
        }
        catch(Exception e){
           e.printStackTrace();
@@ -134,33 +135,13 @@ public class GestorProyecto extends GestorHibernate {
          public DefaultComboBoxModel getComboModelPersonal() {
             return this.getGestorPersonal().getComboModel();
        }
-         public DefaultTableModel crearTabla(List lista){
-            String[] titulos = {"Nombre", "Tipo de Proyecto", "Cliente", "Personal", "Fecha Carga"};
-            DefaultTableModel modelo = new DefaultTableModel(null, titulos);
-            if(lista==null){
-                return modelo;
-            }
-            String[] registros = new String[5];
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            for (Iterator it = lista.iterator(); it.hasNext();) {
-                Proyecto proyecto = (Proyecto) it.next();
-                 registros[0] =  proyecto.getNombre();
-                 registros[1] = proyecto.getTipoProyecto().getNombre();
-                 registros[2] = proyecto.getCliente().toString();
-                 registros[3] = proyecto.getPersonal().toString();
-                 registros[4] = formatter.format(proyecto.getFechaCarga());
-                 modelo.addRow(registros);
-            }
-           return modelo;
-         }
-         public DefaultTableModel  consultarProyectos() {
-            List proyectos = this.listarClase(Proyecto.class);
-            return this.crearTabla(proyectos);
+      
+         public List  consultarProyectos() {
+            return this.listarClase(Proyecto.class);
         }
          
-         public DefaultTableModel  consultarProyectosPorNombre(String nombre) {
-            List proyectos = this.buscarProyectosPorNombre(Proyecto.class, nombre);
-            return this.crearTabla(proyectos);
+         public List  consultarProyectosPorNombre(String nombre) {
+            return this.buscarProyectosPorNombre(Proyecto.class, nombre);
         }
        
 }

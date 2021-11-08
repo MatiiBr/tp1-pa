@@ -25,11 +25,7 @@ public class HibernateUtil {
             }
             
             conf.setProperty("hibernate.connection.username","postgres");
-<<<<<<< HEAD
             conf.setProperty("hibernate.connection.password","root");
-=======
-            conf.setProperty("hibernate.connection.password","");
->>>>>>> 11c2729199ef35ff12744d1cb1a71c30bee572c3
 
             conf.setProperty("hibernate.connection.pool_size","10");                          
             conf.setProperty("hibernate.hbm2ddl.auto","update");
@@ -57,7 +53,6 @@ public class HibernateUtil {
             throw new ExceptionInInitializerError(ex);
         }
     }
-    
     public static Session getSession()
     throws HibernateException {
         return session;

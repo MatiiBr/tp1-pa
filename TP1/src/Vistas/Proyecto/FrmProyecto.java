@@ -9,12 +9,16 @@ import Modelos.Gestion.Proyecto;
 import com.toedter.calendar.JDateChooser;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  *
@@ -39,8 +43,8 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         this.getGestorVistaProyecto().newModel();
         this.cargarCombos();
         this.getGestorVistaProyecto().cargarTabla(this.tblProyectos);
-    }
-
+     }
+    
     public JComboBox getCboCliente() {
         return cboCliente;
     }
@@ -137,6 +141,9 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         this.gestorProyecto = gestorProyecto;
     }
     public void editarProyecto(){
+        this.getGestorVistaProyecto().cargarModelo(this.tblProyectos.getSelectedRow());
+    }
+    public void vistaEditar(){
         this.vistaNuevoProyecto();
         this.botonesNuevo();
         btnGuardar.setText("Actualizar");
@@ -154,7 +161,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     }
     public void cargarProyecto(Proyecto proyecto){
         this.limpiarPantalla();
-        this.vistaInicio();
+        this.vistaActualizacion();
         txtNombre.setText(proyecto.getNombre());
         lblFechaCargaDato.setText(sdf.format(proyecto.getFechaCarga()));
         inpFechaEntrega.setDate(proyecto.getFechaEntrega());
@@ -183,6 +190,15 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         this.txtNombre.setEnabled(true);
         this.lblFechaCargaDato.setText(sdf.format(new Date()));
     }
+    public void vistaActualizacion(){
+        this.inpFechaConfirmacion.setEnabled(true);
+        this.inpFechaTerminacion.setEnabled(true);
+        this.inpFechaEntrega.setEnabled(true);
+        this.cboCliente.setEnabled(true);
+        this.cboPersonal.setEnabled(true);
+        this.cboTipoProyecto.setEnabled(true);
+        this.txtNombre.setEnabled(true);
+    }
     
     public void limpiarPantalla(){
         this.txtNombre.setText("");
@@ -195,7 +211,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     }
     public void botonesInicio(){
         btnNuevo.setEnabled(true);
-        btnEditar.setEnabled(false);
+        btnEditar.setEnabled(true);
         btnGuardar.setEnabled(false);
         btnGuardar.setText("Guardar");
         btnEliminar.setEnabled(false);
@@ -465,7 +481,6 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
 
         btnEditar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEditar.setText("Editar");
-        btnEditar.setEnabled(false);
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarActionPerformed(evt);
@@ -673,7 +688,8 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tblProyectos.setEnabled(false);
+        tblProyectos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblProyectos.getTableHeader().setReorderingAllowed(false);
         scrProyectos.setViewportView(tblProyectos);
 
         panelProyecto1.add(scrProyectos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 700, 350));
@@ -710,7 +726,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 btnBuscarActionPerformed(evt);
             }
         });
-        panelProyecto1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, 90, -1));
+        panelProyecto1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, 90, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

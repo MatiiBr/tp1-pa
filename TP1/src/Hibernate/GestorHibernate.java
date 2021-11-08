@@ -67,10 +67,9 @@ public class GestorHibernate extends HibernateUtil {
         return (Contacto) crit.list().get(0);
      }
      
-     public Proyecto buscarProyecto(Class clase, String valor){        
-         System.out.println(valor);
+     public Proyecto buscarProyectoPorId(Class clase, Long valor){        
          Criteria crit = getSession().createCriteria(clase)
-            .add( Restrictions.eq("nombre", valor));
+            .add( Restrictions.eq("id", valor));
         if (crit.list().isEmpty()){
             return null;
         }
@@ -87,7 +86,6 @@ public class GestorHibernate extends HibernateUtil {
      }
       
       public Cliente buscarCliente(Class clase, String valor){        
-         System.out.println(valor);
          Criteria crit = getSession().createCriteria(clase)
             .add( Restrictions.eq("nombre", valor));
         if (crit.list().isEmpty()){
@@ -95,8 +93,7 @@ public class GestorHibernate extends HibernateUtil {
         }
         return (Cliente) crit.list().get(0);
      }
-      public Personal buscarPersonal(Class clase, String valor){        
-         System.out.println(valor);
+      public Personal buscarPersonal(Class clase, String valor){
          Criteria crit = getSession().createCriteria(clase)
             .add( Restrictions.eq("nombre", valor));
         if (crit.list().isEmpty()){
@@ -104,8 +101,7 @@ public class GestorHibernate extends HibernateUtil {
         }
         return (Personal) crit.list().get(0);
      }
-      public Perfil buscarPerfil(Class clase, String valor){        
-         System.out.println(valor);
+      public Perfil buscarPerfil(Class clase, String valor){     
          Criteria crit = getSession().createCriteria(clase)
             .add( Restrictions.eq("nombre", valor));
         if (crit.list().isEmpty()){

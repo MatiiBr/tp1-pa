@@ -12,12 +12,21 @@ import Modelos.Gestion.Personal;
 import Modelos.Gestion.TipoProyecto;
 import Util.UtilJtable;
 import Vistas.MenuPrincipal.GestorMenuPrincipal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.transaction.Transactional;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 /**
  *
@@ -246,11 +255,49 @@ public class GestorVistaProyecto {
     }
     
     public void cargarTabla(JTable tabla){
-        tabla.setModel(this.getGestor().consultarProyectos());
+        tabla.setModel(this.crearModelo(this.getGestor().consultarProyectos()));
     }
     
      public void buscarProyecto(String nombre) {
-       this.getForm().getTblProyectos().setModel(this.getGestor().consultarProyectosPorNombre(nombre));
+       this.getForm().getTblProyectos().setModel(this.crearModelo(this.getGestor().consultarProyectosPorNombre(nombre)));
     }
+     
+    public DefaultTableModel crearModelo(List lista){
+        String[] titulos = {"Id","Nombre", "Tipo de Proyecto", "Cliente", "Personal", "Fecha Carga"};
+        DefaultTableModel modelo = new DefaultTableModel(null, titulos){
+           @Override
+            public boolean isCellEditable(int row, int column) {
+               return false;
+         }
+        };
+        if(lista==null){
+            return modelo;
+        }
+        String[] registros = new String[6];
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        for (Iterator it = lista.iterator(); it.hasNext();) {
+            Proyecto proyecto = (Proyecto) it.next();
+             registros[0] = String.valueOf(proyecto.getId());
+             registros[1] =  proyecto.getNombre();
+             registros[2] = proyecto.getTipoProyecto().getNombre();
+             registros[3] = proyecto.getCliente().toString();
+             registros[4] = proyecto.getPersonal().toString();
+             registros[5] = formatter.format(proyecto.getFechaCarga());
+             modelo.addRow(registros);
+        }
+       return modelo;
+     }
+
+    public void cargarModelo(int indice) {
+        if(indice != -1){
+            this.getForm().vistaEditar();
+            Object id = this.getForm().getTblProyectos().getValueAt(indice, 0);
+            this.cargarProyecto(this.getGestor().buscarProyectoPorId(new Long(id.toString())));
+        }else{
+             JOptionPane.showMessageDialog(null, "Debe seleccionar el registro a editar.");
+        }
+    }
+    
+    
     
 }
