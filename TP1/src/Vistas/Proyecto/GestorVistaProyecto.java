@@ -143,6 +143,7 @@ public class GestorVistaProyecto {
    }
     
      public void cargarProyecto(Proyecto proyecto){
+        this.setModel(proyecto);
          this.getForm().cargarProyecto(proyecto);
      }
     
@@ -273,11 +274,13 @@ public class GestorVistaProyecto {
         if(lista==null){
             return modelo;
         }
-        String[] registros = new String[6];
+            Object[] registros = new Object[6];
+//        String[] registros = new String[6];
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         for (Iterator it = lista.iterator(); it.hasNext();) {
             Proyecto proyecto = (Proyecto) it.next();
-             registros[0] = String.valueOf(proyecto.getId());
+//                registros[0] = proyecto;
+             registros[0] = proyecto;
              registros[1] =  proyecto.getNombre();
              registros[2] = proyecto.getTipoProyecto().getNombre();
              registros[3] = proyecto.getCliente().toString();
@@ -291,8 +294,11 @@ public class GestorVistaProyecto {
     public void cargarModelo(int indice) {
         if(indice != -1){
             this.getForm().vistaEditar();
-            Object id = this.getForm().getTblProyectos().getValueAt(indice, 0);
-            this.cargarProyecto(this.getGestor().buscarProyectoPorId(new Long(id.toString())));
+//            Object id = this.getForm().getTblProyectos().getValueAt(indice, 0);
+//            this.cargarProyecto(this.getGestor().buscarProyectoPorId(new Long(id.toString())));
+
+            Proyecto proyecto =(Proyecto) this.getForm().getTblProyectos().getValueAt(indice, 0);
+            this.cargarProyecto(proyecto);
         }else{
              JOptionPane.showMessageDialog(null, "Debe seleccionar el registro a editar.");
         }

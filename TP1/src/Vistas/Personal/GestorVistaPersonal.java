@@ -181,22 +181,36 @@ public class GestorVistaPersonal {
         this.getGestorMenu().abrirPerfil(this.getEscritorio());
     }
     public void buscarPerfiles(JList lista) {
+        this.modeloListaIzquierda = new DefaultListModel();
         lista.setModel(this.crearModelo(this.getGestor().buscarPerfiles(),this.modeloListaIzquierda));
     }
-    public void moverPerfilesDer(List listaPerfiles, JList listaDer) {
+    public void limpiarPerfiles(JList lista){
+        this.modeloListaDerecha = new DefaultListModel();
+        lista.setModel(this.modeloListaDerecha);
+    }
+    public void moverPerfilesDer(List listaPerfiles, JList listaDer, JList listaIzq) {
         listaDer.setModel(this.crearModelo(listaPerfiles,this.modeloListaDerecha));
+        listaIzq.setModel(this.removerPerfiles(listaPerfiles, this.modeloListaIzquierda));
+    }
+    public void moverPerfilesIzq(List listaPerfiles, JList listaIzq, JList listaDer) {
+        listaIzq.setModel(this.crearModelo(listaPerfiles,this.modeloListaIzquierda));
+        listaDer.setModel(this.removerPerfiles(listaPerfiles, this.modeloListaDerecha));
     }
     public DefaultListModel crearModelo(List perfiles, DefaultListModel modelo){
         if (perfiles!=null) {
-            //DefaultListModel modelo = new DefaultListModel();
-            
             for (Iterator it = perfiles.iterator(); it.hasNext();) {
-                //Perfil perfil = (Perfil) it.next();
-                 modelo.addElement(it.next());
+                Perfil perfil = (Perfil) it.next();
+                 modelo.addElement(perfil);
             }
-            //return modelo;
         }
-        //return null;
+        return modelo;
+    }
+    
+    public DefaultListModel removerPerfiles(List perfiles, DefaultListModel modelo){
+        for (Iterator it = perfiles.iterator(); it.hasNext();) {
+                Perfil perfil = (Perfil) it.next();
+                 modelo.removeElement(perfil);
+            }
         return modelo;
     }
 }
