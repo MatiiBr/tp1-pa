@@ -54,7 +54,9 @@ public class GestorVistaPersonal {
           this.getModel().setNombre(this.getForm().getTxtNombre().getText().toUpperCase());
           this.getModel().setApellido(this.getForm().getTxtApellido().getText().toUpperCase());
           this.getModel().setFechaNacimiento(this.getForm().getInpFechaNacimiento().getDate());
-           this.getModel().setCargo((Cargo) this.getForm().getCboCargo().getSelectedItem());
+//          this.getModel().setCargo((Cargo) this.getForm().getCboCargo().getSelectedItem());
+          this.getModel().setCargo(new Cargo());
+          this.getModel().setPerfiles((List<Perfil>) this.getForm().getListPerfilesDer().getModel());
     }
     
     public void setModel(Personal model) {
@@ -122,6 +124,7 @@ public class GestorVistaPersonal {
         this.getGestor().eliminarObjeto();
     }
     public String revisarFormulario(){
+        
         String mensaje = "";
          if(this.getForm().getTxtNombre().getText().isEmpty()){
              this.getForm().getLblNombreRequerido().setText("Requerido.");
@@ -142,7 +145,7 @@ public class GestorVistaPersonal {
              this.getForm().setFormValido(false);
          }
          if(this.getForm().getCboCargo().getSelectedIndex()==0 || this.getForm().getCboCargo().getSelectedIndex()==-1){
-             System.out.println(this.getForm().getCboCargo().getSelectedIndex());
+             
              mensaje +="\n - Debe seleccionar un Cargo.";
              this.getForm().setFormValido(false);
          }

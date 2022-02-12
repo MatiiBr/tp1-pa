@@ -6,7 +6,8 @@
 package Modelos.Gestion;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -25,6 +26,17 @@ public class Perfil implements Serializable {
     @Column(name="descripcion", columnDefinition = "TEXT")
         private String descripcion; 
 
+    @ManyToMany(mappedBy = "perfiles")
+    public List<Personal> personales = new ArrayList<>();
+
+    public List<Personal> getPersonales() {
+        return personales;
+    }
+
+    public void setPersonales(List<Personal> personales) {
+        this.personales = personales;
+    }
+    
     public long getId() {
         return id;
     }
