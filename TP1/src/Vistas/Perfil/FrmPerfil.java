@@ -420,14 +420,14 @@ public class FrmPerfil extends javax.swing.JInternalFrame {
         lblNombre1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblNombre1.setText("Descripción:");
         panelPerfil.add(lblNombre1);
-        lblNombre1.setBounds(30, 130, 90, 20);
+        lblNombre1.setBounds(30, 110, 90, 20);
 
         jTxtDescripcion.setColumns(20);
         jTxtDescripcion.setRows(5);
         jScrollPane1.setViewportView(jTxtDescripcion);
 
         panelPerfil.add(jScrollPane1);
-        jScrollPane1.setBounds(30, 160, 222, 86);
+        jScrollPane1.setBounds(30, 140, 222, 86);
 
         lblNombreRequerido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblNombreRequerido.setForeground(new java.awt.Color(255, 0, 51));

@@ -10,6 +10,7 @@ import Vistas.Contacto.GestorVistaContacto;
 import Vistas.Personal.GestorVistaPersonal;
 import Vistas.Proyecto.GestorVistaProyecto;
 import Vistas.Perfil.GestorVistaPerfil;
+import Vistas.Posts.GestorVistaPosts;
 import Vistas.TipoProyecto.GestorVistaTipoProyecto;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
@@ -86,11 +87,19 @@ public class GestorMenuPrincipal {
     }
 
     public void abrirPerfil(JDesktopPane escritorio) {
-        if(this.estaCerrada(escritorio, "Tipo de Proyecto")){
-            GestorVistaPerfil gestorVistaTipoProyecto= new GestorVistaPerfil();
-            gestorVistaTipoProyecto.openFormulario(escritorio, gestorVistaTipoProyecto);
+        if(this.estaCerrada(escritorio, "Perfil")){
+            GestorVistaPerfil gestorVistaPerfil= new GestorVistaPerfil();
+            gestorVistaPerfil.openFormulario(escritorio, gestorVistaPerfil);
          }else{
-               this.mostrarMensajeVentanaAbierta("Tipo de Proyecto");
+               this.mostrarMensajeVentanaAbierta("Perfil");
+         }
+    }
+    public void abrirPosts(JDesktopPane escritorio) {
+        if(this.estaCerrada(escritorio, "Posts")){
+            GestorVistaPosts gestorVistaPosts = new GestorVistaPosts();
+            gestorVistaPosts.openFormulario(escritorio, gestorVistaPosts);
+         }else{
+               this.mostrarMensajeVentanaAbierta("Posts");
          }
     }
 }

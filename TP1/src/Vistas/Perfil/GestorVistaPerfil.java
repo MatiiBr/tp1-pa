@@ -96,7 +96,7 @@ public class GestorVistaPerfil {
         this.getEscritorio().add(form);
         this.getForm().setVisible(true);
     }
-
+    
     private void setEscritorio(JDesktopPane pantalla) {
         this.escritorio = pantalla;
     }
