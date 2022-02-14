@@ -5,10 +5,7 @@
  */
 package Vistas.Proyecto;
 
-import Modelos.Gestion.Cliente;
-import Modelos.Gestion.Personal;
 import Modelos.Gestion.Proyecto;
-import Modelos.Gestion.TipoProyecto;
 import com.toedter.calendar.JDateChooser;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -46,7 +43,6 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         this.getGestorVistaProyecto().newModel();
         this.cargarCombos();
         this.getGestorVistaProyecto().cargarTabla(this.tblProyectos);
-        this.actualizarPerfiles();
      }
     
     public JComboBox getCboCliente() {
@@ -72,6 +68,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     public void setCboTipoProyecto(JComboBox cboTipoProyecto) {
         this.cboTipoProyecto = cboTipoProyecto;
     }
+
     public JDateChooser getInpFechaEntrega() {
         return inpFechaEntrega;
     }
@@ -251,10 +248,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     }
      
      public void buscarProyecto(){
-         this.getGestorVistaProyecto().buscarProyecto(this.txtBuscarNombre.getText().toUpperCase(), 
-                 this.cboFilterCliente.getModel().getSelectedItem(),
-                 this.cboFilterTipoProyecto.getModel().getSelectedItem(),
-                 this.cboFilterPersonal.getModel().getSelectedItem());
+         this.getGestorVistaProyecto().buscarProyecto(this.txtBuscarNombre.getText().toUpperCase());
      }
      
      public void eliminarProyecto(){
@@ -270,9 +264,6 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         this.cargarTipoProyecto();
          this.cargarClientes();
          this.cargarPersonal();
-        this.cargarFilterClientes();
-         this.cargarFilterTipoProyecto();
-         this.cargarFilterPersonal();
     }
     public void cargarClientes(){
         this.getGestorVistaProyecto().setModelCliente(cboCliente);
@@ -281,28 +272,13 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         this.getGestorVistaProyecto().setModelTipoProyecto(cboTipoProyecto);
     }
     public void cargarPersonal(){
-        this.getGestorVistaProyecto().setModelPersonal(cboFilterPersonal);
-    }
-    public void cargarFilterClientes(){
-        this.getGestorVistaProyecto().setModelCliente(cboFilterCliente);
-    }
-    public void cargarFilterTipoProyecto(){
-        this.getGestorVistaProyecto().setModelTipoProyecto(cboFilterTipoProyecto);
-    }
-    public void cargarFilterPersonal(){
-        this.getGestorVistaProyecto().setModelPersonal(cboFilterPersonal);
+        this.getGestorVistaProyecto().setModelPersonal(cboPersonal);
     }
     
     public void limpiarCombos(){
-        if(this.cboTipoProyecto.getModel().getSize()!=0){
          this.cboTipoProyecto.setSelectedIndex(0);
-        }
-        if(this.cboPersonal.getModel().getSize()!=0){
-         this.cboPersonal.setSelectedIndex(0);            
-        }
-        if(this.cboCliente.getModel().getSize() !=0){
-         this.cboCliente.setSelectedIndex(0);   
-        }
+         this.cboPersonal.setSelectedIndex(0);
+         this.cboCliente.setSelectedIndex(0);
     }
     
     public void nuevoCliente(){
@@ -316,25 +292,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
      public void nuevoTipoProyecto(){
         this.getGestorVistaProyecto().nuevoTipoProyecto();
     }
-    private void nuevoPerfil() {
-        this.getGestorVistaProyecto().nuevoPerfil();
-    }
-    private void moverPerfilesDer() {
-        this.getGestorVistaProyecto().moverPerfilesDer(this.listPerfilesIzq.getSelectedValuesList(), this.listPerfilesDer, this.listPerfilesIzq);
-        this.setAvgText();
-    }
-    private void moverPerfilesIzq() {
-        this.getGestorVistaProyecto().moverPerfilesIzq(this.listPerfilesDer.getSelectedValuesList(), this.listPerfilesIzq, this.listPerfilesDer);
-        this.setAvgText();
-    }
-    public void actualizarPerfiles() {
-        this.getGestorVistaProyecto().buscarPerfiles(this.listPerfilesIzq);
-        this.getGestorVistaProyecto().limpiarPerfiles(this.listPerfilesDer);
-    }
-    
-    public void setAvgText(){
-        lblAvg.setText(this.getGestorVistaProyecto().getAvg(this.listPerfilesDer));
-    }
+     
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -357,17 +315,6 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         btnCliente = new javax.swing.JButton();
         btnPersonal = new javax.swing.JButton();
         btnTipoProyecto = new javax.swing.JButton();
-        lblAvg = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        listPerfilesIzq = new javax.swing.JList<>();
-        lblCargo2 = new javax.swing.JLabel();
-        btnActualizarPerfiles = new javax.swing.JButton();
-        btnAgregarPerfil = new javax.swing.JButton();
-        btnSacarPerfil = new javax.swing.JButton();
-        btnNuevoPerfil = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        listPerfilesDer = new javax.swing.JList<>();
-        lblCargo1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
@@ -389,16 +336,9 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         lblNombreRequerido1 = new javax.swing.JLabel();
         scrProyectos = new javax.swing.JScrollPane();
         tblProyectos = new javax.swing.JTable();
+        cboFiltros = new javax.swing.JComboBox<>();
         txtBuscarNombre = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
-        lblNombre1 = new javax.swing.JLabel();
-        lblNombre2 = new javax.swing.JLabel();
-        cboFilterTipoProyecto = new javax.swing.JComboBox();
-        lblFechaConfirmacion4 = new javax.swing.JLabel();
-        lblFechaConfirmacion5 = new javax.swing.JLabel();
-        cboFilterCliente = new javax.swing.JComboBox<>();
-        cboFilterPersonal = new javax.swing.JComboBox<>();
-        btnReporte = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setClosable(true);
@@ -476,15 +416,15 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 cboClienteActionPerformed(evt);
             }
         });
-        panelProyecto.add(cboCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 60, 139, 28));
+        panelProyecto.add(cboCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 60, 139, 28));
 
         lblFechaConfirmacion2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblFechaConfirmacion2.setText("Cliente:");
-        panelProyecto.add(lblFechaConfirmacion2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, -1, -1));
+        panelProyecto.add(lblFechaConfirmacion2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 40, -1, -1));
 
         lblFechaConfirmacion3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblFechaConfirmacion3.setText("Personal:");
-        panelProyecto.add(lblFechaConfirmacion3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, -1, -1));
+        panelProyecto.add(lblFechaConfirmacion3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 100, -1, -1));
 
         cboPersonal.setToolTipText("Seleccione.");
         cboPersonal.setEnabled(false);
@@ -503,7 +443,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 cboPersonalActionPerformed(evt);
             }
         });
-        panelProyecto.add(cboPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 120, 139, 28));
+        panelProyecto.add(cboPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 120, 139, 28));
 
         btnCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/add-user.png"))); // NOI18N
         btnCliente.setBorderPainted(false);
@@ -512,16 +452,15 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 btnClienteActionPerformed(evt);
             }
         });
-        panelProyecto.add(btnCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 60, 30, 28));
+        panelProyecto.add(btnCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 60, 30, 28));
 
         btnPersonal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/add-user.png"))); // NOI18N
-        btnPersonal.setBorderPainted(false);
         btnPersonal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPersonalActionPerformed(evt);
             }
         });
-        panelProyecto.add(btnPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 120, 30, 28));
+        panelProyecto.add(btnPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 120, 30, 28));
 
         btnTipoProyecto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/add.png"))); // NOI18N
         btnTipoProyecto.setBorderPainted(false);
@@ -531,59 +470,6 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
             }
         });
         panelProyecto.add(btnTipoProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 120, 30, 28));
-        panelProyecto.add(lblAvg, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 150, 140, 20));
-
-        jScrollPane2.setViewportView(listPerfilesIzq);
-
-        panelProyecto.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 180, 190));
-
-        lblCargo2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblCargo2.setText("Perfiles:");
-        panelProyecto.add(lblCargo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, -1, 20));
-
-        btnActualizarPerfiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/add.png"))); // NOI18N
-        btnActualizarPerfiles.setBorderPainted(false);
-        btnActualizarPerfiles.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActualizarPerfilesActionPerformed(evt);
-            }
-        });
-        panelProyecto.add(btnActualizarPerfiles, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 210, 40, 40));
-
-        btnAgregarPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/flecha-derecha.png"))); // NOI18N
-        btnAgregarPerfil.setBorderPainted(false);
-        btnAgregarPerfil.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarPerfilActionPerformed(evt);
-            }
-        });
-        panelProyecto.add(btnAgregarPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 260, 40, 40));
-
-        btnSacarPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/flecha-izquierda.png"))); // NOI18N
-        btnSacarPerfil.setBorderPainted(false);
-        btnSacarPerfil.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSacarPerfilActionPerformed(evt);
-            }
-        });
-        panelProyecto.add(btnSacarPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 310, 40, 40));
-
-        btnNuevoPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/actualizar.png"))); // NOI18N
-        btnNuevoPerfil.setBorderPainted(false);
-        btnNuevoPerfil.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNuevoPerfilActionPerformed(evt);
-            }
-        });
-        panelProyecto.add(btnNuevoPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 360, 40, 40));
-
-        jScrollPane1.setViewportView(listPerfilesDer);
-
-        panelProyecto.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 210, 180, 190));
-
-        lblCargo1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblCargo1.setText("Perfiles asignados:");
-        panelProyecto.add(lblCargo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 190, -1, -1));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
@@ -736,10 +622,10 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
 
         lblFechaCarga.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblFechaCarga.setText("Fecha Carga:");
-        panelFechas.add(lblFechaCarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 26, -1, -1));
+        panelFechas.add(lblFechaCarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 26, 160, -1));
 
         lblFechaCargaDato.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        panelFechas.add(lblFechaCargaDato, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, 160, 20));
+        panelFechas.add(lblFechaCargaDato, new org.netbeans.lib.awtextra.AbsoluteConstraints(171, 38, -1, -1));
 
         panelProyecto1.setBorder(javax.swing.BorderFactory.createTitledBorder("Proyecto"));
         panelProyecto1.setToolTipText("Proyecto");
@@ -766,7 +652,15 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         tblProyectos.getTableHeader().setReorderingAllowed(false);
         scrProyectos.setViewportView(tblProyectos);
 
-        panelProyecto1.add(scrProyectos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, 700, 140));
+        panelProyecto1.add(scrProyectos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 700, 360));
+
+        cboFiltros.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Tipo Proyecto", "Cliente", "Personal" }));
+        cboFiltros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboFiltrosActionPerformed(evt);
+            }
+        });
+        panelProyecto1.add(cboFiltros, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 160, 30));
 
         txtBuscarNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtBuscarNombre.setToolTipText("Nombre");
@@ -783,7 +677,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 txtBuscarNombreKeyTyped(evt);
             }
         });
-        panelProyecto1.add(txtBuscarNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 140, 30));
+        panelProyecto1.add(txtBuscarNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, 340, 30));
 
         btnBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnBuscar.setText("Buscar");
@@ -792,119 +686,43 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 btnBuscarActionPerformed(evt);
             }
         });
-        panelProyecto1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 20, 90, 30));
-
-        lblNombre1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblNombre1.setText("Nombre: ");
-        panelProyecto1.add(lblNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, -1, -1));
-
-        lblNombre2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblNombre2.setText("Tipo Proyecto:");
-        panelProyecto1.add(lblNombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
-
-        cboFilterTipoProyecto.setToolTipText("Seleccione.");
-        cboFilterTipoProyecto.setName(""); // NOI18N
-        cboFilterTipoProyecto.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
-            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
-            }
-            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
-            }
-            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
-                cboFilterTipoProyectoPopupMenuWillBecomeVisible(evt);
-            }
-        });
-        cboFilterTipoProyecto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboFilterTipoProyectoActionPerformed(evt);
-            }
-        });
-        panelProyecto1.add(cboFilterTipoProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 139, 30));
-
-        lblFechaConfirmacion4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblFechaConfirmacion4.setText("Cliente:");
-        panelProyecto1.add(lblFechaConfirmacion4, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 30, -1, -1));
-
-        lblFechaConfirmacion5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblFechaConfirmacion5.setText("Personal:");
-        panelProyecto1.add(lblFechaConfirmacion5, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 80, -1, -1));
-
-        cboFilterCliente.setToolTipText("Seleccione.");
-        cboFilterCliente.setName(""); // NOI18N
-        cboFilterCliente.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
-            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
-            }
-            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
-            }
-            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
-                cboFilterClientePopupMenuWillBecomeVisible(evt);
-            }
-        });
-        cboFilterCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboFilterClienteActionPerformed(evt);
-            }
-        });
-        panelProyecto1.add(cboFilterCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 20, 139, 28));
-
-        cboFilterPersonal.setToolTipText("Seleccione.");
-        cboFilterPersonal.setName(""); // NOI18N
-        cboFilterPersonal.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
-            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
-            }
-            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
-            }
-            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
-                cboFilterPersonalPopupMenuWillBecomeVisible(evt);
-            }
-        });
-        cboFilterPersonal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboFilterPersonalActionPerformed(evt);
-            }
-        });
-        panelProyecto1.add(cboFilterPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 70, 139, 28));
-
-        btnReporte.setText("Generar Reporte");
-        btnReporte.setActionCommand("Reporte");
-        btnReporte.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReporteActionPerformed(evt);
-            }
-        });
+        panelProyecto1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, 90, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(panelProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(panelProyecto1, javax.swing.GroupLayout.PREFERRED_SIZE, 716, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelFechas, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 559, Short.MAX_VALUE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(panelFechas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(panelProyecto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnReporte)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(495, Short.MAX_VALUE))
+                        .addComponent(panelProyecto1, javax.swing.GroupLayout.PREFERRED_SIZE, 716, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelProyecto1, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
-                    .addComponent(panelProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelFechas, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(14, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addComponent(btnReporte, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(panelProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(panelFechas, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(panelProyecto1, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         panelProyecto.getAccessibleContext().setAccessibleName("Descripcion");
@@ -961,7 +779,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cboClienteActionPerformed
 
     private void cboPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboPersonalActionPerformed
-       this.setAvgText();
+        // TODO add your handling code here:
     }//GEN-LAST:event_cboPersonalActionPerformed
 
     private void btnClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClienteActionPerformed
@@ -987,6 +805,10 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     private void cboPersonalPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cboPersonalPopupMenuWillBecomeVisible
         this.cargarPersonal();
     }//GEN-LAST:event_cboPersonalPopupMenuWillBecomeVisible
+
+    private void cboFiltrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboFiltrosActionPerformed
+        System.out.println("Vistas.Proyecto.FrmProyecto.cboFiltrosActionPerformed()");
+    }//GEN-LAST:event_cboFiltrosActionPerformed
 
     private void txtBuscarNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarNombreActionPerformed
         // TODO add your handling code here:
@@ -1016,54 +838,8 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_inpFechaConfirmacionPropertyChange
 
-    private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
-//        this.getGestorVistaProyecto().ejecutarReporte();
-    }//GEN-LAST:event_btnReporteActionPerformed
-
-    private void btnActualizarPerfilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarPerfilesActionPerformed
-        this.nuevoPerfil();
-    }//GEN-LAST:event_btnActualizarPerfilesActionPerformed
-
-    private void btnAgregarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPerfilActionPerformed
-        this.moverPerfilesDer();
-    }//GEN-LAST:event_btnAgregarPerfilActionPerformed
-
-    private void btnSacarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSacarPerfilActionPerformed
-        this.moverPerfilesIzq();
-    }//GEN-LAST:event_btnSacarPerfilActionPerformed
-
-    private void btnNuevoPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoPerfilActionPerformed
-        this.actualizarPerfiles();
-    }//GEN-LAST:event_btnNuevoPerfilActionPerformed
-
-    private void cboFilterTipoProyectoPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cboFilterTipoProyectoPopupMenuWillBecomeVisible
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cboFilterTipoProyectoPopupMenuWillBecomeVisible
-
-    private void cboFilterTipoProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboFilterTipoProyectoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cboFilterTipoProyectoActionPerformed
-
-    private void cboFilterClientePopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cboFilterClientePopupMenuWillBecomeVisible
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cboFilterClientePopupMenuWillBecomeVisible
-
-    private void cboFilterClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboFilterClienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cboFilterClienteActionPerformed
-
-    private void cboFilterPersonalPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cboFilterPersonalPopupMenuWillBecomeVisible
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cboFilterPersonalPopupMenuWillBecomeVisible
-
-    private void cboFilterPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboFilterPersonalActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cboFilterPersonalActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnActualizarPerfiles;
-    private javax.swing.JButton btnAgregarPerfil;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnCliente;
@@ -1071,16 +847,11 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
-    private javax.swing.JButton btnNuevoPerfil;
     private javax.swing.JButton btnPersonal;
-    private javax.swing.JButton btnReporte;
-    private javax.swing.JButton btnSacarPerfil;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnTipoProyecto;
     private javax.swing.JComboBox<String> cboCliente;
-    private javax.swing.JComboBox<String> cboFilterCliente;
-    private javax.swing.JComboBox<String> cboFilterPersonal;
-    private javax.swing.JComboBox cboFilterTipoProyecto;
+    private javax.swing.JComboBox<String> cboFiltros;
     private javax.swing.JComboBox<String> cboPersonal;
     private javax.swing.JComboBox cboTipoProyecto;
     private com.toedter.calendar.JDateChooser inpFechaConfirmacion;
@@ -1088,28 +859,17 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     private com.toedter.calendar.JDateChooser inpFechaTerminacion;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel lblAvg;
-    private javax.swing.JLabel lblCargo1;
-    private javax.swing.JLabel lblCargo2;
     private javax.swing.JLabel lblFechaCarga;
     private javax.swing.JLabel lblFechaCargaDato;
     private javax.swing.JLabel lblFechaConfirmacion;
     private javax.swing.JLabel lblFechaConfirmacion2;
     private javax.swing.JLabel lblFechaConfirmacion3;
-    private javax.swing.JLabel lblFechaConfirmacion4;
-    private javax.swing.JLabel lblFechaConfirmacion5;
     private javax.swing.JLabel lblFechaEntrega;
     private javax.swing.JLabel lblFechaTerminacion;
     private javax.swing.JLabel lblNombre;
-    private javax.swing.JLabel lblNombre1;
-    private javax.swing.JLabel lblNombre2;
     private javax.swing.JLabel lblNombreRequerido;
     private javax.swing.JLabel lblNombreRequerido1;
     private javax.swing.JLabel lblTipoProyecto;
-    private javax.swing.JList<String> listPerfilesDer;
-    private javax.swing.JList<String> listPerfilesIzq;
     private javax.swing.JPanel panelFechas;
     private javax.swing.JPanel panelProyecto;
     private javax.swing.JPanel panelProyecto1;
@@ -1118,6 +878,4 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtBuscarNombre;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
-
-    
 }

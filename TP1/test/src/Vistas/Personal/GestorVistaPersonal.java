@@ -51,10 +51,12 @@ public class GestorVistaPersonal {
     }
      
      public void setModel(){
-        this.getModel().setNombre(this.getForm().getTxtNombre().getText().toUpperCase());
-        this.getModel().setApellido(this.getForm().getTxtApellido().getText().toUpperCase());
-        this.getModel().setFechaNacimiento(this.getForm().getInpFechaNacimiento().getDate());
-        this.getModel().setCargo((Cargo) this.getForm().getCboCargo().getSelectedItem());
+          this.getModel().setNombre(this.getForm().getTxtNombre().getText().toUpperCase());
+          this.getModel().setApellido(this.getForm().getTxtApellido().getText().toUpperCase());
+          this.getModel().setFechaNacimiento(this.getForm().getInpFechaNacimiento().getDate());
+//          this.getModel().setCargo((Cargo) this.getForm().getCboCargo().getSelectedItem());
+          this.getModel().setCargo(new Cargo());
+          this.getModel().setPerfiles((List<Perfil>) this.getForm().getListPerfilesDer().getModel());
     }
     
     public void setModel(Personal model) {
@@ -182,24 +184,22 @@ public class GestorVistaPersonal {
         this.getGestorMenu().abrirPerfil(this.getEscritorio());
     }
     public void buscarPerfiles(JList lista) {
-        this.modeloListaIzquierda = new DefaultListModel<Perfil>();
-        lista.setModel(this.crearModelo((List<Perfil>) this.getGestor().getGestorPerfil().buscarPerfiles(),this.modeloListaIzquierda));
+        this.modeloListaIzquierda = new DefaultListModel();
+        lista.setModel(this.crearModelo(this.getGestor().buscarPerfiles(),this.modeloListaIzquierda));
     }
     public void limpiarPerfiles(JList lista){
-        this.modeloListaDerecha = new DefaultListModel<Perfil>();
+        this.modeloListaDerecha = new DefaultListModel();
         lista.setModel(this.modeloListaDerecha);
     }
     public void moverPerfilesDer(List listaPerfiles, JList listaDer, JList listaIzq) {
-        this.getModel().setPerfiles(listaPerfiles);
         listaDer.setModel(this.crearModelo(listaPerfiles,this.modeloListaDerecha));
         listaIzq.setModel(this.removerPerfiles(listaPerfiles, this.modeloListaIzquierda));
     }
     public void moverPerfilesIzq(List listaPerfiles, JList listaIzq, JList listaDer) {
-        this.getModel().setPerfiles(listaDer.getSelectedValuesList());
         listaIzq.setModel(this.crearModelo(listaPerfiles,this.modeloListaIzquierda));
         listaDer.setModel(this.removerPerfiles(listaPerfiles, this.modeloListaDerecha));
     }
-    public DefaultListModel<Perfil> crearModelo(List perfiles, DefaultListModel modelo){
+    public DefaultListModel crearModelo(List perfiles, DefaultListModel modelo){
         if (perfiles!=null) {
             for (Iterator it = perfiles.iterator(); it.hasNext();) {
                 Perfil perfil = (Perfil) it.next();
@@ -209,7 +209,7 @@ public class GestorVistaPersonal {
         return modelo;
     }
     
-    public DefaultListModel<Perfil> removerPerfiles(List perfiles, DefaultListModel modelo){
+    public DefaultListModel removerPerfiles(List perfiles, DefaultListModel modelo){
         for (Iterator it = perfiles.iterator(); it.hasNext();) {
                 Perfil perfil = (Perfil) it.next();
                  modelo.removeElement(perfil);

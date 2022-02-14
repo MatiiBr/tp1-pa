@@ -22,15 +22,6 @@ public class GestorProyecto extends GestorHibernate {
         private GestorTipoProyecto gestorTipoProyecto = new GestorTipoProyecto();
         private GestorCliente gestorCliente = new GestorCliente();
         private GestorPersonal gestorPersonal = new GestorPersonal();
-        private GestorPerfil gestorPerfil = new GestorPerfil();
-
-    public GestorPerfil getGestorPerfil() {
-        return gestorPerfil;
-    }
-
-    public void setGestorPerfil(GestorPerfil gestorPerfil) {
-        this.gestorPerfil = gestorPerfil;
-    }
 
     public GestorCliente getGestorCliente() {
         return gestorCliente;
@@ -149,8 +140,8 @@ public class GestorProyecto extends GestorHibernate {
             return this.listarClase(Proyecto.class);
         }
          
-         public List  consultarProyectos(String nombre, Cliente cliente, TipoProyecto tipoProyecto, Personal personal) {
-            return this.buscarProyectos(Proyecto.class, nombre, cliente, tipoProyecto, personal);
+         public List  consultarProyectosPorNombre(String nombre) {
+            return this.buscarProyectosPorNombre(Proyecto.class, nombre);
         }
        
 }

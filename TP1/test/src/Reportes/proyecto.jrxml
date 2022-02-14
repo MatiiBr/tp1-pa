@@ -83,25 +83,32 @@
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<subDataset name="CARGO" uuid="abf90173-0b91-46d2-adeb-a842c51c5840">
-		<queryString language="SQL">
-			<![CDATA[SELECT * FROM public.cargo;]]>
-		</queryString>
-		<field name="id" class="java.lang.Long"/>
-		<field name="nombre" class="java.lang.String"/>
-	</subDataset>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="d44a22ef-85fe-4ed7-9ae3-4be4af4c99d0"/>
 	<queryString>
-		<![CDATA[SELECT * FROM proyecto;]]>
+		<![CDATA[SELECT * FROM cargo;]]>
 	</queryString>
 	<field name="id" class="java.lang.Long"/>
-	<field name="fechacarga" class="java.sql.Date"/>
-	<field name="fechaconfirmacion" class="java.sql.Date"/>
-	<field name="fechaentrega" class="java.sql.Date"/>
-	<field name="fechaterminacion" class="java.sql.Date"/>
 	<field name="nombre" class="java.lang.String"/>
-	<field name="cliente_id" class="java.lang.Long"/>
-	<field name="personal_id" class="java.lang.Long"/>
-	<field name="tipoproyecto_id" class="java.lang.Long"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -122,48 +129,34 @@
 	<detail>
 		<band height="150" splitType="Stretch">
 			<componentElement>
-				<reportElement key="table 3" style="table 3" x="152" y="10" width="360" height="140" uuid="a2705217-f2d7-442a-ad53-154f29fed141"/>
+				<reportElement key="table 4" style="table 4" x="144" y="10" width="180" height="140" uuid="fbb829ba-44a3-4794-9a69-41f5eed83384"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="CARGO" uuid="6b1d9789-9ebb-44b3-aa6c-5119727e8e98">
+					<datasetRun subDataset="Table Dataset 1" uuid="a17f20ba-8887-460c-9951-8af40d09ce20">
 						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource(1)]]></dataSourceExpression>
 					</datasetRun>
-					<jr:column width="90" uuid="c3ce2e7d-5ede-4324-90e6-5687e225d0ec">
-						<jr:tableHeader style="table 3_TH" height="30">
+					<jr:column width="90" uuid="8d16f240-3cc8-4bc5-a9a6-f4e01a72d13d">
+						<jr:tableHeader style="table 4_TH" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="30" uuid="37928959-c0cf-4273-8b0a-534bd37c3add"/>
+								<reportElement x="0" y="0" width="90" height="30" uuid="e57c2d4c-4a8b-4b70-b2a0-94f3fdc8043a"/>
 								<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 							</textField>
 						</jr:tableHeader>
-						<jr:tableFooter style="table 3_TH" height="30"/>
-						<jr:columnHeader style="table 3_CH" height="30"/>
-						<jr:columnFooter style="table 3_CH" height="30"/>
-						<jr:detailCell style="table 3_TD" height="20"/>
+						<jr:tableFooter style="table 4_TH" height="30"/>
+						<jr:columnHeader style="table 4_CH" height="30"/>
+						<jr:columnFooter style="table 4_CH" height="30"/>
+						<jr:detailCell style="table 4_TD" height="20"/>
 					</jr:column>
-					<jr:column width="90" uuid="f8863a79-dfe6-42be-b7d7-a622e6926b72">
-						<jr:tableHeader style="table 3_TH" height="30">
+					<jr:column width="90" uuid="5feaf749-c185-41c4-bb49-48e2dd9740dd">
+						<jr:tableHeader style="table 4_TH" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="30" uuid="7c6a993b-6069-4f6d-86b1-edad787ac156"/>
+								<reportElement x="0" y="0" width="90" height="30" uuid="0cd93ca3-a8a6-41e5-a117-3370aa2534a2"/>
 								<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 							</textField>
 						</jr:tableHeader>
-						<jr:tableFooter style="table 3_TH" height="30"/>
-						<jr:columnHeader style="table 3_CH" height="30"/>
-						<jr:columnFooter style="table 3_CH" height="30"/>
-						<jr:detailCell style="table 3_TD" height="20"/>
-					</jr:column>
-					<jr:column width="90" uuid="7cadbf80-801b-4ebc-96f0-8d3394876cac">
-						<jr:tableHeader style="table 3_TH" height="30"/>
-						<jr:tableFooter style="table 3_TH" height="30"/>
-						<jr:columnHeader style="table 3_CH" height="30"/>
-						<jr:columnFooter style="table 3_CH" height="30"/>
-						<jr:detailCell style="table 3_TD" height="20"/>
-					</jr:column>
-					<jr:column width="90" uuid="9367fdc4-7d46-443d-8b17-e4183d00e4ab">
-						<jr:tableHeader style="table 3_TH" height="30"/>
-						<jr:tableFooter style="table 3_TH" height="30"/>
-						<jr:columnHeader style="table 3_CH" height="30"/>
-						<jr:columnFooter style="table 3_CH" height="30"/>
-						<jr:detailCell style="table 3_TD" height="20"/>
+						<jr:tableFooter style="table 4_TH" height="30"/>
+						<jr:columnHeader style="table 4_CH" height="30"/>
+						<jr:columnFooter style="table 4_CH" height="30"/>
+						<jr:detailCell style="table 4_TD" height="20"/>
 					</jr:column>
 				</jr:table>
 			</componentElement>

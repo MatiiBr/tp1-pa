@@ -18,7 +18,6 @@ import javax.swing.DefaultListModel;
 public class GestorPersonal extends GestorHibernate {
      private Personal  model;
       private GestorCargo gestorCargo = new GestorCargo();
-      private GestorPerfil gestorPerfil = new GestorPerfil();
 
     public Personal  getModel() {
         return model;
@@ -40,7 +39,7 @@ public class GestorPersonal extends GestorHibernate {
         }
          return auxModel;
     }
-     public List<Personal> listar(){   
+     public List <Personal> listar(){   
         return this.listarClase(Personal.class);
     }
 
@@ -50,14 +49,6 @@ public class GestorPersonal extends GestorHibernate {
 
     public void setGestorCargo(GestorCargo gestorCargo) {
         this.gestorCargo = gestorCargo;
-    }
-
-    public GestorPerfil getGestorPerfil() {
-        return gestorPerfil;
-    }
-
-    public void setGestorPerfil(GestorPerfil gestorPerfil) {
-        this.gestorPerfil = gestorPerfil;
     }
      
       public void guardarObjeto(){
@@ -82,9 +73,14 @@ public class GestorPersonal extends GestorHibernate {
        return personal;
     }
        
-    public DefaultComboBoxModel getComboModelCargo() {
-         return this.getGestorCargo().getComboModel();
+       public DefaultComboBoxModel getComboModelCargo() {
+            return this.getGestorCargo().getComboModel();
+       }
+    public List buscarPerfiles(){
+        return this.listarClase(Perfil.class);
     }
-    
-    
+
+    public void moverPerfilesDer() {
+        
+    }
 }

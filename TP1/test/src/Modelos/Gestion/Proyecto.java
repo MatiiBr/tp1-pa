@@ -4,9 +4,7 @@
  * and open the template in the editor.
  */
 package Modelos.Gestion;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -44,32 +42,6 @@ public class Proyecto {
     @OneToOne (targetEntity = Personal.class, cascade= CascadeType.DETACH,fetch=FetchType.LAZY)
         private Personal personal;
 
-     @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
-    @JoinTable(name = "proyecto_perfil",
-            joinColumns = @JoinColumn(name = "proyecto_id"),
-            inverseJoinColumns = @JoinColumn(name = "perfil_id")
-    )
-    private List<Perfil> perfiles = new ArrayList<>();
-    
-    public void addPerfil(Perfil perfil) {
-        perfiles.add(perfil);
-        perfil.getProyectos().add(this);
-    }
-    public void removePerfil(Perfil perfil) {
-        perfiles.remove(perfil);
-        perfil.getProyectos().remove(this);
-    }
-
-    public List<Perfil> getPerfiles() {
-        return perfiles;
-    }
-
-    public void setPerfiles(List<Perfil> perfiles) {
-        this.perfiles = perfiles;
-    }
     public long getId() {
         return id;
     }

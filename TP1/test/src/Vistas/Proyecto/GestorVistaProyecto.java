@@ -5,38 +5,28 @@
  */
 package Vistas.Proyecto;
 
-import Hibernate.HibernateUtil;
 import Modelos.Gestion.Cliente;
 import Modelos.Gestion.Proyecto;
 import Modelos.Gestion.GestorProyecto;
-import Modelos.Gestion.Perfil;
 import Modelos.Gestion.Personal;
 import Modelos.Gestion.TipoProyecto;
 import Util.UtilJtable;
 import Vistas.MenuPrincipal.GestorMenuPrincipal;
-import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.ListModel;
 import javax.swing.table.DefaultTableModel;
-import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRResultSetDataSource;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.view.JasperViewer;
+import javax.swing.table.TableModel;
+import javax.transaction.Transactional;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 /**
  *
@@ -47,9 +37,6 @@ public class GestorVistaProyecto {
     private boolean actualizacion;
     FrmProyecto form;  
     private GestorProyecto gestor;
-    HibernateUtil conn;
-    private DefaultListModel modeloListaDerecha= new DefaultListModel();
-    private DefaultListModel modeloListaIzquierda= new DefaultListModel();
     private GestorMenuPrincipal gestorMenu;
      private UtilJtable UtilTable= new UtilJtable();
     
@@ -272,24 +259,12 @@ public class GestorVistaProyecto {
         tabla.setModel(this.crearModelo(this.getGestor().consultarProyectos()));
     }
     
-     public void buscarProyecto(String nombre, Object cliente, Object tipoProyecto, Object personal) {
-         Cliente clienteFilter = null;
-         TipoProyecto tipoProyectoFilter = null;
-         Personal personalFilter = null;
-         if(!cliente.equals("")){
-             clienteFilter = (Cliente) cliente;
-         }
-         if(!tipoProyecto.equals("")){
-             tipoProyectoFilter = (TipoProyecto) tipoProyecto;
-         }
-         if(!personal.equals("")){
-             personalFilter = (Personal) personal;
-         }
-       this.getForm().getTblProyectos().setModel(this.crearModelo(this.getGestor().consultarProyectos(nombre,clienteFilter,tipoProyectoFilter,personalFilter)));
+     public void buscarProyecto(String nombre) {
+       this.getForm().getTblProyectos().setModel(this.crearModelo(this.getGestor().consultarProyectosPorNombre(nombre)));
     }
      
     public DefaultTableModel crearModelo(List lista){
-        String[] titulos = {"Nombre", "Tipo de Proyecto", "Cliente", "Personal", "Fecha Carga"};
+        String[] titulos = {"Id","Nombre", "Tipo de Proyecto", "Cliente", "Personal", "Fecha Carga"};
         DefaultTableModel modelo = new DefaultTableModel(null, titulos){
            @Override
             public boolean isCellEditable(int row, int column) {
@@ -303,12 +278,14 @@ public class GestorVistaProyecto {
 //        String[] registros = new String[6];
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         for (Iterator it = lista.iterator(); it.hasNext();) {
-            Proyecto proyecto = (Proyecto) it.next();   
-             registros[0] =  proyecto.getNombre();
-             registros[1] = proyecto.getTipoProyecto().getNombre();
-             registros[2] = proyecto.getCliente().toString();
-             registros[3] = proyecto.getPersonal().toString();
-             registros[4] = formatter.format(proyecto.getFechaCarga());
+            Proyecto proyecto = (Proyecto) it.next();
+//                registros[0] = proyecto;
+             registros[0] = proyecto;
+             registros[1] =  proyecto.getNombre();
+             registros[2] = proyecto.getTipoProyecto().getNombre();
+             registros[3] = proyecto.getCliente().toString();
+             registros[4] = proyecto.getPersonal().toString();
+             registros[5] = formatter.format(proyecto.getFechaCarga());
              modelo.addRow(registros);
         }
        return modelo;
@@ -326,88 +303,7 @@ public class GestorVistaProyecto {
              JOptionPane.showMessageDialog(null, "Debe seleccionar el registro a editar.");
         }
     }
-    public void nuevoPerfil() {
-        this.getGestorMenu().abrirPerfil(this.getEscritorio());
-    }
     
-     public void buscarPerfiles(JList lista) {
-        this.modeloListaIzquierda = new DefaultListModel<Perfil>();
-        lista.setModel(this.crearModelo((List<Perfil>) this.getGestor().getGestorPerfil().buscarPerfiles(),this.modeloListaIzquierda));
-    }
-    public void limpiarPerfiles(JList lista){
-        this.modeloListaDerecha = new DefaultListModel<Perfil>();
-        lista.setModel(this.modeloListaDerecha);
-    }
-    public void moverPerfilesDer(List listaPerfiles, JList listaDer, JList listaIzq) {
-        this.getModel().setPerfiles(listaPerfiles);
-        listaDer.setModel(this.crearModelo(listaPerfiles,this.modeloListaDerecha));
-        listaIzq.setModel(this.removerPerfiles(listaPerfiles, this.modeloListaIzquierda));
-    }
-    public void moverPerfilesIzq(List listaPerfiles, JList listaIzq, JList listaDer) {
-        this.getModel().setPerfiles(listaDer.getSelectedValuesList());
-        listaIzq.setModel(this.crearModelo(listaPerfiles,this.modeloListaIzquierda));
-        listaDer.setModel(this.removerPerfiles(listaPerfiles, this.modeloListaDerecha));
-    }
-    public DefaultListModel<Perfil> crearModelo(List perfiles, DefaultListModel modelo){
-        if (perfiles!=null) {
-            for (Iterator it = perfiles.iterator(); it.hasNext();) {
-                Perfil perfil = (Perfil) it.next();
-                 modelo.addElement(perfil);
-            }
-        }
-        return modelo;
-    }
-    
-    public DefaultListModel<Perfil> removerPerfiles(List perfiles, DefaultListModel modelo){
-        for (Iterator it = perfiles.iterator(); it.hasNext();) {
-                Perfil perfil = (Perfil) it.next();
-                 modelo.removeElement(perfil);
-            }
-        return modelo;
-    }
-    
-    public String getAvg(JList perfilesSeleccionados) {
-        int count = 0;
-        if(this.getForm().getCboPersonal().getSelectedItem()!=""){
-             Personal personal = ((Personal) this.getForm().getCboPersonal().getSelectedItem());
-            for (Perfil perfil : personal.getPerfiles()) {
-                for (int i = 0; i < perfilesSeleccionados.getModel().getSize(); i++) {
-                    Object item = perfilesSeleccionados.getModel().getElementAt(i);
-                      if(item == perfil){
-                          count++;
-                      }
-                }
-            }
-            int cantPerfiles = perfilesSeleccionados.getModel().getSize();
-            double avg = (double)((count*1.0)/(cantPerfiles*1.0));
-            int avgPerc = (int) (avg * 100);
-            return Integer.toString(avgPerc)+"% de coincidencia";
-        };
-        return "";
-       
-    }
-    
-//    public void ejecutarReporte(){
-//        JasperReport masterReport = null;
-//        try {
-//            masterReport = (JasperReport) JRLoader.loadObject(getClass().getResource("proyectos.jasper"));
-//            
-//        } catch (JRException e){
-//            System.out.println("Error cargando el Reporte Maestro");
-//        }
-//        JRDataSource as = new JRResultSetDataSource((ResultSet) this.gestor.buscarProyectoPorId((long)1));
-//        JasperPrint jasperPrint;
-//        try {
-//            jasperPrint = JasperFillManager.fillReport(masterReport, null, as);
-//            JasperViewer jViewer = new JasperViewer(jasperPrint, false);
-//            jViewer.setTitle("Reporte de Prueba - Programación Avanzada");
-//            jViewer.setVisible(true);
-//        } catch (JRException ex) {
-//            Logger.getLogger(GestorVistaProyecto.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        
-//    }
-
     
     
 }

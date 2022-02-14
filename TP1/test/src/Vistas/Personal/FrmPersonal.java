@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package Vistas.Personal;
-import Modelos.Gestion.Perfil;
 import Modelos.Gestion.Personal;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JComboBox;
@@ -371,7 +370,7 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
         lblFechaNacimientoRequerido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblFechaNacimientoRequerido.setForeground(new java.awt.Color(204, 0, 51));
         lblFechaNacimientoRequerido.setText(" ");
-        jPanel1.add(lblFechaNacimientoRequerido, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 240, 140, -1));
+        jPanel1.add(lblFechaNacimientoRequerido, new org.netbeans.lib.awtextra.AbsoluteConstraints(304, 286, 111, -1));
 
         lblCargo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblCargo.setText("Cargo:");
@@ -405,7 +404,7 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
 
         lblCargo1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblCargo1.setText("Perfiles asignados:");
-        jPanel1.add(lblCargo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 280, -1, -1));
+        jPanel1.add(lblCargo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 280, -1, -1));
 
         jScrollPane1.setViewportView(listPerfilesDer);
 

@@ -6,18 +6,17 @@
 package Modelos.Gestion;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 import javax.persistence.*;
 
 @Entity
-@Table (name="perfil") 
+@Table (name="tipo_proyecto") 
 /**
  *
  * @author Usuario
  */
-public class Perfil implements Serializable {
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "perfil_id_seq")@SequenceGenerator(name = "perfil_id_seq", sequenceName = "perfil_id_seq", allocationSize = 1)
+public class TipoProyecto implements Serializable {
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tipo_proyecto_id_seq")@SequenceGenerator(name = "tipo_proyecto_id_seq", sequenceName = "tipo_proyecto_id_seq", allocationSize = 1)
         private long id;
   
     @Column(name="nombre", columnDefinition = "TEXT")
@@ -26,28 +25,6 @@ public class Perfil implements Serializable {
     @Column(name="descripcion", columnDefinition = "TEXT")
         private String descripcion; 
 
-    @ManyToMany(mappedBy = "perfiles")
-    public List<Personal> personales = new ArrayList<>();
-
-    public List<Personal> getPersonales() {
-        return personales;
-    }
-
-    public void setPersonales(List<Personal> personales) {
-        this.personales = personales;
-    }
-    
-    @ManyToMany(mappedBy = "perfiles")
-    public List<Proyecto> proyectos = new ArrayList<>();
-
-    public List<Proyecto> getProyectos() {
-        return proyectos;
-    }
-
-    public void setProyectos(List<Proyecto> proyectos) {
-        this.proyectos = proyectos;
-    }
-    
     public long getId() {
         return id;
     }

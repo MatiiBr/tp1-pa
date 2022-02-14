@@ -46,11 +46,7 @@ public class GestorPerfil extends  GestorHibernate{
     public void eliminarObjeto() {
         this.eliminarObjeto(this.getModel());
     }
-    
-    public List<Perfil> buscarPerfiles(){
-        return this.listarClase(Perfil.class);
-    }
-    
+
     public Perfil buscarPerfil(String nombre) {
        Perfil perfil = null;
        try {

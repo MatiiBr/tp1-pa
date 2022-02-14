@@ -30,12 +30,11 @@ public class Personal extends Persona implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "perfil_id")
     )
     private List<Perfil> perfiles = new ArrayList<>();
-    
-    public void addPerfil(Perfil perfil) {
+    public void addEmployee(Perfil perfil) {
         perfiles.add(perfil);
         perfil.getPersonales().add(this);
     }
-    public void removePerfil(Perfil perfil) {
+    public void removeEmployee(Perfil perfil) {
         perfiles.remove(perfil);
         perfil.getPersonales().remove(this);
     }
@@ -56,12 +55,9 @@ public class Personal extends Persona implements Serializable {
         this.cargo = cargo;
     }
     
+    
     @Override
     public String toString() {
         return this.getNombre() + " " + this.getApellido();
-    }
-    
-    public String toString(String value) {
-        return value;
     }
 }

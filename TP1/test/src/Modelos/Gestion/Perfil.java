@@ -37,17 +37,6 @@ public class Perfil implements Serializable {
         this.personales = personales;
     }
     
-    @ManyToMany(mappedBy = "perfiles")
-    public List<Proyecto> proyectos = new ArrayList<>();
-
-    public List<Proyecto> getProyectos() {
-        return proyectos;
-    }
-
-    public void setProyectos(List<Proyecto> proyectos) {
-        this.proyectos = proyectos;
-    }
-    
     public long getId() {
         return id;
     }

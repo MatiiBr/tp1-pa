@@ -13,28 +13,31 @@ import javax.swing.DefaultComboBoxModel;
  *
  * @author Usuario
  */
-public class GestorPerfil extends  GestorHibernate{
-     private Perfil  model;
+public class GestorTipoProyecto extends  GestorHibernate{
+     private TipoProyecto  model;
 
-    public Perfil  getModel() {
+    public TipoProyecto  getModel() {
         return model;
     }
     public void newModel() {
-         this.setModel(new Perfil());
+         this.setModel(new TipoProyecto());
     }
-    public void setModel(Perfil  perfil) {
-        this.model = perfil;
+    public void setModel(TipoProyecto  tipoProyecto) {
+        this.model = tipoProyecto;
     }
     public DefaultComboBoxModel getComboModel() {      
         DefaultComboBoxModel auxModel= new DefaultComboBoxModel();
         auxModel.addElement("");
-        for (Perfil auxPerfil : this.listar()) {
-            auxModel.addElement(auxPerfil);
+         List <TipoProyecto> lista = this.listar();
+        if(lista != null){
+            for (TipoProyecto auxTipo : lista) {
+                auxModel.addElement(auxTipo);
+            }
         }
          return auxModel;
     }
-     public List <Perfil> listar(){   
-        return this.listarClase(Perfil.class);
+     public List <TipoProyecto> listar(){   
+        return this.listarClase(TipoProyecto.class);
     }
     public void guardarObjeto(){
         this.guardarObjeto(this.getModel());
@@ -46,19 +49,15 @@ public class GestorPerfil extends  GestorHibernate{
     public void eliminarObjeto() {
         this.eliminarObjeto(this.getModel());
     }
-    
-    public List<Perfil> buscarPerfiles(){
-        return this.listarClase(Perfil.class);
-    }
-    
-    public Perfil buscarPerfil(String nombre) {
-       Perfil perfil = null;
+
+    public TipoProyecto buscarTipoProyecto(String nombre) {
+       TipoProyecto tipoProyecto = null;
        try {
-          perfil = this.buscarPerfil(Perfil.class, nombre);
+          tipoProyecto = this.buscarTipoProyecto(TipoProyecto.class, nombre);
        }
        catch(Exception e){
           e.printStackTrace();
        }
-       return perfil;
+       return tipoProyecto;
     }
 }
