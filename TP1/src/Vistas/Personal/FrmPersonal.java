@@ -7,6 +7,7 @@ package Vistas.Personal;
 import Modelos.Gestion.Perfil;
 import Modelos.Gestion.Personal;
 import com.toedter.calendar.JDateChooser;
+import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -35,11 +36,11 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
         this.actualizarPerfiles();
     }
 
-    public JList<String> getListPerfilesDer() {
+    public JList getListPerfilesDer() {
         return listPerfilesDer;
     }
 
-    public void setListPerfilesDer(JList<String> listPerfilesDer) {
+    public void setListPerfilesDer(JList listPerfilesDer) {
         this.listPerfilesDer = listPerfilesDer;
     }
 
@@ -144,6 +145,8 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
         txtNombre.setText(personal.getNombre());
         txtApellido.setText(personal.getApellido());
         inpFechaNacimiento.setDate(personal.getFechaNacimiento());
+        cboCargo.setSelectedItem(personal.getCargo());
+        this.setPerfiles(personal.getPerfiles());
     }
     public void vistaInicio(){
         this.inpFechaNacimiento.setEnabled(false);
@@ -165,6 +168,8 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
         this.lblApellidoRequerido.setText(" ");
         this.lblNombreRequerido.setText(" ");
         this.lblFechaNacimientoRequerido.setText(" ");
+        this.cboCargo.setSelectedIndex(0);
+        this.actualizarPerfiles();
     }
     public void botonesInicio(){
         btnNuevo.setEnabled(true);
@@ -236,6 +241,9 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
     }
       private void nuevoPerfil() {
         this.getGestorVistaPersonal().nuevoPerfil();
+    }
+    private void setPerfiles(List listaPerfiles){
+        this.getGestorVistaPersonal().moverPerfilesDer(listaPerfiles, this.listPerfilesDer, this.listPerfilesIzq);
     }
     private void moverPerfilesDer() {
         this.getGestorVistaPersonal().moverPerfilesDer(this.listPerfilesIzq.getSelectedValuesList(), this.listPerfilesDer, this.listPerfilesIzq);

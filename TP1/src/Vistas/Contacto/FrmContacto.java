@@ -324,7 +324,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         lblFechaNacimientoRequerido.setForeground(new java.awt.Color(204, 0, 51));
         lblFechaNacimientoRequerido.setText(" ");
         jPanel1.add(lblFechaNacimientoRequerido);
-        lblFechaNacimientoRequerido.setBounds(162, 226, 111, 20);
+        lblFechaNacimientoRequerido.setBounds(210, 200, 111, 20);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
@@ -428,7 +428,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(btnSalir))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
