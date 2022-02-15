@@ -38,6 +38,7 @@ public class GestorVistaPerfil {
         this.setActualizacion(false);
         this.setModel();
         this.getGestor().guardarObjeto();
+        this.getGestor().newModel();
     }
 
     private void setActualizacion(boolean b) {
@@ -64,6 +65,7 @@ public class GestorVistaPerfil {
        this.setActualizacion(true);
        this.setModel();
        this.getGestor().actualizarObjeto();
+       this.getGestor().newModel();
     }
 
     public void eliminarPerfil() {

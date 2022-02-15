@@ -41,8 +41,8 @@ public class GestorVistaContacto {
     }
      
      public void setModel(){
-          this.getModel().setNombre(this.getForm().getTxtNombre().getText());
-          this.getModel().setApellido(this.getForm().getTxtApellido().getText());
+          this.getModel().setNombre(this.getForm().getTxtNombre().getText().toUpperCase());
+          this.getModel().setApellido(this.getForm().getTxtApellido().getText().toUpperCase());
           this.getModel().setFechaNacimiento(this.getForm().getInpFechaNacimiento().getDate());
     }
     
@@ -86,17 +86,19 @@ public class GestorVistaContacto {
     public void guardarContacto(){
         this.setModel();
         this.getGestor().guardarObjeto();
+        this.getGestor().newModel();
     }
     
    public void actualizarContacto(){
        this.setModel();
        this.getGestor().actualizarObjeto();
+       this.getGestor().newModel();
    }
     
      public boolean buscarContacto(String nombre) {
         Contacto contacto;
         contacto=this.getGestor().buscarContacto(nombre);
-         if(contacto!=null){
+        if(contacto!=null){                                     //PROBLEMA NO ENTRA AL IF, TRAE UN NULL
               this.setModel(contacto);
               this.cargarContacto(contacto);
          }else{

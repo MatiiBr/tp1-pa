@@ -297,7 +297,7 @@ public class FrmCliente extends javax.swing.JInternalFrame {
             }
         });
         jPanel1.add(btnBuscar);
-        btnBuscar.setBounds(180, 50, 73, 29);
+        btnBuscar.setBounds(180, 50, 90, 29);
 
         inpFechaNacimiento.setToolTipText("Fecha de Nacimiento");
         inpFechaNacimiento.setEnabled(false);
@@ -430,7 +430,7 @@ public class FrmCliente extends javax.swing.JInternalFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(btnSalir))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

@@ -97,11 +97,13 @@ public class GestorVistaPersonal {
     public void guardarPersonal(){
         this.setModel();
         this.getGestor().guardarObjeto();
+        this.getGestor().newModel();
     }
     
    public void actualizarPersonal(){
        this.setModel();
        this.getGestor().actualizarObjeto();
+       this.getGestor().newModel();
    }
     
      public boolean buscarPersonal(String nombre) {

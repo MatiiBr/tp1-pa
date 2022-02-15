@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fdc6d21d-07bc-4b88-9ff1-ac2c1e595bcf">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT proyecto.nombre as "PROYECTO", proyecto.fechaentrega as "FECHA ENTREGA", CONCAT (cliente.nombre, ' ', cliente.apellido) as "CLIENTE", CONCAT(personal.nombre, ' ', personal.apellido) as "PERSONAL", tipo_proyecto.nombre as "TIPO DE PROYECTO"
+FROM public.proyecto
+INNER JOIN cliente on proyecto.cliente_id = cliente.id
+INNER JOIN personal on proyecto.personal_id = personal.id
+INNER JOIN tipo_proyecto on proyecto.tipoproyecto_id = tipo_proyecto.id;]]>
+	</queryString>
+	<field name="PROYECTO" class="java.lang.String"/>
+	<field name="FECHA ENTREGA" class="java.sql.Date"/>
+	<field name="CLIENTE" class="java.lang.String"/>
+	<field name="PERSONAL" class="java.lang.String"/>
+	<field name="TIPO DE PROYECTO" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="177" y="20" width="210" height="40" uuid="23d84c18-4cfb-4b44-9292-00229310334e"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE PROYECTOS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="22" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="111" height="20" uuid="4abffd2c-6786-4d03-8e58-e366fe065f70"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROYECTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="111" y="0" width="111" height="20" uuid="f4c03577-3859-4fca-891e-3a2551fff2e1"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA ENTREGA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="222" y="0" width="111" height="20" uuid="b01026bd-fe9f-428e-80aa-797271f4e9d7"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CLIENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="333" y="0" width="111" height="20" uuid="f6396d37-c83f-4781-8a87-2786f2709099"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PERSONAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="444" y="0" width="111" height="20" uuid="c478f761-a036-4da2-be05-21766cda4b63"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TIPO DE PROYECTO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="111" height="20" uuid="ebea2e88-4d82-46fc-b330-a3ebd4eade64"/>
+				<textFieldExpression><![CDATA[$F{PROYECTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="111" y="0" width="111" height="20" uuid="9baa90eb-d79b-43b8-961c-927426873ece"/>
+				<textFieldExpression><![CDATA[$F{FECHA ENTREGA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="222" y="0" width="111" height="20" uuid="6c920b0b-87bf-4c4f-af48-7435522eb4cd"/>
+				<textFieldExpression><![CDATA[$F{CLIENTE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="333" y="0" width="111" height="20" uuid="e401ffe9-1c3c-46de-bf9b-65357c924e69"/>
+				<textFieldExpression><![CDATA[$F{PERSONAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="444" y="0" width="111" height="20" uuid="f60ac378-2235-4d2b-a6cd-1006f64a6fb9"/>
+				<textFieldExpression><![CDATA[$F{TIPO DE PROYECTO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

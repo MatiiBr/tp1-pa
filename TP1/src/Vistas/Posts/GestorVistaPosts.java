@@ -25,20 +25,25 @@ import org.json.JSONObject;
  */
 public class GestorVistaPosts {
     private JDesktopPane escritorio;
-    FrmPosts form;
-    private static final String GET_URL = "http://jsonplaceholder.typicode.com/posts";
+    FrmPost form;
+    private String GET_URL = "http://jsonplaceholder.typicode.com/";
     //private GestorPerfil gestor; 
     
     public void openFormulario(JDesktopPane pantalla, GestorVistaPosts gestor) throws IOException {
         this.setEscritorio(pantalla);
-        this.setForm(new FrmPosts(gestor));
+        this.setForm(new FrmPost(gestor));
         this.getEscritorio().add(form);
         this.getForm().setVisible(true);
         this.getData();
     }
-
-    private static void getData() throws IOException {
-        URL obj = new URL(GET_URL);
+    
+    public void getData() throws IOException {
+        String url = "";
+        url = GET_URL + this.getForm().getCboGet().getSelectedItem().toString();
+        if (this.getForm().getCboGet().getSelectedItem().toString().equals("posts") && !this.getForm().getTxtId().toString().equals("")) {
+            url += "/" + this.getForm().getTxtId().getText();
+        }
+        URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
         
@@ -53,19 +58,22 @@ public class GestorVistaPosts {
                 response.append(inputLine);
             }
             in.close();
-            JSONArray posts;
-            try {
-                posts = new JSONArray(response.toString());
-                System.out.println(posts);
-            } catch (JSONException ex) {
-                Logger.getLogger(GestorVistaPosts.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            // print result
+            //posts = new JSONArray(response.toString());
+//                System.out.println(posts);
+            this.getForm().getAreaResultado().setText(response.toString());
             
         } else {
             System.out.println("GET request not worked");
         }
 
+    }
+    public void verificarItem(){
+        if (this.getForm().getCboGet().getSelectedItem().toString()=="posts") {
+            this.getForm().getTxtId().setEnabled(true);
+        } else {
+            this.getForm().getTxtId().setEnabled(false);
+
+        }
     }
     public JDesktopPane getEscritorio() {
         return escritorio;
@@ -75,11 +83,11 @@ public class GestorVistaPosts {
         this.escritorio = escritorio;
     }
 
-    public FrmPosts getForm() {
+    public FrmPost getForm() {
         return form;
     }
 
-    public void setForm(FrmPosts form) {
+    public void setForm(FrmPost form) {
         this.form = form;
     }
     

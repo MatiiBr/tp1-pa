@@ -168,7 +168,9 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
         this.lblApellidoRequerido.setText(" ");
         this.lblNombreRequerido.setText(" ");
         this.lblFechaNacimientoRequerido.setText(" ");
-        this.cboCargo.setSelectedIndex(0);
+        if (this.cboCargo.getModel().getSize() != 0 ) {
+            this.cboCargo.setSelectedIndex(0);
+        }
         this.actualizarPerfiles();
     }
     public void botonesInicio(){
@@ -308,15 +310,15 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
 
         lblNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblNombre.setText("Nombre: ");
-        jPanel1.add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
+        jPanel1.add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, -1, -1));
 
         lblEdad.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblEdad.setText("Fecha Nacimiento:");
-        jPanel1.add(lblEdad, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, -1, -1));
+        jPanel1.add(lblEdad, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 160, -1, -1));
 
         lblApellido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblApellido.setText("Apellido:");
-        jPanel1.add(lblApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, -1));
+        jPanel1.add(lblApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, -1, -1));
 
         txtApellido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtApellido.setToolTipText("Apellido");
@@ -331,7 +333,7 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
                 txtApellidoKeyTyped(evt);
             }
         });
-        jPanel1.add(txtApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 135, 30));
+        jPanel1.add(txtApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 110, 190, 30));
 
         txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtNombre.setToolTipText("Nombre");
@@ -345,7 +347,7 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
                 txtNombreKeyTyped(evt);
             }
         });
-        jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 139, -1));
+        jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, 139, -1));
 
         btnBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnBuscar.setText("Buscar");
@@ -354,7 +356,7 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
                 btnBuscarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 50, -1, -1));
+        jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, -1, -1));
 
         inpFechaNacimiento.setToolTipText("Fecha de Nacimiento");
         inpFechaNacimiento.setEnabled(false);
@@ -364,26 +366,26 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
                 inpFechaNacimientoPropertyChange(evt);
             }
         });
-        jPanel1.add(inpFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 161, 26));
+        jPanel1.add(inpFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, 240, 26));
 
         lblNombreRequerido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblNombreRequerido.setForeground(new java.awt.Color(204, 0, 51));
         lblNombreRequerido.setText(" ");
-        jPanel1.add(lblNombreRequerido, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 100, -1));
+        jPanel1.add(lblNombreRequerido, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 70, 100, -1));
 
         lblApellidoRequerido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblApellidoRequerido.setForeground(new java.awt.Color(204, 0, 51));
         lblApellidoRequerido.setText(" ");
-        jPanel1.add(lblApellidoRequerido, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 100, 20));
+        jPanel1.add(lblApellidoRequerido, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 140, 100, 20));
 
         lblFechaNacimientoRequerido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblFechaNacimientoRequerido.setForeground(new java.awt.Color(204, 0, 51));
         lblFechaNacimientoRequerido.setText(" ");
-        jPanel1.add(lblFechaNacimientoRequerido, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 240, 140, -1));
+        jPanel1.add(lblFechaNacimientoRequerido, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 230, 140, -1));
 
         lblCargo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblCargo.setText("Cargo:");
-        jPanel1.add(lblCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, -1, -1));
+        jPanel1.add(lblCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 210, -1, -1));
 
         cboCargo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cboCargo.setEnabled(false);
@@ -401,7 +403,7 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
                 cboCargoActionPerformed(evt);
             }
         });
-        jPanel1.add(cboCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, 138, 20));
+        jPanel1.add(cboCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 230, 240, 20));
 
         btnActualizarPerfiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/add.png"))); // NOI18N
         btnActualizarPerfiles.addActionListener(new java.awt.event.ActionListener() {
@@ -409,19 +411,19 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
                 btnActualizarPerfilesActionPerformed(evt);
             }
         });
-        jPanel1.add(btnActualizarPerfiles, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 300, 40, 40));
+        jPanel1.add(btnActualizarPerfiles, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 300, 40, 40));
 
         lblCargo1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblCargo1.setText("Perfiles asignados:");
-        jPanel1.add(lblCargo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 280, -1, -1));
+        jPanel1.add(lblCargo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 280, -1, -1));
 
         jScrollPane1.setViewportView(listPerfilesDer);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 300, 180, 190));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 300, 180, 190));
 
         jScrollPane2.setViewportView(listPerfilesIzq);
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, 180, 190));
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 300, 180, 190));
 
         btnSacarPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/flecha-izquierda.png"))); // NOI18N
         btnSacarPerfil.addActionListener(new java.awt.event.ActionListener() {
@@ -429,7 +431,7 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
                 btnSacarPerfilActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSacarPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 400, 40, 40));
+        jPanel1.add(btnSacarPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 400, 40, 40));
 
         btnAgregarPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/flecha-derecha.png"))); // NOI18N
         btnAgregarPerfil.addActionListener(new java.awt.event.ActionListener() {
@@ -437,7 +439,7 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
                 btnAgregarPerfilActionPerformed(evt);
             }
         });
-        jPanel1.add(btnAgregarPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 350, 40, 40));
+        jPanel1.add(btnAgregarPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 350, 40, 40));
 
         btnNuevoPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/actualizar.png"))); // NOI18N
         btnNuevoPerfil.addActionListener(new java.awt.event.ActionListener() {
@@ -445,11 +447,11 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
                 btnNuevoPerfilActionPerformed(evt);
             }
         });
-        jPanel1.add(btnNuevoPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 450, 40, 40));
+        jPanel1.add(btnNuevoPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 450, 40, 40));
 
         lblCargo2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblCargo2.setText("Perfiles:");
-        jPanel1.add(lblCargo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, -1, -1));
+        jPanel1.add(lblCargo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 280, -1, -1));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
@@ -568,8 +570,8 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 604, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

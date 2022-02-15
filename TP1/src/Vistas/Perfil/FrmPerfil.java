@@ -415,7 +415,7 @@ public class FrmPerfil extends javax.swing.JInternalFrame {
             }
         });
         panelPerfil.add(btnBuscar);
-        btnBuscar.setBounds(180, 50, 73, 29);
+        btnBuscar.setBounds(180, 50, 90, 29);
 
         lblNombre1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblNombre1.setText("Descripción:");

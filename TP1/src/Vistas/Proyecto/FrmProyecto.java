@@ -182,6 +182,9 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         this.cboPersonal.setEnabled(false);
         this.cboTipoProyecto.setEnabled(false);
         this.txtNombre.setEnabled(true);
+        this.btnAgregarPerfil.setEnabled(false);
+        this.btnSacarPerfil.setEnabled(false);
+        this.actualizarPerfiles();
     }
     public void vistaNuevoProyecto(){
         this.inpFechaConfirmacion.setEnabled(true);
@@ -192,6 +195,9 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         this.cboTipoProyecto.setEnabled(true);
         this.txtNombre.setEnabled(true);
         this.lblFechaCargaDato.setText(sdf.format(new Date()));
+        this.btnAgregarPerfil.setEnabled(true);
+        this.btnSacarPerfil.setEnabled(true);
+        
     }
     public void vistaActualizacion(){
         this.inpFechaConfirmacion.setEnabled(true);
@@ -201,6 +207,8 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         this.cboPersonal.setEnabled(true);
         this.cboTipoProyecto.setEnabled(true);
         this.txtNombre.setEnabled(true);
+        this.btnAgregarPerfil.setEnabled(true);
+        this.btnSacarPerfil.setEnabled(true);
     }
     
     public void limpiarPantalla(){
@@ -242,7 +250,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         btnBuscar.setEnabled(false);
      }
      public void guardarProyecto(){
-         String dialog = this.getGestorVistaProyecto().save(btnGuardar.getText());
+        String dialog = this.getGestorVistaProyecto().save(btnGuardar.getText());
         this.limpiarPantalla();
         this.vistaInicio();
         this.botonesInicio();
@@ -281,7 +289,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         this.getGestorVistaProyecto().setModelTipoProyecto(cboTipoProyecto);
     }
     public void cargarPersonal(){
-        this.getGestorVistaProyecto().setModelPersonal(cboFilterPersonal);
+        this.getGestorVistaProyecto().setModelPersonal(cboPersonal);
     }
     public void cargarFilterClientes(){
         this.getGestorVistaProyecto().setModelCliente(cboFilterCliente);
@@ -373,6 +381,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         btnEditar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
+        btnReporte = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         btnCancelar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
@@ -398,7 +407,6 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         lblFechaConfirmacion5 = new javax.swing.JLabel();
         cboFilterCliente = new javax.swing.JComboBox<>();
         cboFilterPersonal = new javax.swing.JComboBox<>();
-        btnReporte = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setClosable(true);
@@ -552,6 +560,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
 
         btnAgregarPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/flecha-derecha.png"))); // NOI18N
         btnAgregarPerfil.setBorderPainted(false);
+        btnAgregarPerfil.setEnabled(false);
         btnAgregarPerfil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarPerfilActionPerformed(evt);
@@ -561,6 +570,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
 
         btnSacarPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/flecha-izquierda.png"))); // NOI18N
         btnSacarPerfil.setBorderPainted(false);
+        btnSacarPerfil.setEnabled(false);
         btnSacarPerfil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSacarPerfilActionPerformed(evt);
@@ -621,6 +631,14 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
             }
         });
 
+        btnReporte.setText("Generar Reporte");
+        btnReporte.setActionCommand("Reporte");
+        btnReporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReporteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -634,17 +652,21 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 .addComponent(btnGuardar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEliminar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnReporte)
+                .addGap(25, 25, 25))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnNuevo)
-                    .addComponent(btnEditar)
-                    .addComponent(btnGuardar)
-                    .addComponent(btnEliminar))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnNuevo)
+                        .addComponent(btnEditar)
+                        .addComponent(btnGuardar)
+                        .addComponent(btnEliminar))
+                    .addComponent(btnReporte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -674,10 +696,10 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnSalir)
-                .addGap(37, 37, 37))
+                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -686,7 +708,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(btnSalir))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         panelFechas.setBorder(javax.swing.BorderFactory.createTitledBorder("Fechas"));
@@ -864,14 +886,6 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         });
         panelProyecto1.add(cboFilterPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 70, 139, 28));
 
-        btnReporte.setText("Generar Reporte");
-        btnReporte.setActionCommand("Reporte");
-        btnReporte.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReporteActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -879,19 +893,13 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(panelFechas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(panelProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(panelProyecto1, javax.swing.GroupLayout.PREFERRED_SIZE, 716, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnReporte)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelFechas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelProyecto1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 716, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -900,19 +908,14 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(panelProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
                     .addComponent(panelProyecto1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(panelFechas, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12))
         );
 
         panelProyecto.getAccessibleContext().setAccessibleName("Descripcion");
@@ -929,11 +932,12 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-       if(this.formValido){
+       String dialog = this.getGestorVistaProyecto().revisarFormulario();
+        if(this.formValido){
             if (JOptionPane.showConfirmDialog(null, ("Guardar".equals(btnGuardar.getText())) ? "¿Desea guardar el proyecto?":"¿Desea actualizar el proyecto?","Atencion", YES_NO_OPTION) == 0 )
             this.guardarProyecto();
        }else{
-           JOptionPane.showMessageDialog(null, "Error al enviar el formulario");
+           JOptionPane.showMessageDialog(null, "Error al enviar el formulario\n" + dialog);
            this.formValido = true;
        }
         
@@ -1005,7 +1009,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtBuscarNombreKeyTyped
 
     private void txtBuscarNombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarNombreKeyReleased
-        this.buscarProyecto();
+        
     }//GEN-LAST:event_txtBuscarNombreKeyReleased
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
@@ -1025,7 +1029,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_inpFechaConfirmacionPropertyChange
 
     private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
-//        this.getGestorVistaProyecto().ejecutarReporte();
+        this.getGestorVistaProyecto().imprimir();
     }//GEN-LAST:event_btnReporteActionPerformed
 
     private void btnActualizarPerfilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarPerfilesActionPerformed

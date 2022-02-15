@@ -12,31 +12,22 @@ import Modelos.Gestion.GestorProyecto;
 import Modelos.Gestion.Perfil;
 import Modelos.Gestion.Personal;
 import Modelos.Gestion.TipoProyecto;
+import Reportes.GestorReportes;
 import Util.UtilJtable;
 import Vistas.MenuPrincipal.GestorMenuPrincipal;
-import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.resource.cci.Connection;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.ListModel;
 import javax.swing.table.DefaultTableModel;
-import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRResultSetDataSource;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -47,11 +38,11 @@ public class GestorVistaProyecto {
     private boolean actualizacion;
     FrmProyecto form;  
     private GestorProyecto gestor;
-    HibernateUtil conn;
     private DefaultListModel modeloListaDerecha= new DefaultListModel();
     private DefaultListModel modeloListaIzquierda= new DefaultListModel();
     private GestorMenuPrincipal gestorMenu;
-     private UtilJtable UtilTable= new UtilJtable();
+    private UtilJtable UtilTable= new UtilJtable();
+    private GestorReportes gestorReportes;
     
     public UtilJtable getUtilTable() {
         return UtilTable;
@@ -147,12 +138,16 @@ public class GestorVistaProyecto {
         this.setActualizacion(false);
         this.setModel();
         this.getGestor().guardarObjeto();
+        this.getGestor().newModel();
+
     }
     
    public void actualizarProyecto(){
        this.setActualizacion(true);
        this.setModel();
        this.getGestor().actualizarObjeto();
+       this.getGestor().newModel();
+
    }
     
      public void cargarProyecto(Proyecto proyecto){
@@ -163,24 +158,36 @@ public class GestorVistaProyecto {
     public void eliminarProyecto(){
         this.getGestor().eliminarObjeto();
     }
-    public void revisarFormulario(){
+    public String revisarFormulario(){
+        String dialog = "";
          if(this.getForm().getTxtNombre().getText().isEmpty()){
-             this.getForm().getLblNombreRequerido().setText("Requerido.");
-             this.getForm().setFormValido(false);
+             dialog += "- El campo Nombre no puede estar vacío.\n";
+            this.getForm().setFormValido(false);
          }
+         System.out.println("VALIDO: " + this.getForm().getFormValido());
          if(this.getForm().getCboTipoProyecto().getSelectedIndex()==0){
+             dialog += "- Debe elegir un Tipo de Proyecto.\n";
              this.getForm().setFormValido(false);
          }
+         System.out.println("VALIDO: " + this.getForm().getFormValido());
+
           if(this.getForm().getCboCliente().getSelectedIndex()==0){
+             dialog += "- Debe elegir un Cliente.\n";
              this.getForm().setFormValido(false);
          }
+          System.out.println("VALIDO: " + this.getForm().getFormValido());
            if(this.getForm().getCboPersonal().getSelectedIndex()==0){
+               dialog += "- Debe elegir un Personal.\n";
              this.getForm().setFormValido(false);
          }
+         System.out.println("VALIDO: " + this.getForm().getFormValido());
+
          if (this.getForm().getFormValido()){
              this.getForm().setFormValido(this.revisarFechas());
          }
-         
+         System.out.println("VALIDO: " + this.getForm().getFormValido());
+
+       return dialog;  
      }
     
      public boolean revisarFechas(){
@@ -190,7 +197,8 @@ public class GestorVistaProyecto {
          }else{
              fechaCarga = new Date();
          }
-         if(this.getForm().getInpFechaConfirmacion().getDate()==null){
+         if (this.getForm().getFormValido()) {
+             if(this.getForm().getInpFechaConfirmacion().getDate()==null){
               if(this.getForm().getInpFechaTerminacion().getDate()==null){
                   if(this.getForm().getInpFechaEntrega().getDate()==null){
                       return true;
@@ -203,6 +211,7 @@ public class GestorVistaProyecto {
                   return false;
               }
          }else{
+                 System.out.println(this.getForm().getInpFechaConfirmacion().getDate());
             if (this.getForm().getInpFechaConfirmacion().getDate().before(fechaCarga) ) {
                 JOptionPane.showMessageDialog(null, "La fecha de confirmacion es anterior a la fecha de carga.");
                 return false;
@@ -231,7 +240,10 @@ public class GestorVistaProyecto {
                           }
                       }
                   }
+                }
             }
+         } else {
+             return false;
          }
      }
 
@@ -299,7 +311,7 @@ public class GestorVistaProyecto {
         if(lista==null){
             return modelo;
         }
-            Object[] registros = new Object[6];
+            Object[] registros = new Object[5];
 //        String[] registros = new String[6];
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         for (Iterator it = lista.iterator(); it.hasNext();) {
@@ -317,11 +329,11 @@ public class GestorVistaProyecto {
     public void cargarModelo(int indice) {
         if(indice != -1){
             this.getForm().vistaEditar();
-//            Object id = this.getForm().getTblProyectos().getValueAt(indice, 0);
-//            this.cargarProyecto(this.getGestor().buscarProyectoPorId(new Long(id.toString())));
+            String nombre = this.getForm().getTblProyectos().getValueAt(indice, 0).toString();
+            this.cargarProyecto(this.getGestor().buscarProyectoPorNombre(Proyecto.class, nombre));
 
-            Proyecto proyecto =(Proyecto) this.getForm().getTblProyectos().getValueAt(indice, 0);
-            this.cargarProyecto(proyecto);
+
+            
         }else{
              JOptionPane.showMessageDialog(null, "Debe seleccionar el registro a editar.");
         }
@@ -368,8 +380,10 @@ public class GestorVistaProyecto {
     
     public String getAvg(JList perfilesSeleccionados) {
         int count = 0;
+        System.out.println(this.getForm().getCboPersonal().getSelectedItem()!="");
+        System.out.println(this.getForm().getCboPersonal().getSelectedItem()!=null);
         if(this.getForm().getCboPersonal().getSelectedItem()!=""){
-             Personal personal = ((Personal) this.getForm().getCboPersonal().getSelectedItem());
+            Personal personal = ((Personal) this.getForm().getCboPersonal().getSelectedItem());
             for (Perfil perfil : personal.getPerfiles()) {
                 for (int i = 0; i < perfilesSeleccionados.getModel().getSize(); i++) {
                     Object item = perfilesSeleccionados.getModel().getElementAt(i);
@@ -386,28 +400,35 @@ public class GestorVistaProyecto {
         return "";
        
     }
-    
-//    public void ejecutarReporte(){
-//        JasperReport masterReport = null;
-//        try {
-//            masterReport = (JasperReport) JRLoader.loadObject(getClass().getResource("proyectos.jasper"));
-//            
-//        } catch (JRException e){
-//            System.out.println("Error cargando el Reporte Maestro");
-//        }
-//        JRDataSource as = new JRResultSetDataSource((ResultSet) this.gestor.buscarProyectoPorId((long)1));
-//        JasperPrint jasperPrint;
-//        try {
-//            jasperPrint = JasperFillManager.fillReport(masterReport, null, as);
-//            JasperViewer jViewer = new JasperViewer(jasperPrint, false);
-//            jViewer.setTitle("Reporte de Prueba - Programación Avanzada");
-//            jViewer.setVisible(true);
-//        } catch (JRException ex) {
-//            Logger.getLogger(GestorVistaProyecto.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        
-//    }
-
-    
-    
+    public void abrirListado(String archivo){
+        try{
+            gestorReportes= new GestorReportes(archivo);
+            gestorReportes.agregarParametro("tituloMembrete", "Programación Avanzada");
+            gestorReportes.agregarParametro("frase", "");
+            gestorReportes.agregarParametro("pieMembrete", "");
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    public void agregarParametroListado(String nombre,Object objeto){
+        gestorReportes.agregarParametro(nombre, objeto);
+    }
+    public void agregarDatosListado(List listaDatosOrdenada){
+        gestorReportes.setColeccionDeDatos(listaDatosOrdenada);
+    }
+    public void imprimirListado() {
+        try{
+            gestorReportes.imprimir();
+//             gestorReportes.imprimirDirecto();
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    public void imprimir() {
+        this.abrirListado("C:/Users/Pedro/Desktop/4to AÑO/2do Cuatrimestre/Programación Avanzada/tp1-pa/TP1/src/Recursos/Reportes/proyectos.jasper");
+        this.agregarParametroListado("titulo", "Proyecto");
+        this.agregarDatosListado(this.gestor.consultarProyectos() );
+        this.imprimirListado();
+    }  
 }

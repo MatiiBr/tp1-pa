@@ -11,7 +11,6 @@ import org.hibernate.cfg.*;
 public class HibernateUtil {
     public static SessionFactory sessionFactory;
     public static Session session;
-
     public static void inicializar() {
         try {
            Configuration conf = new Configuration(); 

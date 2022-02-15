@@ -88,11 +88,15 @@ public class GestorVistaCliente {
     public void guardarCliente(){
         this.setModel();
         this.getGestor().guardarObjeto();
+        this.getGestor().newModel();
+
     }
     
    public void actualizarCliente(){
        this.setModel();
        this.getGestor().actualizarObjeto();
+       this.getGestor().newModel();
+
    }
     
      public boolean buscarCliente(String nombre) {
