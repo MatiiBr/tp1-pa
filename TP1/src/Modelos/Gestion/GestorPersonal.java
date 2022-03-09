@@ -6,6 +6,7 @@
 package Modelos.Gestion;
 
 import Hibernate.GestorHibernate;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -85,6 +86,11 @@ public class GestorPersonal extends GestorHibernate {
     public DefaultComboBoxModel getComboModelCargo() {
          return this.getGestorCargo().getComboModel();
     }
-    
+    public List  consultarPersonales() {
+        return this.listarClase(Personal.class);
+   }
+   public List consultarPersonales(String nombre, String apellido, Cargo cargo, Date fechaDesde, Date fechaHasta){
+       return this.buscarPersonales(Personal.class, nombre, apellido, cargo, fechaDesde, fechaHasta);
+   }
     
 }

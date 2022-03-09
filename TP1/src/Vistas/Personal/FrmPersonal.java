@@ -12,6 +12,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 /**
@@ -30,10 +31,11 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
            initComponents();
            }
            catch(Exception e){
-            
         }  
         this.setGestorVistaPersonal(gestorPersonal);
         this.actualizarPerfiles();
+        this.getGestorVistaPersonal().cargarTabla(this.tblPersonal);
+        this.cargarCombos();
     }
 
     public JList getListPerfilesDer() {
@@ -111,6 +113,54 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
     public void setFormValido(boolean formValido){
         this.formValido = formValido;
     }
+
+    public JComboBox<String> getCboBuscarCargo() {
+        return cboBuscarCargo;
+    }
+
+    public void setCboBuscarCargo(JComboBox<String> cboBuscarCargo) {
+        this.cboBuscarCargo = cboBuscarCargo;
+    }
+
+    public JDateChooser getInpBuscarFechaDesde() {
+        return inpBuscarFechaDesde;
+    }
+
+    public void setInpBuscarFechaDesde(JDateChooser inpBuscarFechaDesde) {
+        this.inpBuscarFechaDesde = inpBuscarFechaDesde;
+    }
+
+    public JDateChooser getInpBuscarFechaHasta() {
+        return inpBuscarFechaHasta;
+    }
+
+    public void setInpBuscarFechaHasta(JDateChooser inpBuscarFechaHasta) {
+        this.inpBuscarFechaHasta = inpBuscarFechaHasta;
+    }
+
+    public JTable getTblPersonal() {
+        return tblPersonal;
+    }
+
+    public void setTblPersonal(JTable tblPersonal) {
+        this.tblPersonal = tblPersonal;
+    }
+
+    public JTextField getTxtBuscarApellido() {
+        return txtBuscarApellido;
+    }
+
+    public void setTxtBuscarApellido(JTextField txtBuscarApellido) {
+        this.txtBuscarApellido = txtBuscarApellido;
+    }
+
+    public JTextField getTxtBuscarNombre() {
+        return txtBuscarNombre;
+    }
+
+    public void setTxtBuscarNombre(JTextField txtBuscarNombre) {
+        this.txtBuscarNombre = txtBuscarNombre;
+    }
     
     public FrmPersonal() {
         initComponents();
@@ -124,6 +174,9 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
         this.gestorPersonal = gestorPersonal;
     }
     public void editarPersonal(){
+        this.getGestorVistaPersonal().cargarModelo(this.tblPersonal.getSelectedRow());
+    }
+    public void vistaEditar(){
         this.vistaNuevoPersonal();
         this.botonesNuevo();
         btnGuardar.setText("Actualizar");
@@ -175,7 +228,7 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
     }
     public void botonesInicio(){
         btnNuevo.setEnabled(true);
-        btnEditar.setEnabled(false);
+        btnEditar.setEnabled(true);
         btnGuardar.setEnabled(false);
         btnGuardar.setText("Guardar");
         btnEliminar.setEnabled(false);
@@ -218,17 +271,12 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
     }
      
      public void buscarPersonal(){
-         if(this.txtNombre.getText().isBlank()){
-             JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de contacto antes de buscar.");
-             this.limpiarPantalla();
-         }else{
-            if(!this.getGestorVistaPersonal().buscarPersonal(txtNombre.getText().toUpperCase())){
-                JOptionPane.showMessageDialog(null, "No se encontro un contacto con el nombre ingresado.");
-                this.limpiarPantalla();
-            }else{
-                this.botonesListado();
-            };
-         }
+         this.getGestorVistaPersonal().buscarPersonal(
+                 this.txtBuscarNombre.getText().toUpperCase(),
+                 this.txtBuscarApellido.getText().toUpperCase(),
+                 this.cboBuscarCargo.getModel().getSelectedItem(),
+                 this.inpBuscarFechaDesde.getDate(),
+                 this.inpBuscarFechaHasta.getDate());
      }
      
      public void eliminarPersonal(){
@@ -240,7 +288,10 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
      }
       public void cargarCombos() {
         this.getGestorVistaPersonal().setModelCargo(cboCargo);
+        this.getGestorVistaPersonal().setModelCargo(cboBuscarCargo);
+
     }
+      
       private void nuevoPerfil() {
         this.getGestorVistaPersonal().nuevoPerfil();
     }
@@ -272,7 +323,6 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
         lblApellido = new javax.swing.JLabel();
         txtApellido = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
-        btnBuscar = new javax.swing.JButton();
         inpFechaNacimiento = new com.toedter.calendar.JDateChooser();
         lblNombreRequerido = new javax.swing.JLabel();
         lblApellidoRequerido = new javax.swing.JLabel();
@@ -297,6 +347,20 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
         jPanel3 = new javax.swing.JPanel();
         btnCancelar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        scrContacto = new javax.swing.JScrollPane();
+        tblPersonal = new javax.swing.JTable();
+        inpBuscarFechaHasta = new com.toedter.calendar.JDateChooser();
+        txtBuscarApellido = new javax.swing.JTextField();
+        lblApellido1 = new javax.swing.JLabel();
+        lblEdad2 = new javax.swing.JLabel();
+        inpBuscarFechaDesde = new com.toedter.calendar.JDateChooser();
+        lblEdad1 = new javax.swing.JLabel();
+        lblNombre1 = new javax.swing.JLabel();
+        txtBuscarNombre = new javax.swing.JTextField();
+        cboBuscarCargo = new javax.swing.JComboBox<>();
+        lblCargo3 = new javax.swing.JLabel();
+        btnBuscar = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setClosable(true);
@@ -310,15 +374,15 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
 
         lblNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblNombre.setText("Nombre: ");
-        jPanel1.add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, -1, -1));
+        jPanel1.add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
 
         lblEdad.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblEdad.setText("Fecha Nacimiento:");
-        jPanel1.add(lblEdad, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 160, -1, -1));
+        jPanel1.add(lblEdad, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, -1, -1));
 
         lblApellido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblApellido.setText("Apellido:");
-        jPanel1.add(lblApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, -1, -1));
+        jPanel1.add(lblApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, -1));
 
         txtApellido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtApellido.setToolTipText("Apellido");
@@ -333,7 +397,7 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
                 txtApellidoKeyTyped(evt);
             }
         });
-        jPanel1.add(txtApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 110, 190, 30));
+        jPanel1.add(txtApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 190, 30));
 
         txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtNombre.setToolTipText("Nombre");
@@ -347,16 +411,7 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
                 txtNombreKeyTyped(evt);
             }
         });
-        jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, 139, -1));
-
-        btnBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnBuscar.setText("Buscar");
-        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, -1, -1));
+        jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 139, -1));
 
         inpFechaNacimiento.setToolTipText("Fecha de Nacimiento");
         inpFechaNacimiento.setEnabled(false);
@@ -366,17 +421,17 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
                 inpFechaNacimientoPropertyChange(evt);
             }
         });
-        jPanel1.add(inpFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, 240, 26));
+        jPanel1.add(inpFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 240, 26));
 
         lblNombreRequerido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblNombreRequerido.setForeground(new java.awt.Color(204, 0, 51));
         lblNombreRequerido.setText(" ");
-        jPanel1.add(lblNombreRequerido, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 70, 100, -1));
+        jPanel1.add(lblNombreRequerido, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 100, -1));
 
         lblApellidoRequerido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblApellidoRequerido.setForeground(new java.awt.Color(204, 0, 51));
         lblApellidoRequerido.setText(" ");
-        jPanel1.add(lblApellidoRequerido, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 140, 100, 20));
+        jPanel1.add(lblApellidoRequerido, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 100, 20));
 
         lblFechaNacimientoRequerido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblFechaNacimientoRequerido.setForeground(new java.awt.Color(204, 0, 51));
@@ -385,7 +440,7 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
 
         lblCargo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblCargo.setText("Cargo:");
-        jPanel1.add(lblCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 210, -1, -1));
+        jPanel1.add(lblCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, -1, -1));
 
         cboCargo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cboCargo.setEnabled(false);
@@ -403,7 +458,7 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
                 cboCargoActionPerformed(evt);
             }
         });
-        jPanel1.add(cboCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 230, 240, 20));
+        jPanel1.add(cboCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, 240, 20));
 
         btnActualizarPerfiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/add.png"))); // NOI18N
         btnActualizarPerfiles.addActionListener(new java.awt.event.ActionListener() {
@@ -411,19 +466,19 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
                 btnActualizarPerfilesActionPerformed(evt);
             }
         });
-        jPanel1.add(btnActualizarPerfiles, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 300, 40, 40));
+        jPanel1.add(btnActualizarPerfiles, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 300, 40, 40));
 
         lblCargo1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblCargo1.setText("Perfiles asignados:");
-        jPanel1.add(lblCargo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 280, -1, -1));
+        jPanel1.add(lblCargo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 280, -1, -1));
 
         jScrollPane1.setViewportView(listPerfilesDer);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 300, 180, 190));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 300, 180, 190));
 
         jScrollPane2.setViewportView(listPerfilesIzq);
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 300, 180, 190));
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, 180, 190));
 
         btnSacarPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/flecha-izquierda.png"))); // NOI18N
         btnSacarPerfil.addActionListener(new java.awt.event.ActionListener() {
@@ -431,7 +486,7 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
                 btnSacarPerfilActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSacarPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 400, 40, 40));
+        jPanel1.add(btnSacarPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 400, 40, 40));
 
         btnAgregarPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/flecha-derecha.png"))); // NOI18N
         btnAgregarPerfil.addActionListener(new java.awt.event.ActionListener() {
@@ -439,7 +494,7 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
                 btnAgregarPerfilActionPerformed(evt);
             }
         });
-        jPanel1.add(btnAgregarPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 350, 40, 40));
+        jPanel1.add(btnAgregarPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 350, 40, 40));
 
         btnNuevoPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/actualizar.png"))); // NOI18N
         btnNuevoPerfil.addActionListener(new java.awt.event.ActionListener() {
@@ -447,11 +502,11 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
                 btnNuevoPerfilActionPerformed(evt);
             }
         });
-        jPanel1.add(btnNuevoPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 450, 40, 40));
+        jPanel1.add(btnNuevoPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 450, 40, 40));
 
         lblCargo2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblCargo2.setText("Perfiles:");
-        jPanel1.add(lblCargo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 280, -1, -1));
+        jPanel1.add(lblCargo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, -1, -1));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
@@ -465,7 +520,6 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
 
         btnEditar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEditar.setText("Editar");
-        btnEditar.setEnabled(false);
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarActionPerformed(evt);
@@ -559,6 +613,180 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Búsqueda"));
+
+        tblPersonal.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        tblPersonal.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblPersonal.getTableHeader().setReorderingAllowed(false);
+        scrContacto.setViewportView(tblPersonal);
+
+        inpBuscarFechaHasta.setToolTipText("Fecha de Nacimiento");
+        inpBuscarFechaHasta.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        inpBuscarFechaHasta.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                inpBuscarFechaHastaPropertyChange(evt);
+            }
+        });
+
+        txtBuscarApellido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtBuscarApellido.setToolTipText("Nombre");
+        txtBuscarApellido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBuscarApellidoActionPerformed(evt);
+            }
+        });
+        txtBuscarApellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBuscarApellidoKeyTyped(evt);
+            }
+        });
+
+        lblApellido1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblApellido1.setText("Apellido:");
+
+        lblEdad2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblEdad2.setText("Fecha Nac. Hasta:");
+
+        inpBuscarFechaDesde.setToolTipText("Fecha de Nacimiento");
+        inpBuscarFechaDesde.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        inpBuscarFechaDesde.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                inpBuscarFechaDesdePropertyChange(evt);
+            }
+        });
+
+        lblEdad1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblEdad1.setText("Fecha Nac. Desde:");
+
+        lblNombre1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblNombre1.setText("Nombre: ");
+
+        txtBuscarNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtBuscarNombre.setToolTipText("Nombre");
+        txtBuscarNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBuscarNombreActionPerformed(evt);
+            }
+        });
+        txtBuscarNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBuscarNombreKeyTyped(evt);
+            }
+        });
+
+        cboBuscarCargo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cboBuscarCargo.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+                cboBuscarCargoPopupMenuWillBecomeVisible(evt);
+            }
+        });
+        cboBuscarCargo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboBuscarCargoActionPerformed(evt);
+            }
+        });
+
+        lblCargo3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblCargo3.setText("Cargo:");
+
+        btnBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(scrContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(78, 78, 78)
+                                .addComponent(lblNombre1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtBuscarNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(61, 61, 61)
+                                .addComponent(lblApellido1))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(24, 24, 24)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addComponent(lblEdad2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(inpBuscarFechaHasta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addComponent(lblEdad1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(inpBuscarFechaDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(61, 61, 61)
+                                .addComponent(lblCargo3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(txtBuscarApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(cboBuscarCargo, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblNombre1)
+                        .addComponent(txtBuscarNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtBuscarApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblApellido1)
+                        .addComponent(btnBuscar)))
+                .addGap(2, 2, 2)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblEdad1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(inpBuscarFechaDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblCargo3)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblEdad2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(inpBuscarFechaHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cboBuscarCargo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(scrContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -566,18 +794,21 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -670,6 +901,38 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
         this.moverPerfilesIzq();
     }//GEN-LAST:event_btnSacarPerfilActionPerformed
 
+    private void inpBuscarFechaHastaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_inpBuscarFechaHastaPropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inpBuscarFechaHastaPropertyChange
+
+    private void txtBuscarApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarApellidoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarApellidoActionPerformed
+
+    private void txtBuscarApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarApellidoKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarApellidoKeyTyped
+
+    private void inpBuscarFechaDesdePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_inpBuscarFechaDesdePropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inpBuscarFechaDesdePropertyChange
+
+    private void txtBuscarNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarNombreActionPerformed
+
+    private void txtBuscarNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarNombreKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarNombreKeyTyped
+
+    private void cboBuscarCargoPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cboBuscarCargoPopupMenuWillBecomeVisible
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboBuscarCargoPopupMenuWillBecomeVisible
+
+    private void cboBuscarCargoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboBuscarCargoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboBuscarCargoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarPerfiles;
@@ -683,25 +946,38 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnNuevoPerfil;
     private javax.swing.JButton btnSacarPerfil;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JComboBox<String> cboBuscarCargo;
     private javax.swing.JComboBox<String> cboCargo;
+    private com.toedter.calendar.JDateChooser inpBuscarFechaDesde;
+    private com.toedter.calendar.JDateChooser inpBuscarFechaHasta;
     private com.toedter.calendar.JDateChooser inpFechaNacimiento;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblApellido;
+    private javax.swing.JLabel lblApellido1;
     private javax.swing.JLabel lblApellidoRequerido;
     private javax.swing.JLabel lblCargo;
     private javax.swing.JLabel lblCargo1;
     private javax.swing.JLabel lblCargo2;
+    private javax.swing.JLabel lblCargo3;
     private javax.swing.JLabel lblEdad;
+    private javax.swing.JLabel lblEdad1;
+    private javax.swing.JLabel lblEdad2;
     private javax.swing.JLabel lblFechaNacimientoRequerido;
     private javax.swing.JLabel lblNombre;
+    private javax.swing.JLabel lblNombre1;
     private javax.swing.JLabel lblNombreRequerido;
     private javax.swing.JList<String> listPerfilesDer;
     private javax.swing.JList<String> listPerfilesIzq;
+    private javax.swing.JScrollPane scrContacto;
+    private javax.swing.JTable tblPersonal;
     private javax.swing.JTextField txtApellido;
+    private javax.swing.JTextField txtBuscarApellido;
+    private javax.swing.JTextField txtBuscarNombre;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 

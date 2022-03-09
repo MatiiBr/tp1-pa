@@ -7,11 +7,18 @@ package Vistas.Cliente;
 
 import Modelos.Gestion.Cargo;
 import Modelos.Gestion.Cliente;
+import Modelos.Gestion.Contacto;
 import Modelos.Gestion.GestorCliente;
 import Util.UtilJtable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -89,17 +96,20 @@ public class GestorVistaCliente {
         this.setModel();
         this.getGestor().guardarObjeto();
         this.getGestor().newModel();
-
+        this.cargarTabla(this.getForm().getTblCliente());
     }
     
    public void actualizarCliente(){
        this.setModel();
        this.getGestor().actualizarObjeto();
        this.getGestor().newModel();
-
+       this.cargarTabla(this.getForm().getTblCliente());
+   }
+   public void cargarTabla(JTable tabla){
+        tabla.setModel(this.crearModelo(this.getGestor().consultarClientes()));
    }
     
-     public boolean buscarCliente(String nombre) {
+     public boolean buscarCliente(String nombre) { //NO SE USA MÁS
         Cliente cliente;
         cliente=this.getGestor().buscarCliente(nombre);
          if(cliente!=null){
@@ -110,11 +120,50 @@ public class GestorVistaCliente {
          }
          return true;
     }
-    
-     public void cargarCliente(Cliente cliente){
-         this.getForm().cargarCliente(cliente);
+    public void buscarCliente(String nombre, String apellido, Date fechaDesde, Date fechaHasta){
+       if (fechaDesde != null && fechaHasta != null) {
+           if (fechaHasta.before(fechaDesde)) {
+                JOptionPane.showMessageDialog(null, "La fecha de nacimiento DESDE debe ser anterior a la fecha de nacimiento HASTA.");
+           }    
+       }
+       this.getForm().getTblCliente().setModel(this.crearModelo(this.getGestor().consultarClientes(nombre,apellido,fechaDesde,fechaHasta)));
+    }
+    public DefaultTableModel crearModelo(List lista){
+        String[] titulos = {"Nombre", "Apellido", "Fecha Nacimiento"};
+        DefaultTableModel modelo = new DefaultTableModel(null, titulos){
+           @Override
+            public boolean isCellEditable(int row, int column) {
+               return false;
+         }
+        };
+        if(lista==null){
+            return modelo;
+        }
+        Object[] registros = new Object[4];
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        for (Iterator it = lista.iterator(); it.hasNext();) {
+            Cliente cliente = (Cliente) it.next();   
+             registros[0] =  cliente.getNombre();
+             registros[1] = cliente.getApellido();
+             registros[2] = formatter.format(cliente.getFechaNacimiento());
+             modelo.addRow(registros);
+        }
+       return modelo;
      }
-    
+    public void cargarCliente(Cliente cliente){
+        this.setModel(cliente);
+        this.getForm().cargarCliente(cliente);
+    }
+    public void cargarModelo(int indice){
+       if(indice != -1){
+           this.getForm().vistaEditar();
+           String nombre = this.getForm().getTblCliente().getValueAt(indice, 0).toString();
+           this.cargarCliente(this.getGestor().buscarCliente(Cliente.class, nombre));
+
+        }else{
+             JOptionPane.showMessageDialog(null, "Debe seleccionar el registro a editar.");
+        }
+   }
     public void eliminarCliente(){
         this.getGestor().eliminarObjeto();
     }

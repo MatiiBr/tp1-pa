@@ -31,6 +31,9 @@ public class Personal extends Persona implements Serializable {
     )
     private List<Perfil> perfiles = new ArrayList<>();
     
+    // itemPerfil 
+       // perosnal 
+         //       perfil
     public void addPerfil(Perfil perfil) {
         perfiles.add(perfil);
         perfil.getPersonales().add(this);

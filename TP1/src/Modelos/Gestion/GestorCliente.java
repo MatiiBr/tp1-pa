@@ -6,6 +6,7 @@
 package Modelos.Gestion;
 
 import Hibernate.GestorHibernate;
+import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 
@@ -57,8 +58,14 @@ public class GestorCliente extends GestorHibernate {
         this.actualizarObjeto(this.getModel());
     }
        
-       public void eliminarObjeto(){
-        this.eliminarObjeto(this.getModel());
-       }
+    public void eliminarObjeto(){
+     this.eliminarObjeto(this.getModel());
+    }
+    public List consultarClientes(String nombre, String apellido, Date fechaDesde, Date fechaHasta){
+       return this.buscarClientes(Cliente.class, nombre, apellido, fechaDesde, fechaHasta);
+    }
+    public List  consultarClientes() {
+        return this.listarClase(Cliente.class);
+    }
        
 }

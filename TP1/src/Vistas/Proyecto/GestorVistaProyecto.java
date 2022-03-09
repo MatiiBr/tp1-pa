@@ -79,8 +79,8 @@ public class GestorVistaProyecto {
           this.getModel().setFechaConfirmacion(this.getForm().getInpFechaConfirmacion().getDate());
           this.getModel().setFechaTerminacion(this.getForm().getInpFechaTerminacion().getDate());
           this.getModel().setTipoProyecto((TipoProyecto) this.getForm().getCboTipoProyecto().getSelectedItem());
-           this.getModel().setCliente((Cliente) this.getForm().getCboCliente().getSelectedItem());
-            this.getModel().setPersonal((Personal) this.getForm().getCboPersonal().getSelectedItem());
+          this.getModel().setCliente((Cliente) this.getForm().getCboCliente().getSelectedItem());
+          this.getModel().setPersonal((Personal) this.getForm().getCboPersonal().getSelectedItem());
     }
     
     public void setModel(Proyecto model) {
@@ -152,7 +152,7 @@ public class GestorVistaProyecto {
     
      public void cargarProyecto(Proyecto proyecto){
         this.setModel(proyecto);
-         this.getForm().cargarProyecto(proyecto);
+        this.getForm().cargarProyecto(proyecto);
      }
     
     public void eliminarProyecto(){
@@ -332,8 +332,6 @@ public class GestorVistaProyecto {
             String nombre = this.getForm().getTblProyectos().getValueAt(indice, 0).toString();
             this.cargarProyecto(this.getGestor().buscarProyectoPorNombre(Proyecto.class, nombre));
 
-
-            
         }else{
              JOptionPane.showMessageDialog(null, "Debe seleccionar el registro a editar.");
         }

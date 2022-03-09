@@ -6,11 +6,15 @@
 package Vistas.Personal;
 
 import Modelos.Gestion.Cargo;
+import Modelos.Gestion.Cliente;
+import Modelos.Gestion.Contacto;
 import Modelos.Gestion.GestorPersonal;
 import Modelos.Gestion.Perfil;
 import Modelos.Gestion.Personal;
+import Modelos.Gestion.TipoProyecto;
 import Util.UtilJtable;
 import Vistas.MenuPrincipal.GestorMenuPrincipal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -18,6 +22,9 @@ import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -117,9 +124,18 @@ public class GestorVistaPersonal {
          }
          return true;
     }
-     public void cargarPersonal(Personal personal){
-         this.getForm().cargarPersonal(personal);
-     }
+    public void cargarPersonal(Personal personal){
+        this.getForm().cargarPersonal(personal);
+    }
+    public void cargarModelo(int indice){
+       if(indice != -1){
+           this.getForm().vistaEditar();
+           String nombre = this.getForm().getTblPersonal().getValueAt(indice, 0).toString();
+           this.cargarPersonal(this.getGestor().buscarPersonal(Personal.class, nombre));
+        }else{
+             JOptionPane.showMessageDialog(null, "Debe seleccionar el registro a editar.");
+        }
+   } 
     public void eliminarPersonal(){
         this.getGestor().eliminarObjeto();
     }
@@ -218,4 +234,44 @@ public class GestorVistaPersonal {
             }
         return modelo;
     }
+    public void cargarTabla(JTable tabla){
+        tabla.setModel(this.crearModelo(this.getGestor().consultarPersonales()));
+    }
+    public DefaultTableModel crearModelo(List lista){
+        String[] titulos = {"Nombre", "Apellido", "Cargo", "Fecha de Nacimiento"};
+        DefaultTableModel modelo = new DefaultTableModel(null, titulos){
+           @Override
+            public boolean isCellEditable(int row, int column) {
+               return false;
+         }
+        };
+        if(lista==null){
+            return modelo;
+        }
+        Object[] registros = new Object[5];
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        for (Iterator it = lista.iterator(); it.hasNext();) {
+            Personal personal = (Personal) it.next();   
+             registros[0] =  personal.getNombre();
+             registros[1] = personal.getApellido();
+             registros[2] = personal.getCargo().toString();
+             registros[3] = formatter.format(personal.getFechaNacimiento());
+             modelo.addRow(registros);
+        }
+       return modelo;
+     }
+    public void buscarPersonal(String nombre, String apellido, Object cargo, Date fechaDesde, Date fechaHasta) {
+         Cargo cargoFilter = null;
+         if(!cargo.equals("")){
+             cargoFilter = (Cargo) cargo;
+         }
+         if (fechaDesde != null && fechaHasta != null) {
+           if (fechaHasta.before(fechaDesde)) {
+                JOptionPane.showMessageDialog(null, "La fecha de nacimiento DESDE, debe ser anterior a la fecha de nacimiento HASTA.");
+           }
+         }
+       this.getForm().getTblPersonal().setModel(this.crearModelo(this.getGestor().consultarPersonales(nombre,apellido,cargoFilter,fechaDesde,fechaHasta)));
+       }
 }
+
+    

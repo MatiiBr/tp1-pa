@@ -1,4 +1,5 @@
 package Hibernate;
+import Modelos.Gestion.Cargo;
 import Modelos.Gestion.Cliente;
 import Modelos.Gestion.Perfil;
 import Modelos.Gestion.Contacto;
@@ -6,6 +7,7 @@ import Modelos.Gestion.Personal;
 import Modelos.Gestion.Proyecto;
 import Modelos.Gestion.TipoProyecto;
 import Modelos.Gestion.Perfil;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
@@ -66,7 +68,21 @@ public class GestorHibernate extends HibernateUtil {
         }
         return (Contacto) crit.list().get(0);
      }
-     
+     public List buscarContactos(Class clase, String nombre, String apellido, Date fechaDesde, Date fechaHasta){
+        Criteria crit = getSession().createCriteria(clase)
+                 .add(Restrictions.like("nombre",  "%"+nombre+"%"));
+        crit.add(Restrictions.like("apellido", "%"+apellido+"%"));
+        if (fechaDesde != null) {
+            crit.add(Restrictions.ge("fechaNacimiento", fechaDesde));
+        }
+        if (fechaHasta != null) {
+            crit.add(Restrictions.le("fechaNacimiento", fechaHasta));
+        }
+        if (crit.list().isEmpty()) {
+            return null;
+        }
+        return crit.list();
+    }
      public Proyecto buscarProyectoPorId(Class clase, Long valor){        
          Criteria crit = getSession().createCriteria(clase)
             .add( Restrictions.eq("id", valor));
@@ -76,17 +92,17 @@ public class GestorHibernate extends HibernateUtil {
         return (Proyecto) crit.list().get(0);
      }
       
-      public List buscarProyectos(Class clase, String nombre, Cliente cliente, TipoProyecto tipoProyecto, Personal personal){
+    public List buscarProyectos(Class clase, String nombre, Cliente cliente, TipoProyecto tipoProyecto, Personal personal){
          Criteria crit = getSession().createCriteria(clase)
                  .add( Restrictions.like("nombre",  "%"+nombre+"%"));
          if(cliente != null){
-             crit.add( Restrictions.eq("cliente.id", cliente.getId()));
+             crit.add( Restrictions.eq("cliente", cliente));
          }
          if(tipoProyecto != null){
-             crit.add( Restrictions.eq("tipoProyecto.id", tipoProyecto.getId()));
+             crit.add( Restrictions.eq("tipoProyecto", tipoProyecto));
          }
          if(personal != null){
-             crit.add( Restrictions.eq("personal.id", personal.getId()));
+             crit.add( Restrictions.eq("personal", personal));
          }
 
         if (crit.list().isEmpty()){
@@ -94,7 +110,29 @@ public class GestorHibernate extends HibernateUtil {
         }
         return crit.list();
      }
-      
+    public Proyecto buscarProyectoPorNombre(Class clase, String valor){        
+        Criteria crit = getSession().createCriteria(clase)
+            .add( Restrictions.eq("nombre", valor));
+        if (crit.list().isEmpty()){
+            return null;
+        }
+        return (Proyecto) crit.list().get(0);
+     }
+    public List buscarClientes(Class clase, String nombre, String apellido, Date fechaDesde, Date fechaHasta){
+        Criteria crit = getSession().createCriteria(clase)
+                 .add(Restrictions.like("nombre",  "%"+nombre+"%"));
+        crit.add(Restrictions.like("apellido", "%"+apellido+"%"));
+        if (fechaDesde != null) {
+            crit.add(Restrictions.ge("fechaNacimiento", fechaDesde));
+        }
+        if (fechaHasta != null) {
+            crit.add(Restrictions.le("fechaNacimiento", fechaHasta));
+        }
+        if (crit.list().isEmpty()) {
+            return null;
+        }
+        return crit.list();
+    }
       public Cliente buscarCliente(Class clase, String valor){        
          Criteria crit = getSession().createCriteria(clase)
             .add( Restrictions.eq("nombre", valor));
@@ -103,14 +141,7 @@ public class GestorHibernate extends HibernateUtil {
         }
         return (Cliente) crit.list().get(0);
      }
-      public Proyecto buscarProyectoPorNombre(Class clase, String valor){        
-         Criteria crit = getSession().createCriteria(clase)
-            .add( Restrictions.eq("nombre", valor));
-        if (crit.list().isEmpty()){
-            return null;
-        }
-        return (Proyecto) crit.list().get(0);
-     }
+      
       public Personal buscarPersonal(Class clase, String valor){
          Criteria crit = getSession().createCriteria(clase)
             .add( Restrictions.eq("nombre", valor));
@@ -119,6 +150,25 @@ public class GestorHibernate extends HibernateUtil {
         }
         return (Personal) crit.list().get(0);
      }
+    public List buscarPersonales(Class clase, String nombre, String apellido, Cargo cargo, Date fechaDesde, Date fechaHasta){
+        Criteria crit = getSession().createCriteria(clase)
+                 .add(Restrictions.like("nombre",  "%"+nombre+"%"));
+        crit.add(Restrictions.like("apellido", "%"+apellido+"%"));
+        if(cargo != null){
+             crit.add( Restrictions.eq("cargo", cargo));
+         }
+        if (fechaDesde != null) {
+            crit.add(Restrictions.ge("fechaNacimiento", fechaDesde));
+        }
+        if (fechaHasta != null) {
+            crit.add(Restrictions.le("fechaNacimiento", fechaHasta));
+        }
+        if (crit.list().isEmpty()) {
+            return null;
+        }
+        return crit.list();
+    }
+     
       public Perfil buscarPerfil(Class clase, String valor){     
          Criteria crit = getSession().createCriteria(clase)
             .add( Restrictions.eq("nombre", valor));

@@ -7,10 +7,16 @@ package Vistas.Contacto;
 
 import Modelos.Gestion.Contacto;
 import Modelos.Gestion.GestorContacto;
+import Modelos.Gestion.Proyecto;
 import Util.UtilJtable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -41,9 +47,9 @@ public class GestorVistaContacto {
     }
      
      public void setModel(){
-          this.getModel().setNombre(this.getForm().getTxtNombre().getText().toUpperCase());
-          this.getModel().setApellido(this.getForm().getTxtApellido().getText().toUpperCase());
-          this.getModel().setFechaNacimiento(this.getForm().getInpFechaNacimiento().getDate());
+         this.getModel().setNombre(this.getForm().getTxtNombre().getText().toUpperCase());
+         this.getModel().setApellido(this.getForm().getTxtApellido().getText().toUpperCase());
+         this.getModel().setFechaNacimiento(this.getForm().getInpFechaNacimiento().getDate());
     }
     
     public void setModel(Contacto model) {
@@ -87,27 +93,62 @@ public class GestorVistaContacto {
         this.setModel();
         this.getGestor().guardarObjeto();
         this.getGestor().newModel();
+        this.cargarTabla(this.getForm().getTblContacto());
     }
     
    public void actualizarContacto(){
        this.setModel();
        this.getGestor().actualizarObjeto();
        this.getGestor().newModel();
+       this.cargarTabla(this.getForm().getTblContacto());
    }
-    
-     public boolean buscarContacto(String nombre) {
-        Contacto contacto;
-        contacto=this.getGestor().buscarContacto(nombre);
-        if(contacto!=null){                                     //PROBLEMA NO ENTRA AL IF, TRAE UN NULL
-              this.setModel(contacto);
-              this.cargarContacto(contacto);
-         }else{
-             return false;
+
+   public void cargarTabla(JTable tabla){
+        tabla.setModel(this.crearModelo(this.getGestor().consultarContactos()));
+   }
+   
+   public void buscarContacto(String nombre, String apellido, Date fechaDesde, Date fechaHasta){
+       if (fechaDesde != null && fechaHasta != null) {
+           if (fechaHasta.before(fechaDesde)) {
+                JOptionPane.showMessageDialog(null, "La fecha de nacimiento DESDE debe ser anterior a la fecha de nacimiento HASTA.");
+           }    
+       }
+       this.getForm().getTblContacto().setModel(this.crearModelo(this.getGestor().consultarContactos(nombre,apellido,fechaDesde,fechaHasta)));
+   }
+
+   public void cargarModelo(int indice){
+       if(indice != -1){
+           this.getForm().vistaEditar();
+           String nombre = this.getForm().getTblContacto().getValueAt(indice, 0).toString();
+           this.cargarContacto(this.getGestor().buscarContacto(Contacto.class, nombre));
+        }else{
+             JOptionPane.showMessageDialog(null, "Debe seleccionar el registro a editar.");
+        }
+   }
+   public DefaultTableModel crearModelo(List lista){
+        String[] titulos = {"Nombre", "Apellido", "Fecha Nacimiento"};
+        DefaultTableModel modelo = new DefaultTableModel(null, titulos){
+           @Override
+            public boolean isCellEditable(int row, int column) {
+               return false;
          }
-         return true;
-    }
-    
+        };
+        if(lista==null){
+            return modelo;
+        }
+        Object[] registros = new Object[4];
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        for (Iterator it = lista.iterator(); it.hasNext();) {
+            Contacto contacto = (Contacto) it.next();   
+             registros[0] =  contacto.getNombre();
+             registros[1] = contacto.getApellido();
+             registros[2] = formatter.format(contacto.getFechaNacimiento());
+             modelo.addRow(registros);
+        }
+       return modelo;
+     }
      public void cargarContacto(Contacto contacto){
+         this.setModel(contacto);
          this.getForm().cargarContacto(contacto);
      }
     
@@ -151,4 +192,5 @@ public class GestorVistaContacto {
          }
          return edad>=18;
      }
+     
 }

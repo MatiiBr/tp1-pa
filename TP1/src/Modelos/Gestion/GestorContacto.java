@@ -7,6 +7,7 @@ package Modelos.Gestion;
 
 import Hibernate.GestorHibernate;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -68,6 +69,13 @@ public class GestorContacto extends GestorHibernate {
        public void eliminarObjeto(){
         this.eliminarObjeto(this.getModel());
        }
+       
+   public List consultarContactos(String nombre, String apellido, Date fechaDesde, Date fechaHasta){
+       return this.buscarContactos(Contacto.class, nombre, apellido, fechaDesde, fechaHasta);
+   }
+   public List  consultarContactos() {
+        return this.listarClase(Contacto.class);
+   }
 }
      
     

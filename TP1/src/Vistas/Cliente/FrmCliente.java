@@ -9,6 +9,7 @@ import Modelos.Gestion.Cliente;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 /**
@@ -30,6 +31,7 @@ public class FrmCliente extends javax.swing.JInternalFrame {
             
         }  
         this.setGestorVistaCliente(gestorCliente);
+        this.getGestorVistaCliente().cargarTabla(this.tblCliente);
     }
      
     public FrmCliente() {
@@ -96,7 +98,43 @@ public class FrmCliente extends javax.swing.JInternalFrame {
     public void setGestorVistaCliente(GestorVistaCliente gestorCliente) {
         this.gestorCliente = gestorCliente;
     }
+
+    public JDateChooser getInpBuscarFechaDesde() {
+        return inpBuscarFechaDesde;
+    }
+
+    public void setInpBuscarFechaDesde(JDateChooser inpBuscarFechaDesde) {
+        this.inpBuscarFechaDesde = inpBuscarFechaDesde;
+    }
+
+    public JTable getTblCliente() {
+        return tblCliente;
+    }
+
+    public void setTblCliente(JTable tblCliente) {
+        this.tblCliente = tblCliente;
+    }
+
+    public JTextField getTxtBuscarApellido() {
+        return txtBuscarApellido;
+    }
+
+    public void setTxtBuscarApellido(JTextField txtBuscarApellido) {
+        this.txtBuscarApellido = txtBuscarApellido;
+    }
+
+    public JTextField getTxtBuscarNombre() {
+        return txtBuscarNombre;
+    }
+
+    public void setTxtBuscarNombre(JTextField txtBuscarNombre) {
+        this.txtBuscarNombre = txtBuscarNombre;
+    }
+    
     public void editarCliente(){
+        this.getGestorVistaCliente().cargarModelo(this.tblCliente.getSelectedRow());
+    }
+    public void vistaEditar(){
         this.vistaNuevoCliente();
         this.botonesNuevo();
         btnGuardar.setText("Actualizar");
@@ -114,14 +152,13 @@ public class FrmCliente extends javax.swing.JInternalFrame {
     }
     public void cargarCliente(Cliente cliente){
         this.limpiarPantalla();
-        this.vistaInicio();
         txtNombre.setText(cliente.getNombre());
         txtApellido.setText(cliente.getApellido());
         inpFechaNacimiento.setDate(cliente.getFechaNacimiento());
     }
     public void vistaInicio(){
         this.inpFechaNacimiento.setEnabled(false);
-        this.txtNombre.setEnabled(true);
+        this.txtNombre.setEnabled(false);
         this.txtApellido.setEnabled(false);
     }
     public void vistaNuevoCliente(){
@@ -140,7 +177,7 @@ public class FrmCliente extends javax.swing.JInternalFrame {
     }
     public void botonesInicio(){
         btnNuevo.setEnabled(true);
-        btnEditar.setEnabled(false);
+        btnEditar.setEnabled(true);
         btnGuardar.setEnabled(false);
         btnGuardar.setText("Guardar");
         btnEliminar.setEnabled(false);
@@ -171,10 +208,10 @@ public class FrmCliente extends javax.swing.JInternalFrame {
          String dialog;
          if(btnGuardar.getText()=="Guardar"){
               this.getGestorVistaCliente().guardarCliente();
-              dialog = "Contacto guardado exitosamente.";
+              dialog = "Cliente guardado exitosamente.";
          }else{
             this.getGestorVistaCliente().actualizarCliente();
-            dialog = "Contacto actualizado exitosamente.";
+            dialog = "Cliente actualizado exitosamente.";
          }
         this.limpiarPantalla();
         this.vistaInicio();
@@ -183,17 +220,11 @@ public class FrmCliente extends javax.swing.JInternalFrame {
     }
      
      public void buscarCliente(){
-         if(this.txtNombre.getText().isBlank()){
-             JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de contacto antes de buscar.");
-             this.limpiarPantalla();
-         }else{
-            if(!this.getGestorVistaCliente().buscarCliente(txtNombre.getText().toUpperCase())){
-                JOptionPane.showMessageDialog(null, "No se encontro un contacto con el nombre ingresado.");
-                this.limpiarPantalla();
-            }else{
-                this.botonesListado();
-            };
-         }
+         this.getGestorVistaCliente().buscarCliente(
+                 this.txtBuscarNombre.getText().toUpperCase(),
+                 this.txtBuscarApellido.getText().toUpperCase(),
+                 this.inpBuscarFechaDesde.getDate(),
+                 this.inpBuscarFechaHasta.getDate());
      }
      
      public void eliminarCliente(){
@@ -219,7 +250,6 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         lblApellido = new javax.swing.JLabel();
         txtApellido = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
-        btnBuscar = new javax.swing.JButton();
         inpFechaNacimiento = new com.toedter.calendar.JDateChooser();
         lblNombreRequerido = new javax.swing.JLabel();
         lblApellidoRequerido = new javax.swing.JLabel();
@@ -232,6 +262,18 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         jPanel3 = new javax.swing.JPanel();
         btnCancelar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        txtBuscarNombre = new javax.swing.JTextField();
+        lblNombre1 = new javax.swing.JLabel();
+        lblEdad1 = new javax.swing.JLabel();
+        inpBuscarFechaDesde = new com.toedter.calendar.JDateChooser();
+        lblEdad2 = new javax.swing.JLabel();
+        lblApellido1 = new javax.swing.JLabel();
+        txtBuscarApellido = new javax.swing.JTextField();
+        inpBuscarFechaHasta = new com.toedter.calendar.JDateChooser();
+        scrContacto = new javax.swing.JScrollPane();
+        tblCliente = new javax.swing.JTable();
+        btnBuscar = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setClosable(true);
@@ -289,16 +331,6 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         jPanel1.add(txtNombre);
         txtNombre.setBounds(30, 50, 139, 26);
 
-        btnBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnBuscar.setText("Buscar");
-        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnBuscar);
-        btnBuscar.setBounds(180, 50, 90, 29);
-
         inpFechaNacimiento.setToolTipText("Fecha de Nacimiento");
         inpFechaNacimiento.setEnabled(false);
         inpFechaNacimiento.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -326,7 +358,7 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         lblFechaNacimientoRequerido.setForeground(new java.awt.Color(204, 0, 51));
         lblFechaNacimientoRequerido.setText(" ");
         jPanel1.add(lblFechaNacimientoRequerido);
-        lblFechaNacimientoRequerido.setBounds(190, 210, 111, 20);
+        lblFechaNacimientoRequerido.setBounds(30, 240, 111, 20);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
@@ -340,7 +372,6 @@ public class FrmCliente extends javax.swing.JInternalFrame {
 
         btnEditar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEditar.setText("Editar");
-        btnEditar.setEnabled(false);
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarActionPerformed(evt);
@@ -433,27 +464,177 @@ public class FrmCliente extends javax.swing.JInternalFrame {
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Búsqueda"));
+
+        txtBuscarNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtBuscarNombre.setToolTipText("Nombre");
+        txtBuscarNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBuscarNombreActionPerformed(evt);
+            }
+        });
+        txtBuscarNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBuscarNombreKeyTyped(evt);
+            }
+        });
+
+        lblNombre1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblNombre1.setText("Nombre: ");
+
+        lblEdad1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblEdad1.setText("Fecha Nac. Desde:");
+
+        inpBuscarFechaDesde.setToolTipText("Fecha de Nacimiento");
+        inpBuscarFechaDesde.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        inpBuscarFechaDesde.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                inpBuscarFechaDesdePropertyChange(evt);
+            }
+        });
+
+        lblEdad2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblEdad2.setText("Fecha Nac. Hasta:");
+
+        lblApellido1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblApellido1.setText("Apellido:");
+
+        txtBuscarApellido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtBuscarApellido.setToolTipText("Nombre");
+        txtBuscarApellido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBuscarApellidoActionPerformed(evt);
+            }
+        });
+        txtBuscarApellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBuscarApellidoKeyTyped(evt);
+            }
+        });
+
+        inpBuscarFechaHasta.setToolTipText("Fecha de Nacimiento");
+        inpBuscarFechaHasta.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        inpBuscarFechaHasta.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                inpBuscarFechaHastaPropertyChange(evt);
+            }
+        });
+
+        tblCliente.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        tblCliente.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblCliente.getTableHeader().setReorderingAllowed(false);
+        scrContacto.setViewportView(tblCliente);
+
+        btnBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(scrContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(lblEdad1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(inpBuscarFechaDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(69, 69, 69)
+                .addComponent(lblNombre1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtBuscarNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGap(323, 323, 323)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel4Layout.createSequentialGroup()
+                            .addComponent(lblApellido1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(10, 10, 10)
+                            .addComponent(txtBuscarApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel4Layout.createSequentialGroup()
+                            .addComponent(lblEdad2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(0, 0, 0)
+                            .addComponent(inpBuscarFechaHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addContainerGap(132, Short.MAX_VALUE)))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNombre1)
+                    .addComponent(txtBuscarNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblEdad1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(inpBuscarFechaDesde, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34))
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lblApellido1)
+                        .addComponent(txtBuscarApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(10, 10, 10)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lblEdad2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(inpBuscarFechaHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(277, Short.MAX_VALUE)))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(8, 8, 8)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -519,6 +700,30 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtApellidoActionPerformed
 
+    private void txtBuscarNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarNombreActionPerformed
+
+    private void txtBuscarNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarNombreKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarNombreKeyTyped
+
+    private void inpBuscarFechaDesdePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_inpBuscarFechaDesdePropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inpBuscarFechaDesdePropertyChange
+
+    private void txtBuscarApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarApellidoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarApellidoActionPerformed
+
+    private void txtBuscarApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarApellidoKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarApellidoKeyTyped
+
+    private void inpBuscarFechaHastaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_inpBuscarFechaHastaPropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inpBuscarFechaHastaPropertyChange
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
@@ -528,17 +733,28 @@ public class FrmCliente extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnSalir;
+    private com.toedter.calendar.JDateChooser inpBuscarFechaDesde;
+    private com.toedter.calendar.JDateChooser inpBuscarFechaHasta;
     private com.toedter.calendar.JDateChooser inpFechaNacimiento;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JLabel lblApellido;
+    private javax.swing.JLabel lblApellido1;
     private javax.swing.JLabel lblApellidoRequerido;
     private javax.swing.JLabel lblEdad;
+    private javax.swing.JLabel lblEdad1;
+    private javax.swing.JLabel lblEdad2;
     private javax.swing.JLabel lblFechaNacimientoRequerido;
     private javax.swing.JLabel lblNombre;
+    private javax.swing.JLabel lblNombre1;
     private javax.swing.JLabel lblNombreRequerido;
+    private javax.swing.JScrollPane scrContacto;
+    private javax.swing.JTable tblCliente;
     private javax.swing.JTextField txtApellido;
+    private javax.swing.JTextField txtBuscarApellido;
+    private javax.swing.JTextField txtBuscarNombre;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }
