@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.YES_NO_OPTION;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -152,8 +153,18 @@ public class GestorVistaContacto {
          this.getForm().cargarContacto(contacto);
      }
     
-    public void eliminarContacto(){
-        this.getGestor().eliminarObjeto();
+    public void eliminarContacto(int indice){
+        if (indice != -1) {
+            if (JOptionPane.showConfirmDialog(null, "¿Desea eliminar el contacto seleccionado?","Atencion", YES_NO_OPTION) == 0 ){
+                String nombre = this.getForm().getTblContacto().getValueAt(indice, 0).toString();
+                this.setModel(this.getGestor().buscarContacto(Contacto.class, nombre));
+                this.getGestor().eliminarObjeto();
+                this.cargarTabla(this.getForm().getTblContacto());
+                JOptionPane.showMessageDialog(null, "Contacto eliminado exitosamente");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un registro para eliminar.");
+        }
     }
     public String revisarFormulario(){
         String mensaje = "";

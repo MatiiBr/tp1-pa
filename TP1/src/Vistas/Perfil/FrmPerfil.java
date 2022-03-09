@@ -227,18 +227,15 @@ public class FrmPerfil extends javax.swing.JInternalFrame {
         btnEditar.setEnabled(true);
         btnGuardar.setEnabled(false);
         btnGuardar.setText("Guardar");
-        btnEliminar.setEnabled(false);
+        btnEliminar.setEnabled(true);
         btnCancelar.setEnabled(false);
         btnSalir.setEnabled(true);
         btnBuscar.setEnabled(true);
     }    
 
     private void eliminarPerfil() {
-        this.getGestorVistaPerfil().eliminarPerfil();
-        this.vistaInicio();
-        this.limpiarPantalla();
-        this.botonesInicio();
-        JOptionPane.showMessageDialog(null, "Proyecto eliminado exitosamente","Validación de Datos",JOptionPane.WARNING_MESSAGE);
+        this.getGestorVistaPerfil().eliminarPerfil(this.tblPerfil.getSelectedRow());
+
     }
 
     private void cancelar() {
@@ -337,7 +334,6 @@ public class FrmPerfil extends javax.swing.JInternalFrame {
 
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEliminar.setText("Eliminar");
-        btnEliminar.setEnabled(false);
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarActionPerformed(evt);
@@ -609,7 +605,6 @@ public class FrmPerfil extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        if (JOptionPane.showConfirmDialog(null, "¿Desea eliminar el Perfil seleccionado?","Atencion", YES_NO_OPTION) == 0 )
         this.eliminarPerfil();
     }//GEN-LAST:event_btnEliminarActionPerformed
 

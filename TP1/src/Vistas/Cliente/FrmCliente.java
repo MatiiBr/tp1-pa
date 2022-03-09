@@ -180,7 +180,7 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         btnEditar.setEnabled(true);
         btnGuardar.setEnabled(false);
         btnGuardar.setText("Guardar");
-        btnEliminar.setEnabled(false);
+        btnEliminar.setEnabled(true);
         btnCancelar.setEnabled(false);
         btnSalir.setEnabled(true);
         btnBuscar.setEnabled(true);
@@ -216,6 +216,7 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         this.limpiarPantalla();
         this.vistaInicio();
         this.botonesInicio();
+        this.getGestorVistaCliente().cargarTabla(this.tblCliente);
         JOptionPane.showMessageDialog(null, dialog);
     }
      
@@ -228,11 +229,7 @@ public class FrmCliente extends javax.swing.JInternalFrame {
      }
      
      public void eliminarCliente(){
-         this.getGestorVistaCliente().eliminarCliente();
-         this.vistaInicio();
-         this.limpiarPantalla();
-         this.botonesInicio();
-         JOptionPane.showMessageDialog(null, "Contacto eliminado exitosamente");
+         this.getGestorVistaCliente().eliminarCliente(this.tblCliente.getSelectedRow());
      }
      
     /**
@@ -389,7 +386,6 @@ public class FrmCliente extends javax.swing.JInternalFrame {
 
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEliminar.setText("Eliminar");
-        btnEliminar.setEnabled(false);
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarActionPerformed(evt);
@@ -664,8 +660,7 @@ public class FrmCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        if (JOptionPane.showConfirmDialog(null, "¿Desea eliminar el contacto seleccionado?","Atencion", YES_NO_OPTION) == 0 )
-           this.eliminarCliente();
+        this.eliminarCliente();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed

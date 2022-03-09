@@ -8,6 +8,7 @@ package Vistas.Perfil;
 import Modelos.Gestion.Contacto;
 import Modelos.Gestion.GestorPerfil;
 import Modelos.Gestion.Perfil;
+import Modelos.Gestion.Proyecto;
 import Util.UtilJtable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.YES_NO_OPTION;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -81,8 +83,18 @@ public class GestorVistaPerfil {
     public void cargarTabla(JTable tabla){
         tabla.setModel(this.crearModelo(this.getGestor().consultarPerfiles()));
    }
-    public void eliminarPerfil() {
-        this.getGestor().eliminarObjeto();
+    public void eliminarPerfil(int indice) {
+        if (indice != -1) {
+            if (JOptionPane.showConfirmDialog(null, "¿Desea eliminar el perfil seleccionado?","Atencion", YES_NO_OPTION) == 0 ){
+                String nombre = this.getForm().getTblPerfil().getValueAt(indice, 0).toString();
+                this.setModel(this.getGestor().buscarPerfil(Perfil.class, nombre));
+                this.getGestor().eliminarObjeto();
+                this.cargarTabla(this.getForm().getTblPerfil());
+                JOptionPane.showMessageDialog(null, "Perfil eliminado exitosamente");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un registro para eliminar.");
+        }
     }
 
     public boolean buscarPerfil(String nombre) {

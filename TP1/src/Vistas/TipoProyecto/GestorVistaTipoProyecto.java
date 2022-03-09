@@ -8,12 +8,14 @@ package Vistas.TipoProyecto;
 import Vistas.TipoProyecto.FrmTipoProyecto;
 import Vistas.TipoProyecto.GestorVistaTipoProyecto;
 import Modelos.Gestion.GestorTipoProyecto;
+import Modelos.Gestion.Proyecto;
 import Modelos.Gestion.TipoProyecto;
 import Util.UtilJtable;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.YES_NO_OPTION;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -77,8 +79,18 @@ public class GestorVistaTipoProyecto {
        this.cargarTabla(this.getForm().getTblTipoProyecto());
     }
 
-    public void eliminarTipoProyecto() {
-        this.getGestor().eliminarObjeto();
+    public void eliminarTipoProyecto(int indice) {
+        if (indice != -1) {
+            if (JOptionPane.showConfirmDialog(null, "¿Desea eliminar el tipo de proyecto seleccionado?","Atencion", YES_NO_OPTION) == 0 ){
+                String nombre = this.getForm().getTblTipoProyecto().getValueAt(indice, 0).toString();
+                this.setModel(this.getGestor().buscarTipoProyecto(TipoProyecto.class, nombre));
+                this.getGestor().eliminarObjeto();
+                this.cargarTabla(this.getForm().getTblTipoProyecto());
+                JOptionPane.showMessageDialog(null, "Tipo de Proyecto eliminado exitosamente");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un registro para eliminar.");
+        }
     }
 
     public boolean buscarTipoProyecto(String nombre) {

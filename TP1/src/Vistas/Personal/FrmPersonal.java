@@ -231,10 +231,14 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
         btnEditar.setEnabled(true);
         btnGuardar.setEnabled(false);
         btnGuardar.setText("Guardar");
-        btnEliminar.setEnabled(false);
+        btnEliminar.setEnabled(true);
         btnCancelar.setEnabled(false);
         btnSalir.setEnabled(true);
         btnBuscar.setEnabled(true);
+        btnActualizarPerfiles.setEnabled(true);
+        btnNuevoPerfil.setEnabled(true);
+        btnAgregarPerfil.setEnabled(false);
+        btnSacarPerfil.setEnabled(false);
     }
     public void botonesNuevo(){
         btnNuevo.setEnabled(false);
@@ -244,17 +248,11 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
         btnCancelar.setEnabled(true);
         btnSalir.setEnabled(false);
         btnBuscar.setEnabled(false);
+        btnActualizarPerfiles.setEnabled(false);
+        btnNuevoPerfil.setEnabled(false);
+        btnAgregarPerfil.setEnabled(true);
+        btnSacarPerfil.setEnabled(true);
     }
-    
-     public void botonesListado(){
-        btnNuevo.setEnabled(true);
-        btnEditar.setEnabled(true);
-        btnGuardar.setEnabled(false);
-        btnEliminar.setEnabled(true);
-        btnCancelar.setEnabled(true);
-        btnSalir.setEnabled(true);
-        btnBuscar.setEnabled(true);
-     }
      public void guardarPersonal(){
          String dialog;
          if(btnGuardar.getText()=="Guardar"){
@@ -292,7 +290,7 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
         this.getGestorVistaPersonal().nuevoPerfil();
     }
     private void setPerfiles(List listaPerfiles){
-        this.getGestorVistaPersonal().moverPerfilesDer(listaPerfiles, this.listPerfilesDer, this.listPerfilesIzq);
+        this.getGestorVistaPersonal().setPerfiles(listaPerfiles,this.listPerfilesIzq,this.listPerfilesDer);
     }
     private void moverPerfilesDer() {
         this.getGestorVistaPersonal().moverPerfilesDer(this.listPerfilesIzq.getSelectedValuesList(), this.listPerfilesDer, this.listPerfilesIzq);
@@ -477,6 +475,7 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
         jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, 180, 190));
 
         btnSacarPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/flecha-izquierda.png"))); // NOI18N
+        btnSacarPerfil.setEnabled(false);
         btnSacarPerfil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSacarPerfilActionPerformed(evt);
@@ -485,6 +484,7 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
         jPanel1.add(btnSacarPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 400, 40, 40));
 
         btnAgregarPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/flecha-derecha.png"))); // NOI18N
+        btnAgregarPerfil.setEnabled(false);
         btnAgregarPerfil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarPerfilActionPerformed(evt);

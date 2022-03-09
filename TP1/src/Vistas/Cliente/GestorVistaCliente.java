@@ -9,6 +9,7 @@ import Modelos.Gestion.Cargo;
 import Modelos.Gestion.Cliente;
 import Modelos.Gestion.Contacto;
 import Modelos.Gestion.GestorCliente;
+import Modelos.Gestion.Proyecto;
 import Util.UtilJtable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,6 +18,7 @@ import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.YES_NO_OPTION;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -164,8 +166,18 @@ public class GestorVistaCliente {
              JOptionPane.showMessageDialog(null, "Debe seleccionar el registro a editar.");
         }
    }
-    public void eliminarCliente(){
-        this.getGestor().eliminarObjeto();
+    public void eliminarCliente(int indice){
+        if (indice != -1) {
+            if (JOptionPane.showConfirmDialog(null, "¿Desea eliminar el cliente seleccionado?","Atencion", YES_NO_OPTION) == 0 ){
+                String nombre = this.getForm().getTblCliente().getValueAt(indice, 0).toString();
+                this.setModel(this.getGestor().buscarCliente(Cliente.class, nombre));
+                this.getGestor().eliminarObjeto();
+                this.cargarTabla(this.getForm().getTblCliente());
+                JOptionPane.showMessageDialog(null, "Cliente eliminado exitosamente");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un registro para eliminar.");
+        }
     }
     public String revisarFormulario(){
         String mensaje = "";

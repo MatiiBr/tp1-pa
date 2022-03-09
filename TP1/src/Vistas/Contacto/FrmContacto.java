@@ -172,7 +172,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         btnEditar.setEnabled(true);
         btnGuardar.setEnabled(false);
         btnGuardar.setText("Guardar");
-        btnEliminar.setEnabled(false);
+        btnEliminar.setEnabled(true);
         btnCancelar.setEnabled(false);
         btnSalir.setEnabled(true);
         btnBuscar.setEnabled(true);
@@ -208,6 +208,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
         this.limpiarPantalla();
         this.vistaInicio();
         this.botonesInicio();
+        this.getGestorVistaContacto().cargarTabla(this.tblContacto);
         JOptionPane.showMessageDialog(null, dialog);
     }
      public void buscarContacto(){   
@@ -219,11 +220,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
      }
      
      public void eliminarContacto(){
-         this.getGestorVistaContacto().eliminarContacto();
-         this.vistaInicio();
-         this.limpiarPantalla();
-         this.botonesInicio();
-         JOptionPane.showMessageDialog(null, "Contacto eliminado exitosamente");
+         this.getGestorVistaContacto().eliminarContacto(this.tblContacto.getSelectedRow());
      }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -380,7 +377,6 @@ public class FrmContacto extends javax.swing.JInternalFrame {
 
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEliminar.setText("Eliminar");
-        btnEliminar.setEnabled(false);
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarActionPerformed(evt);
@@ -643,9 +639,7 @@ public class FrmContacto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        
-        if (JOptionPane.showConfirmDialog(null, "¿Desea eliminar el contacto seleccionado?","Atencion", YES_NO_OPTION) == 0 )
-           this.eliminarContacto();
+        this.eliminarContacto();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
