@@ -68,8 +68,8 @@ public class GestorPersonal extends GestorHibernate {
         this.actualizarObjeto(this.getModel());
     }
        
-       public void eliminarObjeto(){
-        this.eliminarObjeto(this.getModel());
+       public boolean eliminarObjeto(){
+        return this.eliminarObjeto(this.getModel());
        }
        
        public Personal buscarPersonal(String nombre) {

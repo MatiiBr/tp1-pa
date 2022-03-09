@@ -23,6 +23,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.YES_NO_OPTION;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -139,8 +140,18 @@ public class GestorVistaPersonal {
              JOptionPane.showMessageDialog(null, "Debe seleccionar el registro a editar.");
         }
    } 
-    public void eliminarPersonal(){
-        this.getGestor().eliminarObjeto();
+    public void eliminarPersonal(int indice){
+         if (indice != -1) {
+            if (JOptionPane.showConfirmDialog(null, "¿Desea eliminar el personal seleccionado?","Atencion", YES_NO_OPTION) == 0 ){
+                String nombre = this.getForm().getTblPersonal().getValueAt(indice, 0).toString();
+                this.setModel(this.getGestor().buscarPersonal(Personal.class, nombre));
+                this.getGestor().eliminarObjeto();
+                this.cargarTabla(this.getForm().getTblPersonal());
+                JOptionPane.showMessageDialog(null, "Personal eliminado exitosamente");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un registro para eliminar.");
+        }
     }
     public String revisarFormulario(){
         
@@ -211,15 +222,31 @@ public class GestorVistaPersonal {
         lista.setModel(this.modeloListaDerecha);
     }
     public void moverPerfilesDer(List listaPerfiles, JList listaDer, JList listaIzq) {
-        this.getModel().setPerfiles(listaPerfiles);
+        listaDer.setModel(this.crearModelo(listaPerfiles,this.modeloListaDerecha));
+        listaIzq.setModel(this.removerPerfiles(listaPerfiles, this.modeloListaIzquierda));
+        this.addPerfil(listaDer);
+    }
+    public void moverPerfilesIzq(List listaPerfiles, JList listaIzq, JList listaDer) {
+        listaIzq.setModel(this.crearModelo(listaPerfiles,this.modeloListaIzquierda));
+        listaDer.setModel(this.removerPerfiles(listaPerfiles, this.modeloListaDerecha));
+        this.removePerfil(listaIzq);
+
+    }
+     public void setPerfiles(List listaPerfiles,  JList listaIzq,JList listaDer){
         listaDer.setModel(this.crearModelo(listaPerfiles,this.modeloListaDerecha));
         listaIzq.setModel(this.removerPerfiles(listaPerfiles, this.modeloListaIzquierda));
     }
-    public void moverPerfilesIzq(List listaPerfiles, JList listaIzq, JList listaDer) {
-        this.getModel().setPerfiles(listaDer.getSelectedValuesList());
-        listaIzq.setModel(this.crearModelo(listaPerfiles,this.modeloListaIzquierda));
-        listaDer.setModel(this.removerPerfiles(listaPerfiles, this.modeloListaDerecha));
+    public void addPerfil(JList<Perfil> list){
+        Perfil perfil = list.getModel().getElementAt( list.getModel().getSize()-1);
+        this.getModel().addPerfil(perfil);
     }
+    public void removePerfil(JList<Perfil> list){
+        for (int i = 0; i < list.getModel().getSize(); i++) {
+            Perfil perfil = list.getModel().getElementAt(i);
+            this.getModel().removePerfil(perfil);
+        }
+    }
+    
     public DefaultListModel<Perfil> crearModelo(List perfiles, DefaultListModel modelo){
         if (perfiles!=null) {
             for (Iterator it = perfiles.iterator(); it.hasNext();) {

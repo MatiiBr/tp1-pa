@@ -62,6 +62,9 @@ public class Proyecto {
         perfiles.remove(perfil);
         perfil.getProyectos().remove(this);
     }
+    public void clearPerfil() {
+        perfiles.clear();
+    }
 
     public List<Perfil> getPerfiles() {
         return perfiles;

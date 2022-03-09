@@ -9,6 +9,7 @@ import Modelos.Gestion.TipoProyecto;
 import Modelos.Gestion.Perfil;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JOptionPane;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 

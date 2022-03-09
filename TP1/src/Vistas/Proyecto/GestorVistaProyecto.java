@@ -15,6 +15,7 @@ import Modelos.Gestion.TipoProyecto;
 import Reportes.GestorReportes;
 import Util.UtilJtable;
 import Vistas.MenuPrincipal.GestorMenuPrincipal;
+import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -25,6 +26,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.YES_NO_OPTION;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
@@ -155,8 +157,18 @@ public class GestorVistaProyecto {
         this.getForm().cargarProyecto(proyecto);
      }
     
-    public void eliminarProyecto(){
-        this.getGestor().eliminarObjeto();
+    public void eliminarProyecto(int indice){
+        if (indice != -1) {
+            if (JOptionPane.showConfirmDialog(null, "¿Desea eliminar el proyecto seleccionado?","Atencion", YES_NO_OPTION) == 0 ){
+                String nombre = this.getForm().getTblProyectos().getValueAt(indice, 0).toString();
+                this.setModel(this.getGestor().buscarProyectoPorNombre(Proyecto.class, nombre));
+                this.getGestor().eliminarObjeto();
+                this.cargarTabla(this.getForm().getTblProyectos());
+                JOptionPane.showMessageDialog(null, "Proyecto eliminado exitosamente");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un registro para eliminar.");
+        }
     }
     public String revisarFormulario(){
         String dialog = "";
@@ -164,28 +176,23 @@ public class GestorVistaProyecto {
              dialog += "- El campo Nombre no puede estar vacío.\n";
             this.getForm().setFormValido(false);
          }
-         System.out.println("VALIDO: " + this.getForm().getFormValido());
          if(this.getForm().getCboTipoProyecto().getSelectedIndex()==0){
              dialog += "- Debe elegir un Tipo de Proyecto.\n";
              this.getForm().setFormValido(false);
          }
-         System.out.println("VALIDO: " + this.getForm().getFormValido());
 
           if(this.getForm().getCboCliente().getSelectedIndex()==0){
              dialog += "- Debe elegir un Cliente.\n";
              this.getForm().setFormValido(false);
          }
-          System.out.println("VALIDO: " + this.getForm().getFormValido());
            if(this.getForm().getCboPersonal().getSelectedIndex()==0){
                dialog += "- Debe elegir un Personal.\n";
              this.getForm().setFormValido(false);
          }
-         System.out.println("VALIDO: " + this.getForm().getFormValido());
 
          if (this.getForm().getFormValido()){
              this.getForm().setFormValido(this.revisarFechas());
          }
-         System.out.println("VALIDO: " + this.getForm().getFormValido());
 
        return dialog;  
      }
@@ -211,7 +218,6 @@ public class GestorVistaProyecto {
                   return false;
               }
          }else{
-                 System.out.println(this.getForm().getInpFechaConfirmacion().getDate());
             if (this.getForm().getInpFechaConfirmacion().getDate().before(fechaCarga) ) {
                 JOptionPane.showMessageDialog(null, "La fecha de confirmacion es anterior a la fecha de carga.");
                 return false;
@@ -316,8 +322,7 @@ public class GestorVistaProyecto {
         if(lista==null){
             return modelo;
         }
-            Object[] registros = new Object[5];
-//        String[] registros = new String[6];
+        Object[] registros = new Object[5];
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         for (Iterator it = lista.iterator(); it.hasNext();) {
             Proyecto proyecto = (Proyecto) it.next();   
@@ -341,6 +346,7 @@ public class GestorVistaProyecto {
              JOptionPane.showMessageDialog(null, "Debe seleccionar el registro a editar.");
         }
     }
+    
     public void nuevoPerfil() {
         this.getGestorMenu().abrirPerfil(this.getEscritorio());
     }
@@ -353,16 +359,33 @@ public class GestorVistaProyecto {
         this.modeloListaDerecha = new DefaultListModel<Perfil>();
         lista.setModel(this.modeloListaDerecha);
     }
+    
     public void moverPerfilesDer(List listaPerfiles, JList listaDer, JList listaIzq) {
-        this.getModel().setPerfiles(listaPerfiles);
+        listaDer.setModel(this.crearModelo(listaPerfiles,this.modeloListaDerecha));
+        listaIzq.setModel(this.removerPerfiles(listaPerfiles, this.modeloListaIzquierda));
+        this.addPerfil(listaDer);
+    }
+    public void moverPerfilesIzq(List listaPerfiles, JList listaIzq, JList listaDer) {
+        listaIzq.setModel(this.crearModelo(listaPerfiles,this.modeloListaIzquierda));
+        listaDer.setModel(this.removerPerfiles(listaPerfiles, this.modeloListaDerecha));
+        this.removePerfil(listaIzq);
+
+    }
+     public void setPerfiles(List listaPerfiles,  JList listaIzq,JList listaDer){
         listaDer.setModel(this.crearModelo(listaPerfiles,this.modeloListaDerecha));
         listaIzq.setModel(this.removerPerfiles(listaPerfiles, this.modeloListaIzquierda));
     }
-    public void moverPerfilesIzq(List listaPerfiles, JList listaIzq, JList listaDer) {
-        this.getModel().setPerfiles(listaDer.getSelectedValuesList());
-        listaIzq.setModel(this.crearModelo(listaPerfiles,this.modeloListaIzquierda));
-        listaDer.setModel(this.removerPerfiles(listaPerfiles, this.modeloListaDerecha));
+    public void addPerfil(JList<Perfil> list){
+        Perfil perfil = list.getModel().getElementAt( list.getModel().getSize()-1);
+        this.getModel().addPerfil(perfil);
     }
+    public void removePerfil(JList<Perfil> list){
+        for (int i = 0; i < list.getModel().getSize(); i++) {
+            Perfil perfil = list.getModel().getElementAt(i);
+            this.getModel().removePerfil(perfil);
+        }
+    }
+    
     public DefaultListModel<Perfil> crearModelo(List perfiles, DefaultListModel modelo){
         if (perfiles!=null) {
             for (Iterator it = perfiles.iterator(); it.hasNext();) {
@@ -383,8 +406,6 @@ public class GestorVistaProyecto {
     
     public String getAvg(JList perfilesSeleccionados) {
         int count = 0;
-        System.out.println(this.getForm().getCboPersonal().getSelectedItem()!="");
-        System.out.println(this.getForm().getCboPersonal().getSelectedItem()!=null);
         if(this.getForm().getCboPersonal().getSelectedItem()!=""){
             Personal personal = ((Personal) this.getForm().getCboPersonal().getSelectedItem());
             for (Perfil perfil : personal.getPerfiles()) {
@@ -398,6 +419,13 @@ public class GestorVistaProyecto {
             int cantPerfiles = perfilesSeleccionados.getModel().getSize();
             double avg = (double)((count*1.0)/(cantPerfiles*1.0));
             int avgPerc = (int) (avg * 100);
+            if (avgPerc >= 70) {
+                this.getForm().getLblAvg().setForeground(Color.green);
+            } else if (avgPerc < 70 && avgPerc >= 45) {
+                this.getForm().getLblAvg().setForeground(new Color(211,200,30));
+            } else {
+                this.getForm().getLblAvg().setForeground(Color.red);
+            }
             return Integer.toString(avgPerc)+"% de coincidencia";
         };
         return "";

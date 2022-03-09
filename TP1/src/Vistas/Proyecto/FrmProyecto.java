@@ -6,15 +6,19 @@
 package Vistas.Proyecto;
 
 import Modelos.Gestion.Cliente;
+import Modelos.Gestion.Perfil;
 import Modelos.Gestion.Personal;
 import Modelos.Gestion.Proyecto;
 import Modelos.Gestion.TipoProyecto;
 import com.toedter.calendar.JDateChooser;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -79,13 +83,15 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     public void setInpFechaEntrega(JDateChooser inpFechaEntrega) {
         this.inpFechaEntrega = inpFechaEntrega;
     }
+
     public JDateChooser getInpFechaConfirmacion() {
-        return inpBuscarFechaCarga;
+        return inpFechaConfirmacion;
     }
 
     public void setInpFechaConfirmacion(JDateChooser inpFechaConfirmacion) {
-        this.inpBuscarFechaCarga = inpFechaConfirmacion;
+        this.inpFechaConfirmacion = inpFechaConfirmacion;
     }
+    
     public JDateChooser getInpFechaTerminacion() {
         return inpFechaTerminacion;
     }
@@ -147,6 +153,14 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     public void setInpBuscarFechaHasta(JDateChooser inpBuscarFechaHasta) {
         this.inpBuscarFechaHasta = inpBuscarFechaHasta;
     }
+
+    public JList<String> getListPerfilesDer() {
+        return listPerfilesDer;
+    }
+
+    public void setListPerfilesDer(JList<String> listPerfilesDer) {
+        this.listPerfilesDer = listPerfilesDer;
+    }
     
     public FrmProyecto() {
         initComponents();
@@ -170,17 +184,20 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     public void nuevoProyecto(){
         this.limpiarPantalla();
         this.vistaNuevoProyecto();
+        this.getGestorVistaProyecto().newModel();
         this.botonesNuevo();
     }
     public void cancelar(){
+        this.getGestorVistaProyecto().limpiarPerfiles(listPerfilesDer);
         this.limpiarPantalla();
         this.vistaInicio();
-        this.limpiarCombos();
         this.botonesInicio();
+        this.getGestorVistaProyecto().newModel();
     }
     public void cargarProyecto(Proyecto proyecto){
         this.limpiarPantalla();
         this.vistaActualizacion();
+        this.botonesNuevo();
         txtNombre.setText(proyecto.getNombre());
         lblFechaCargaDato.setText(sdf.format(proyecto.getFechaCarga()));
         inpFechaEntrega.setDate(proyecto.getFechaEntrega());
@@ -189,6 +206,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         cboCliente.setSelectedItem(proyecto.getCliente());
         cboPersonal.setSelectedItem(proyecto.getPersonal());
         cboTipoProyecto.setSelectedItem(proyecto.getTipoProyecto());
+        this.setPerfiles(proyecto.getPerfiles());
     }
     public void vistaInicio(){
         this.inpFechaTerminacion.setEnabled(false);
@@ -198,8 +216,6 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         this.cboPersonal.setEnabled(false);
         this.cboTipoProyecto.setEnabled(false);
         this.txtNombre.setEnabled(false);
-        this.btnAgregarPerfil.setEnabled(false);
-        this.btnSacarPerfil.setEnabled(false);
         this.actualizarPerfiles();
     }
     public void vistaNuevoProyecto(){
@@ -210,11 +226,9 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         this.cboPersonal.setEnabled(true);
         this.cboTipoProyecto.setEnabled(true);
         this.txtNombre.setEnabled(true);
-        this.lblFechaCargaDato.setText(sdf.format(new Date()));
-        this.btnAgregarPerfil.setEnabled(true);
-        this.btnSacarPerfil.setEnabled(true);
-        
+        this.lblFechaCargaDato.setText(sdf.format(new Date())); 
     }
+    
     public void vistaActualizacion(){
         this.inpFechaConfirmacion.setEnabled(true);
         this.inpFechaTerminacion.setEnabled(true);
@@ -223,8 +237,6 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         this.cboPersonal.setEnabled(true);
         this.cboTipoProyecto.setEnabled(true);
         this.txtNombre.setEnabled(true);
-        this.btnAgregarPerfil.setEnabled(true);
-        this.btnSacarPerfil.setEnabled(true);
     }
     
     public void limpiarPantalla(){
@@ -241,10 +253,14 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         btnEditar.setEnabled(true);
         btnGuardar.setEnabled(false);
         btnGuardar.setText("Guardar");
-        btnEliminar.setEnabled(false);
+        btnEliminar.setEnabled(true);
         btnCancelar.setEnabled(false);
         btnSalir.setEnabled(true);
         btnBuscar.setEnabled(true);
+        btnActualizarPerfiles.setEnabled(true);
+        btnNuevoPerfil.setEnabled(true);
+        btnAgregarPerfil.setEnabled(false);
+        btnSacarPerfil.setEnabled(false);
     }
     public void botonesNuevo(){
         btnNuevo.setEnabled(false);
@@ -254,17 +270,12 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         btnCancelar.setEnabled(true);
         btnSalir.setEnabled(false);
         btnBuscar.setEnabled(false);
+        btnActualizarPerfiles.setEnabled(false);
+        btnNuevoPerfil.setEnabled(false);
+        btnAgregarPerfil.setEnabled(true);
+        btnSacarPerfil.setEnabled(true);
     }
     
-     public void botonesListado(){
-        btnNuevo.setEnabled(false);
-        btnEditar.setEnabled(true);
-        btnGuardar.setEnabled(false);
-        btnEliminar.setEnabled(true);
-        btnCancelar.setEnabled(true);
-        btnSalir.setEnabled(true);
-        btnBuscar.setEnabled(false);
-     }
      public void guardarProyecto(){
         String dialog = this.getGestorVistaProyecto().save(btnGuardar.getText());
         this.limpiarPantalla();
@@ -285,12 +296,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
      }
      
      public void eliminarProyecto(){
-         this.getGestorVistaProyecto().eliminarProyecto();
-         this.vistaInicio();
-         this.limpiarPantalla();
-         this.botonesInicio();
-         this.getGestorVistaProyecto().cargarTabla(this.tblProyectos);
-         JOptionPane.showMessageDialog(null, "Proyecto eliminado exitosamente");
+         this.getGestorVistaProyecto().eliminarProyecto(this.tblProyectos.getSelectedRow());
      }
      
     public void cargarCombos() {
@@ -346,6 +352,10 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     private void nuevoPerfil() {
         this.getGestorVistaProyecto().nuevoPerfil();
     }
+    private void setPerfiles(List listaPerfiles){
+        this.getGestorVistaProyecto().setPerfiles(listaPerfiles,this.listPerfilesIzq,this.listPerfilesDer);
+        this.setAvgText();
+    }
     private void moverPerfilesDer() {
         this.getGestorVistaProyecto().moverPerfilesDer(this.listPerfilesIzq.getSelectedValuesList(), this.listPerfilesDer, this.listPerfilesIzq);
         this.setAvgText();
@@ -362,6 +372,15 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     public void setAvgText(){
         lblAvg.setText(this.getGestorVistaProyecto().getAvg(this.listPerfilesDer));
     }
+
+    public JLabel getLblAvg() {
+        return lblAvg;
+    }
+
+    public void setLblAvg(JLabel lblAvg) {
+        this.lblAvg = lblAvg;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -388,10 +407,10 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         listPerfilesIzq = new javax.swing.JList<>();
         lblCargo2 = new javax.swing.JLabel();
-        btnActualizarPerfiles = new javax.swing.JButton();
+        btnNuevoPerfil = new javax.swing.JButton();
         btnAgregarPerfil = new javax.swing.JButton();
         btnSacarPerfil = new javax.swing.JButton();
-        btnNuevoPerfil = new javax.swing.JButton();
+        btnActualizarPerfiles = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         listPerfilesDer = new javax.swing.JList<>();
         lblCargo1 = new javax.swing.JLabel();
@@ -427,7 +446,6 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         cboFilterCliente = new javax.swing.JComboBox<>();
         cboFilterPersonal = new javax.swing.JComboBox<>();
         lblFechaConfirmacion6 = new javax.swing.JLabel();
-        inpBuscarFechaCarga = new com.toedter.calendar.JDateChooser();
         inpBuscarFechaDesde = new com.toedter.calendar.JDateChooser();
         lblFechaConfirmacion7 = new javax.swing.JLabel();
         inpBuscarFechaHasta = new com.toedter.calendar.JDateChooser();
@@ -573,14 +591,14 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         lblCargo2.setText("Perfiles:");
         panelProyecto.add(lblCargo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, -1, 20));
 
-        btnActualizarPerfiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/add.png"))); // NOI18N
-        btnActualizarPerfiles.setBorderPainted(false);
-        btnActualizarPerfiles.addActionListener(new java.awt.event.ActionListener() {
+        btnNuevoPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/add.png"))); // NOI18N
+        btnNuevoPerfil.setBorderPainted(false);
+        btnNuevoPerfil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActualizarPerfilesActionPerformed(evt);
+                btnNuevoPerfilActionPerformed(evt);
             }
         });
-        panelProyecto.add(btnActualizarPerfiles, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 210, 40, 40));
+        panelProyecto.add(btnNuevoPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 210, 40, 40));
 
         btnAgregarPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/flecha-derecha.png"))); // NOI18N
         btnAgregarPerfil.setBorderPainted(false);
@@ -602,14 +620,14 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         });
         panelProyecto.add(btnSacarPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 310, 40, 40));
 
-        btnNuevoPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/actualizar.png"))); // NOI18N
-        btnNuevoPerfil.setBorderPainted(false);
-        btnNuevoPerfil.addActionListener(new java.awt.event.ActionListener() {
+        btnActualizarPerfiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/actualizar.png"))); // NOI18N
+        btnActualizarPerfiles.setBorderPainted(false);
+        btnActualizarPerfiles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNuevoPerfilActionPerformed(evt);
+                btnActualizarPerfilesActionPerformed(evt);
             }
         });
-        panelProyecto.add(btnNuevoPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 360, 40, 40));
+        panelProyecto.add(btnActualizarPerfiles, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 360, 40, 40));
 
         jScrollPane1.setViewportView(listPerfilesDer);
 
@@ -648,7 +666,6 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
 
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEliminar.setText("Eliminar");
-        btnEliminar.setEnabled(false);
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarActionPerformed(evt);
@@ -914,16 +931,6 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         lblFechaConfirmacion6.setText("Cliente:");
         panelProyecto1.add(lblFechaConfirmacion6, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 30, -1, -1));
 
-        inpBuscarFechaCarga.setToolTipText("Fecha de Nacimiento");
-        inpBuscarFechaCarga.setEnabled(false);
-        inpBuscarFechaCarga.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        inpBuscarFechaCarga.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                inpBuscarFechaCargaPropertyChange(evt);
-            }
-        });
-        panelProyecto1.add(inpBuscarFechaCarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, 161, 26));
-
         inpBuscarFechaDesde.setToolTipText("Fecha de Nacimiento");
         inpBuscarFechaDesde.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         inpBuscarFechaDesde.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
@@ -1004,8 +1011,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        if (JOptionPane.showConfirmDialog(null, "¿Desea eliminar el proyecto seleccionado?","Atencion", YES_NO_OPTION) == 0 )
-           this.eliminarProyecto();
+       this.eliminarProyecto();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -1084,17 +1090,13 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_inpFechaTerminacionPropertyChange
 
-    private void inpBuscarFechaCargaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_inpBuscarFechaCargaPropertyChange
-
-    }//GEN-LAST:event_inpBuscarFechaCargaPropertyChange
-
     private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
         this.getGestorVistaProyecto().imprimir();
     }//GEN-LAST:event_btnReporteActionPerformed
 
-    private void btnActualizarPerfilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarPerfilesActionPerformed
+    private void btnNuevoPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoPerfilActionPerformed
         this.nuevoPerfil();
-    }//GEN-LAST:event_btnActualizarPerfilesActionPerformed
+    }//GEN-LAST:event_btnNuevoPerfilActionPerformed
 
     private void btnAgregarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPerfilActionPerformed
         this.moverPerfilesDer();
@@ -1104,9 +1106,9 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         this.moverPerfilesIzq();
     }//GEN-LAST:event_btnSacarPerfilActionPerformed
 
-    private void btnNuevoPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoPerfilActionPerformed
+    private void btnActualizarPerfilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarPerfilesActionPerformed
         this.actualizarPerfiles();
-    }//GEN-LAST:event_btnNuevoPerfilActionPerformed
+    }//GEN-LAST:event_btnActualizarPerfilesActionPerformed
 
     private void cboFilterTipoProyectoPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cboFilterTipoProyectoPopupMenuWillBecomeVisible
         // TODO add your handling code here:
@@ -1167,7 +1169,6 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox cboFilterTipoProyecto;
     private javax.swing.JComboBox<String> cboPersonal;
     private javax.swing.JComboBox cboTipoProyecto;
-    private com.toedter.calendar.JDateChooser inpBuscarFechaCarga;
     private com.toedter.calendar.JDateChooser inpBuscarFechaDesde;
     private com.toedter.calendar.JDateChooser inpBuscarFechaHasta;
     private com.toedter.calendar.JDateChooser inpFechaConfirmacion;
