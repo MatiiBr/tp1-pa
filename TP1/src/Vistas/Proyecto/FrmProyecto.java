@@ -181,7 +181,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         this.cboCliente.setEnabled(false);
         this.cboPersonal.setEnabled(false);
         this.cboTipoProyecto.setEnabled(false);
-        this.txtNombre.setEnabled(true);
+        this.txtNombre.setEnabled(false);
         this.btnAgregarPerfil.setEnabled(false);
         this.btnSacarPerfil.setEnabled(false);
         this.actualizarPerfiles();

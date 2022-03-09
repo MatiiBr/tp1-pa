@@ -105,12 +105,14 @@ public class GestorVistaPersonal {
         this.setModel();
         this.getGestor().guardarObjeto();
         this.getGestor().newModel();
+        this.cargarTabla(this.getForm().getTblPersonal());
     }
     
    public void actualizarPersonal(){
        this.setModel();
        this.getGestor().actualizarObjeto();
        this.getGestor().newModel();
+       this.cargarTabla(this.getForm().getTblPersonal());
    }
     
      public boolean buscarPersonal(String nombre) {
@@ -125,6 +127,7 @@ public class GestorVistaPersonal {
          return true;
     }
     public void cargarPersonal(Personal personal){
+        this.setModel(personal);
         this.getForm().cargarPersonal(personal);
     }
     public void cargarModelo(int indice){

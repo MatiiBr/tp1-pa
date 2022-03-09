@@ -60,4 +60,10 @@ public class GestorTipoProyecto extends  GestorHibernate{
        }
        return tipoProyecto;
     }
+    public List consultarTipoProyecto(String nombre, String descripcion){
+       return this.buscarTipoProyecto(TipoProyecto.class, nombre, descripcion);
+   }
+   public List  consultarTipoProyecto() {
+        return this.listarClase(TipoProyecto.class);
+   }
 }

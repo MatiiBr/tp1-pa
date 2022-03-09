@@ -6,6 +6,7 @@
 package Modelos.Gestion;
 
 import Hibernate.GestorHibernate;
+import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 
@@ -61,4 +62,10 @@ public class GestorPerfil extends  GestorHibernate{
        }
        return perfil;
     }
+    public List consultarPerfiles(String nombre, String descripcion){
+       return this.buscarPerfiles(Perfil.class, nombre, descripcion);
+   }
+   public List  consultarPerfiles() {
+        return this.listarClase(Perfil.class);
+   }
 }

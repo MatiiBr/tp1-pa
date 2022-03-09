@@ -5,10 +5,18 @@
  */
 package Vistas.Perfil;
 
+import Modelos.Gestion.Contacto;
 import Modelos.Gestion.GestorPerfil;
 import Modelos.Gestion.Perfil;
 import Util.UtilJtable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -39,6 +47,7 @@ public class GestorVistaPerfil {
         this.setModel();
         this.getGestor().guardarObjeto();
         this.getGestor().newModel();
+        this.cargarTabla(this.getForm().getTblPerfil());
     }
 
     private void setActualizacion(boolean b) {
@@ -66,8 +75,12 @@ public class GestorVistaPerfil {
        this.setModel();
        this.getGestor().actualizarObjeto();
        this.getGestor().newModel();
-    }
+       this.cargarTabla(this.getForm().getTblPerfil());
 
+    }
+    public void cargarTabla(JTable tabla){
+        tabla.setModel(this.crearModelo(this.getGestor().consultarPerfiles()));
+   }
     public void eliminarPerfil() {
         this.getGestor().eliminarObjeto();
     }
@@ -83,15 +96,46 @@ public class GestorVistaPerfil {
          }
          return true;
     }
-
+    public void buscarPerfil(String nombre, String descripcion){
+       this.getForm().getTblPerfil().setModel(this.crearModelo(this.getGestor().consultarPerfiles(nombre,descripcion)));
+    }
+    public DefaultTableModel crearModelo(List lista){
+        String[] titulos = {"Nombre", "Descripción"};
+        DefaultTableModel modelo = new DefaultTableModel(null, titulos){
+           @Override
+            public boolean isCellEditable(int row, int column) {
+               return false;
+         }
+        };
+        if(lista==null){
+            return modelo;
+        }
+        Object[] registros = new Object[3];
+        for (Iterator it = lista.iterator(); it.hasNext();) {
+            Perfil perfil = (Perfil) it.next();   
+             registros[0] =  perfil.getNombre();
+             registros[1] = perfil.getDescripcion();
+             modelo.addRow(registros);
+        }
+       return modelo;
+    }
     private void setModel(Perfil model) {
         this.getGestor().setModel(model);
     }
 
     private void cargarPerfil(Perfil perfil) {
+        this.setModel(perfil);
         this.getForm().cargarPerfil(perfil);
     }
-
+    public void cargarModelo(int indice){
+       if(indice != -1){
+           this.getForm().vistaEditar();
+           String nombre = this.getForm().getTblPerfil().getValueAt(indice, 0).toString();
+           this.cargarPerfil(this.getGestor().buscarPerfil(Perfil.class, nombre));
+        }else{
+             JOptionPane.showMessageDialog(null, "Debe seleccionar el registro a editar.");
+        }
+   }
     public void openFormulario(JDesktopPane pantalla, GestorVistaPerfil gestor) {
         this.setEscritorio(pantalla);
         this.setForm(new FrmPerfil(gestor));

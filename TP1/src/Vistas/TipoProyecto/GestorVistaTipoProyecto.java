@@ -10,7 +10,12 @@ import Vistas.TipoProyecto.GestorVistaTipoProyecto;
 import Modelos.Gestion.GestorTipoProyecto;
 import Modelos.Gestion.TipoProyecto;
 import Util.UtilJtable;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -41,6 +46,7 @@ public class GestorVistaTipoProyecto {
         this.setModel();
         this.getGestor().guardarObjeto();
         this.getGestor().newModel();
+        this.cargarTabla(this.getForm().getTblTipoProyecto());
     }
 
     private void setActualizacion(boolean b) {
@@ -68,6 +74,7 @@ public class GestorVistaTipoProyecto {
        this.setModel();
        this.getGestor().actualizarObjeto();
        this.getGestor().newModel();
+       this.cargarTabla(this.getForm().getTblTipoProyecto());
     }
 
     public void eliminarTipoProyecto() {
@@ -85,12 +92,35 @@ public class GestorVistaTipoProyecto {
          }
          return true;
     }
-
+    public void buscarTipoProyecto(String nombre, String descripcion){
+       this.getForm().getTblTipoProyecto().setModel(this.crearModelo(this.getGestor().consultarTipoProyecto(nombre,descripcion)));
+    }
+    public DefaultTableModel crearModelo(List lista){
+        String[] titulos = {"Nombre", "Descripción"};
+        DefaultTableModel modelo = new DefaultTableModel(null, titulos){
+           @Override
+            public boolean isCellEditable(int row, int column) {
+               return false;
+         }
+        };
+        if(lista==null){
+            return modelo;
+        }
+        Object[] registros = new Object[3];
+        for (Iterator it = lista.iterator(); it.hasNext();) {
+            TipoProyecto tipoProyecto = (TipoProyecto) it.next();   
+             registros[0] =  tipoProyecto.getNombre();
+             registros[1] = tipoProyecto.getDescripcion();
+             modelo.addRow(registros);
+        }
+       return modelo;
+    }
     private void setModel(TipoProyecto model) {
         this.getGestor().setModel(model);
     }
 
     private void cargarTipoProyecto(TipoProyecto tipoProyecto) {
+        this.setModel(tipoProyecto);
         this.getForm().cargarTipoProyecto(tipoProyecto);
     }
 
@@ -128,4 +158,16 @@ public class GestorVistaTipoProyecto {
          } 
         return dialog;
     }
+    public void cargarTabla(JTable tabla){
+        tabla.setModel(this.crearModelo(this.getGestor().consultarTipoProyecto()));
+   }
+    public void cargarModelo(int indice){
+       if(indice != -1){
+           this.getForm().vistaEditar();
+           String nombre = this.getForm().getTblTipoProyecto().getValueAt(indice, 0).toString();
+           this.cargarTipoProyecto(this.getGestor().buscarTipoProyecto(TipoProyecto.class, nombre));
+        }else{
+             JOptionPane.showMessageDialog(null, "Debe seleccionar el registro a editar.");
+        }
+   }
 }

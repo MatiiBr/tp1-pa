@@ -169,14 +169,23 @@ public class GestorHibernate extends HibernateUtil {
         return crit.list();
     }
      
-      public Perfil buscarPerfil(Class clase, String valor){     
-         Criteria crit = getSession().createCriteria(clase)
-            .add( Restrictions.eq("nombre", valor));
-        if (crit.list().isEmpty()){
+    public Perfil buscarPerfil(Class clase, String valor){     
+       Criteria crit = getSession().createCriteria(clase)
+          .add( Restrictions.eq("nombre", valor));
+      if (crit.list().isEmpty()){
+          return null;
+      }
+      return (Perfil) crit.list().get(0);
+   }
+    public List buscarPerfiles(Class clase, String nombre, String descripcion){
+        Criteria crit = getSession().createCriteria(clase)
+                 .add(Restrictions.like("nombre",  "%"+nombre+"%"));
+        crit.add(Restrictions.like("descripcion", "%"+descripcion+"%"));
+        if (crit.list().isEmpty()) {
             return null;
         }
-        return (Perfil) crit.list().get(0);
-     }
+        return crit.list();
+    }
        public TipoProyecto buscarTipoProyecto(Class clase, String valor){        
          System.out.println(valor);
          Criteria crit = getSession().createCriteria(clase)
@@ -186,6 +195,15 @@ public class GestorHibernate extends HibernateUtil {
         }
         return (TipoProyecto) crit.list().get(0);
      }
+    public List buscarTipoProyecto(Class clase, String nombre, String descripcion){
+        Criteria crit = getSession().createCriteria(clase)
+                 .add(Restrictions.like("nombre",  "%"+nombre+"%"));
+        crit.add(Restrictions.like("descripcion", "%"+descripcion+"%"));
+        if (crit.list().isEmpty()) {
+            return null;
+        }
+        return crit.list();
+    }
      public List listarClase(Class clase){
         Criteria crit = getSession().createCriteria(clase);
         if (crit.list().isEmpty()){

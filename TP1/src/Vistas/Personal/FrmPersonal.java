@@ -194,7 +194,6 @@ public class FrmPersonal extends javax.swing.JInternalFrame {
     }
     public void cargarPersonal(Personal personal){
         this.limpiarPantalla();
-        this.vistaInicio();
         txtNombre.setText(personal.getNombre());
         txtApellido.setText(personal.getApellido());
         inpFechaNacimiento.setDate(personal.getFechaNacimiento());
