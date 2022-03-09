@@ -149,8 +149,8 @@ public class GestorProyecto extends GestorHibernate {
             return this.listarClase(Proyecto.class);
         }
          
-         public List  consultarProyectos(String nombre, Cliente cliente, TipoProyecto tipoProyecto, Personal personal) {
-            return this.buscarProyectos(Proyecto.class, nombre, cliente, tipoProyecto, personal);
+         public List  consultarProyectos(String nombre, Cliente cliente, TipoProyecto tipoProyecto, Personal personal, Date fechaDesde, Date fechaHasta) {
+            return this.buscarProyectos(Proyecto.class, nombre, cliente, tipoProyecto, personal, fechaDesde, fechaHasta);
         }
        
 }

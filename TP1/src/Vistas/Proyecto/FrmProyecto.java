@@ -132,6 +132,22 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         this.tblProyectos = tblProyectos;
     }
 
+    public JDateChooser getInpBuscarFechaDesde() {
+        return inpBuscarFechaDesde;
+    }
+
+    public void setInpBuscarFechaDesde(JDateChooser inpBuscarFechaDesde) {
+        this.inpBuscarFechaDesde = inpBuscarFechaDesde;
+    }
+
+    public JDateChooser getInpBuscarFechaHasta() {
+        return inpBuscarFechaHasta;
+    }
+
+    public void setInpBuscarFechaHasta(JDateChooser inpBuscarFechaHasta) {
+        this.inpBuscarFechaHasta = inpBuscarFechaHasta;
+    }
+    
     public FrmProyecto() {
         initComponents();
     }
@@ -263,8 +279,9 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                  this.txtBuscarNombre.getText().toUpperCase(),
                  this.cboFilterCliente.getModel().getSelectedItem(),
                  this.cboFilterTipoProyecto.getModel().getSelectedItem(),
-                 this.cboFilterPersonal.getModel().getSelectedItem());
-                 //this.inpFechaCargaBuscar.getDate());
+                 this.cboFilterPersonal.getModel().getSelectedItem(),
+                 this.inpBuscarFechaDesde.getDate(),
+                 this.inpBuscarFechaHasta.getDate());
      }
      
      public void eliminarProyecto(){
@@ -411,6 +428,9 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         cboFilterPersonal = new javax.swing.JComboBox<>();
         lblFechaConfirmacion6 = new javax.swing.JLabel();
         inpBuscarFechaCarga = new com.toedter.calendar.JDateChooser();
+        inpBuscarFechaDesde = new com.toedter.calendar.JDateChooser();
+        lblFechaConfirmacion7 = new javax.swing.JLabel();
+        inpBuscarFechaHasta = new com.toedter.calendar.JDateChooser();
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setClosable(true);
@@ -809,7 +829,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 txtBuscarNombreKeyTyped(evt);
             }
         });
-        panelProyecto1.add(txtBuscarNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 140, 30));
+        panelProyecto1.add(txtBuscarNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 20, 140, 30));
 
         btnBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnBuscar.setText("Buscar");
@@ -818,15 +838,15 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 btnBuscarActionPerformed(evt);
             }
         });
-        panelProyecto1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 120, 90, 30));
+        panelProyecto1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 20, 90, 30));
 
         lblNombre1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblNombre1.setText("Nombre: ");
-        panelProyecto1.add(lblNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, -1, -1));
+        panelProyecto1.add(lblNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, -1, -1));
 
         lblNombre2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblNombre2.setText("Tipo Proyecto:");
-        panelProyecto1.add(lblNombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
+        panelProyecto1.add(lblNombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 80, -1, -1));
 
         cboFilterTipoProyecto.setToolTipText("Seleccione.");
         cboFilterTipoProyecto.setName(""); // NOI18N
@@ -844,15 +864,15 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 cboFilterTipoProyectoActionPerformed(evt);
             }
         });
-        panelProyecto1.add(cboFilterTipoProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 139, 30));
+        panelProyecto1.add(cboFilterTipoProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 70, 139, 30));
 
         lblFechaConfirmacion4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblFechaConfirmacion4.setText("Fecha de Carga:");
-        panelProyecto1.add(lblFechaConfirmacion4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, -1, -1));
+        lblFechaConfirmacion4.setText("Fecha de Carga Hasta:");
+        panelProyecto1.add(lblFechaConfirmacion4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, -1));
 
         lblFechaConfirmacion5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblFechaConfirmacion5.setText("Personal:");
-        panelProyecto1.add(lblFechaConfirmacion5, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 80, -1, -1));
+        panelProyecto1.add(lblFechaConfirmacion5, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 80, -1, -1));
 
         cboFilterCliente.setToolTipText("Seleccione.");
         cboFilterCliente.setName(""); // NOI18N
@@ -870,7 +890,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 cboFilterClienteActionPerformed(evt);
             }
         });
-        panelProyecto1.add(cboFilterCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 20, 139, 28));
+        panelProyecto1.add(cboFilterCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 20, 139, 28));
 
         cboFilterPersonal.setToolTipText("Seleccione.");
         cboFilterPersonal.setName(""); // NOI18N
@@ -888,11 +908,11 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 cboFilterPersonalActionPerformed(evt);
             }
         });
-        panelProyecto1.add(cboFilterPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 70, 139, 28));
+        panelProyecto1.add(cboFilterPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 70, 139, 28));
 
         lblFechaConfirmacion6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblFechaConfirmacion6.setText("Cliente:");
-        panelProyecto1.add(lblFechaConfirmacion6, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 30, -1, -1));
+        panelProyecto1.add(lblFechaConfirmacion6, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 30, -1, -1));
 
         inpBuscarFechaCarga.setToolTipText("Fecha de Nacimiento");
         inpBuscarFechaCarga.setEnabled(false);
@@ -902,7 +922,29 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
                 inpBuscarFechaCargaPropertyChange(evt);
             }
         });
-        panelProyecto1.add(inpBuscarFechaCarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 120, 161, 26));
+        panelProyecto1.add(inpBuscarFechaCarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, 161, 26));
+
+        inpBuscarFechaDesde.setToolTipText("Fecha de Nacimiento");
+        inpBuscarFechaDesde.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        inpBuscarFechaDesde.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                inpBuscarFechaDesdePropertyChange(evt);
+            }
+        });
+        panelProyecto1.add(inpBuscarFechaDesde, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 120, 140, 20));
+
+        lblFechaConfirmacion7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblFechaConfirmacion7.setText("Fecha de Carga Desde:");
+        panelProyecto1.add(lblFechaConfirmacion7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
+
+        inpBuscarFechaHasta.setToolTipText("Fecha de Nacimiento");
+        inpBuscarFechaHasta.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        inpBuscarFechaHasta.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                inpBuscarFechaHastaPropertyChange(evt);
+            }
+        });
+        panelProyecto1.add(inpBuscarFechaHasta, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 150, 140, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1094,6 +1136,14 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_inpFechaConfirmacionPropertyChange
 
+    private void inpBuscarFechaDesdePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_inpBuscarFechaDesdePropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inpBuscarFechaDesdePropertyChange
+
+    private void inpBuscarFechaHastaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_inpBuscarFechaHastaPropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inpBuscarFechaHastaPropertyChange
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarPerfiles;
@@ -1118,6 +1168,8 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cboPersonal;
     private javax.swing.JComboBox cboTipoProyecto;
     private com.toedter.calendar.JDateChooser inpBuscarFechaCarga;
+    private com.toedter.calendar.JDateChooser inpBuscarFechaDesde;
+    private com.toedter.calendar.JDateChooser inpBuscarFechaHasta;
     private com.toedter.calendar.JDateChooser inpFechaConfirmacion;
     private com.toedter.calendar.JDateChooser inpFechaEntrega;
     private com.toedter.calendar.JDateChooser inpFechaTerminacion;
@@ -1136,6 +1188,7 @@ public class FrmProyecto extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblFechaConfirmacion4;
     private javax.swing.JLabel lblFechaConfirmacion5;
     private javax.swing.JLabel lblFechaConfirmacion6;
+    private javax.swing.JLabel lblFechaConfirmacion7;
     private javax.swing.JLabel lblFechaEntrega;
     private javax.swing.JLabel lblFechaTerminacion;
     private javax.swing.JLabel lblNombre;

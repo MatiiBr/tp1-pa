@@ -284,10 +284,15 @@ public class GestorVistaProyecto {
         tabla.setModel(this.crearModelo(this.getGestor().consultarProyectos()));
     }
     
-     public void buscarProyecto(String nombre, Object cliente, Object tipoProyecto, Object personal) {
+     public void buscarProyecto(String nombre, Object cliente, Object tipoProyecto, Object personal, Date fechaDesde, Date fechaHasta) {
          Cliente clienteFilter = null;
          TipoProyecto tipoProyectoFilter = null;
          Personal personalFilter = null;
+         if (fechaDesde != null && fechaHasta != null) {
+           if (fechaHasta.before(fechaDesde)) {
+                JOptionPane.showMessageDialog(null, "La fecha de nacimiento DESDE debe ser anterior a la fecha de nacimiento HASTA.");
+           }    
+       }
          if(!cliente.equals("")){
              clienteFilter = (Cliente) cliente;
          }
@@ -297,7 +302,7 @@ public class GestorVistaProyecto {
          if(!personal.equals("")){
              personalFilter = (Personal) personal;
          }
-       this.getForm().getTblProyectos().setModel(this.crearModelo(this.getGestor().consultarProyectos(nombre,clienteFilter,tipoProyectoFilter,personalFilter)));
+       this.getForm().getTblProyectos().setModel(this.crearModelo(this.getGestor().consultarProyectos(nombre,clienteFilter,tipoProyectoFilter,personalFilter,fechaDesde,fechaHasta)));
     }
      
     public DefaultTableModel crearModelo(List lista){

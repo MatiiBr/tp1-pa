@@ -92,7 +92,7 @@ public class GestorHibernate extends HibernateUtil {
         return (Proyecto) crit.list().get(0);
      }
       
-    public List buscarProyectos(Class clase, String nombre, Cliente cliente, TipoProyecto tipoProyecto, Personal personal){
+    public List buscarProyectos(Class clase, String nombre, Cliente cliente, TipoProyecto tipoProyecto, Personal personal, Date fechaDesde, Date fechaHasta){
          Criteria crit = getSession().createCriteria(clase)
                  .add( Restrictions.like("nombre",  "%"+nombre+"%"));
          if(cliente != null){
@@ -104,7 +104,12 @@ public class GestorHibernate extends HibernateUtil {
          if(personal != null){
              crit.add( Restrictions.eq("personal", personal));
          }
-
+         if (fechaDesde != null) {
+            crit.add(Restrictions.ge("fechaCarga", fechaDesde));
+        }
+        if (fechaHasta != null) {
+            crit.add(Restrictions.le("fechaCarga", fechaHasta));
+        }
         if (crit.list().isEmpty()){
             return null;
         }
